@@ -1,0 +1,18 @@
+{
+  "libs": [
+    "browser",
+    "ecma5",
+    "ecma6",
+    "underscore",
+    "jquery"
+  ],
+  "loadEagerly": [
+    "phaser.js",
+    "*.js",
+    "./src/*.js"
+  ],
+  "plugins": {
+    "node":{},
+    "requirejs": {}
+  }
+}
