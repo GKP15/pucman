@@ -1,7 +1,7 @@
-Puckman.Game = function(game) {
+Pucman.Game = function(game) {
 };
 
-Puckman.Game.prototype = {
+Pucman.Game.prototype = {
 
   create: function() {
   },

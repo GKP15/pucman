@@ -1,10 +1,10 @@
-Puckman.Preloader = function(game) {
+Pucman.Preloader = function(game) {
   this.background = null;
   this.preloadBar = null;
   this.ready = false;
 };
 
-BasicGame.Preloader.prototype = {
+Pucman.Preloader.prototype = {
   preload: function() {
     this.background = this.add.sprite(0, 0, 'preloaderBackground');
     this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');

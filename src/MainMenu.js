@@ -1,9 +1,9 @@
-Puckman.MainMenu = function(game) {
+Pucman.MainMenu = function(game) {
   this.music = null;
   this.playButton = null;
 };
 
-Puckman.MainMenu.prototype = {
+Pucman.MainMenu.prototype = {
   create: function() {
     this.music = this.add.audio('titleMusic');
     this.music.play();

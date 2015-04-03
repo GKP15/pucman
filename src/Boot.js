@@ -1,8 +1,8 @@
-var Puckman = {};
+var Pucman = {};
 
-Puckman.Boot = function(game) {};
+Pucman.Boot = function(game) {};
 
-Puckman.Boot.prototype = {
+Pucman.Boot.prototype = {
 
   init: function() {
 
