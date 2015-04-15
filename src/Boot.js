@@ -19,12 +19,9 @@ Pucman.Boot.prototype = {
   },
 
   preload: function() {
-    this.load.image('preloaderBackground', 'images/preloader_background.jpg');
-    this.load.image('preloaderBar', 'images/preloadr_bar.png');
   },
 
   create: function() {
-    this.game.plugin = this.game.plugin.add(Phaser.Plugin.GoogleMapsRender);
     this.state.start('Preloader');
   }
 };

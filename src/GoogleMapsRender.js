@@ -6,3 +6,5 @@ Phaser.Plugin.GoogleMapsRender.prototype =
   Object.create(Phaser.Plugin.prototype);
 Phaser.Plugin.GoogleMapsRender.prototype.constructor =
   Phaser.Plugin.GoogleMapsRender;
+
+

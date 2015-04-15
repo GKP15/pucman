@@ -3,25 +3,47 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Phaser Basic Project Template</title>
+  <title>Pucman</title>
   <script src="phaser.js"></script>
   <script src="src/Boot.js"></script>
   <script src="src/Preloader.js"></script>
   <script src="src/MainMenu.js"></script>
   <script src="src/Game.js"></script>
-  <script src="src/GoogleMapsRender.js"></script>
   <script src="src/Init.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=" + "AIzaSyD-L9S94qy4G_3zEeTY_r-NOzfAv1P74z8"></script>
+  <script src="http://openlayers.org/api/OpenLayers.js"></script>
+  <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers)" type="text/javascript"></script>
+  <style>
+    #container {
+      width: 800px;
+      height: 600px;
+      position: relative;
+    }
+    #map {
+      height: 400px;
+      z-index: 9;
+    }
+    #gameContainer {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    #gameContainer {
+      z-index: 1000;
+    }
+  </style>
 </head>
 
 <body>
-
-  <div id="gameContainer"></div>
-
+  <div id="container">
+    <div id="map" style="z-index: 0;"></div>
+    <div id="gameContainer"></div>
+  </div>
   <script type="text/javascript">
     window.onload = init();
   </script>
-
 </body>
 
 </html>
