@@ -1,7 +1,7 @@
 1. Installiere nvm https://github.com/creationix/nvm
    (Ist ein package manager für einen package manager, srly)
 2. Mit nvm npm installieren
-3. git clone https://github.com/GKP15/cmg-phaser.git
+3. git clone https://github.com/GKP15/pucman.git
 4. cd cmg-phaser
 5. grunt
 6. ???
