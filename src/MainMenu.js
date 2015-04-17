@@ -1,13 +1,24 @@
 Pucman.MainMenu = function(game) {};
 
 Pucman.MainMenu.prototype = {
-	create: function() {
-		game.state.states['Boot'].map.addControls('pan', true);
+	
+	init: function(map) {
+		map.setCenterAndZoom(new mxn.LatLonPoint(0,0), 10);
 		//gehe in state Game
-		this.state.start('Game');
+		setTimeout(continueExecution, 10000);
+		
+	},
+	
+	create: function() {
+		
 	},
 
 	update: function() {},
 
-	startGame: function(pointer) {}
+	startGame: function(pointer) {},
+	
+	continueExecution: function() {
+		this.state.start('Game');
+	}
 };
+

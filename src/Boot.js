@@ -40,6 +40,6 @@ Pucman.Boot.prototype = {
 
 	create: function() {
 		//gehe in state Preloader
-		this.state.start('Preloader');
+		this.state.start('Preloader', true, false, map);
 	}
 };
