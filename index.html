@@ -13,18 +13,18 @@
   <script src="http://openlayers.org/api/OpenLayers.js"></script>
   <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers)" type="text/javascript"></script>
   <style>
-    #container {
-      width: 800px;
-      height: 600px;
-      position: relative;
+    html {
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	#container {
     }
     #map {
-      height: 400px;
-      z-index: 9;
+      height: 950px;
+      z-index: 0;
     }
     #gameContainer {
-      height: 100%;
-      width: 100%;
       position: absolute;
       top: 0;
       left: 0;
@@ -38,7 +38,7 @@
 
 <body>
   <div id="container">
-    <div id="map" style="z-index: 0;"></div>
+    <div id="map" ></div>
     <div id="gameContainer"></div>
   </div>
   <script type="text/javascript">
