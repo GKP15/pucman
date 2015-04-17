@@ -13,7 +13,7 @@
    Wenn ihr ihn abspeichert wird er direkt auf den Server geladen und ihr müsst nur die Website aktualisieren.  
 
 
-## Begriffserläuterung bzgl. GameDev & Phaser
+## Begriffserläuterung bzgl. Game Development & Phaser
 * **GameState**:
    
    Ein bestimmter Abschnitt des Spiels, zB: Hauptmenü, Pausemenü, GameOverScreen und das eigentliche Spiel.  
