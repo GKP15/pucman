@@ -14,7 +14,7 @@
 
 Kurze Erläuterung zu Begriffen im GameDev im Bezug auf Phaser:
 GameState:
-   Ein bestimmter Abschnitt des Spiels, zB: Hauptmenü, Pausemenü, GameOverScreen und das eigentliche Spiel.
+	Ein bestimmter Abschnitt des Spiels, zB: Hauptmenü, Pausemenü, GameOverScreen und das eigentliche Spiel.
    Enthält alle für den jeweiligen Zustand relevanten Daten.
 Sprite:
    Grafik eines bestimmtem Spielobjekts, welche im Spiel angezeigt wird.
