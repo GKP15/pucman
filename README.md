@@ -1,4 +1,4 @@
-## Instalaltion
+## Installation
 1. npm installieren. Unter Windows einfach die MSI-Datei ausführen.   
    Steht alles auf der Website: https://www.npmjs.com/package/npm  
 2. Repro clonen. Kann man auch davor machen.  
