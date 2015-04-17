@@ -1,14 +1,12 @@
-Pucman.Preloader = function(game) {
-};
+Pucman.Preloader = function(game) {};
 
 Pucman.Preloader.prototype = {
-  preload: function() {
-  },
+	preload: function() {},
 
-  create: function() {
-    this.state.start('MainMenu');
-  },
+	create: function() {
+		//gehe in state MainMenu
+		this.state.start('MainMenu');
+	},
 
-  update: function() {
-  }
+	update: function() {}
 };

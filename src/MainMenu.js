@@ -1,13 +1,12 @@
-Pucman.MainMenu = function(game) {
-};
+Pucman.MainMenu = function(game) {};
 
 Pucman.MainMenu.prototype = {
-  create: function() {
-    this.state.start('Game');
-  },
+	create: function() {
+		//gehe in state Game
+		this.state.start('Game');
+	},
 
-  update: function() {},
+	update: function() {},
 
-  startGame: function(pointer) {
-  }
+	startGame: function(pointer) {}
 };
