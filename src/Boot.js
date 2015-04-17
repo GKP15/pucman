@@ -5,7 +5,16 @@ Pucman.Boot = function(game) {};
 Pucman.Boot.prototype = {
 
 	init: function() {
-
+	
+		//Erstellt neue Karte. (HTML-Container, Map-API)
+		map = new mxn.Mapstraction('map', 'openlayers');
+		//Center-location
+		var latlon = new mxn.LatLonPoint(51.50733, -0.12769);
+		//set Center and zoomlevel
+		map.setCenterAndZoom(latlon, 10);
+		map.setOption('enableDragging', true);
+		//disable zoom panel
+		map.addControls('pan', true);
 		//Pointer ist eine Art Mausobjekt. maximale anzahl an Pointern
 		this.input.maxPointers = 1;
 		//stage ist "Bühne" auf der alles angezeigt wird
