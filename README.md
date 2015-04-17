@@ -10,3 +10,39 @@
    Verzeichnis auf. Die IP ist zwar 0.0.0.0:8080 aber am Besten ihr ruft im Browser 127.0.0.1:8080 auf.
 5. Jetzt sollte das Spiel starten. Den Sourcecode könnt ihr live editieren. 
    Wenn ihr ihn abspeichert wird er direkt auf den Server geladen und ihr müsst nur die Website aktualisieren.
+
+
+Kurze Erläuterung zu Begriffen im GameDev im Bezug auf Phaser:
+GameState:
+   Ein bestimmter Abschnitt des Spiels, zB: Hauptmenü, Pausemenü, GameOverScreen und das eigentliche Spiel.
+   Enthält alle für den jeweiligen Zustand relevanten Daten.
+Sprite:
+   Grafik eines bestimmtem Spielobjekts, welche im Spiel angezeigt wird.
+Animation:
+   Aneinanderreihung mehrerer Sprites, welche hintereinander angezeigt werden. 
+   Hat bestimmte Länge und kann sich wiederholen.
+Spritesheet:
+   Grafikdatei aus mehreren Sprites eines Objekts. Zum Beispiel Charakter schaut nach links, rechts, oben, unten. 
+   Die Sprites einer Animation stammen meistens aus einem Spritesheet.
+Tile: 
+   Ein (meist quadratisches) Rechteck, welches eine Art Kachel auf der Spielkarte repräsentiert.
+   Einem Tile ist meist ein Sprite zugeordnet, welcher angezeigt wird. Der Spieler bewegt sich sozusagen
+   über die Tiles hinweg.
+Tilemap:
+   Darstellung der Spielkarte als Raster aus mehreren Tiles. Die Tilemap legt fest an welcher stelle welches Tile liegt.
+   Solche Spieler heißen tilebased, gridbased oder kachelbasiert.
+Tileset:
+   Grafikdatei aus mehreren Sprites. Jeder Tilemap ist ein Tileset zugeordnet, welches die Sprites enthält, 
+   die den Tiles zugeordnet werden können.
+Collision Detection:
+   Kollisionserkennung zwischen verschiedenen Spielobjekten. Mehrere Möglichkeiten:
+      1. Tilebased Collision: Entweder Objekt kann ein Tile betreten oder nicht.
+      2. Collision Box: Jedes Objekt besitzt eine Collision Box (Rechteck). Wenn sich die Rechtecke von zwei Objekten                                schneiden, gibt es eine Kollision.
+      3. Pixelbased Collision: Pixelgenaue Kollision, also nur dann, wenn sich die Sprites wirklich überlappen.
+Game Loop:
+   Schleife die währen des Spielablaufs immer wieder durchlaufen wird.
+   Dabei werden im wesentlichen zwei Dinge ausgeführt:
+      1. Die Update-Methode, enthält: Tastatur- und Mauseingabe, Bewegung, Kollisionserkennung, ...
+      2. Die Render-Methode, enthält: Anzeige aller Sprites an den neuen Positionen, Hintergrund animieren, ...
+   Die Game Loop wird abgebrochen, wenn das Spiel beendet wird.
+
