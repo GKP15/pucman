@@ -83,6 +83,12 @@ Pucman.Game.prototype = {
 		this.mapController.input.enableDrag(true);
 		this.mapController.scale = 1000;
 		this.mapController.scale.y = 1000;
+		
+		//SPielt die Hintergrund musik ab
+		this.backGroundMusic = this.game.add.audio('music');
+		this.backGroundMusic.loop = true;
+		this.backGroundMusic.play();
+	},
 	},
 	
 	mouseWheel: function(event) {
