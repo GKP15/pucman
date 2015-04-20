@@ -1,20 +1,34 @@
 Pucman.Game = function(game) {
-
+	
+	/** tilemap */
 	this.map = null;
+	/** game layer */
 	this.layer = null;
+	/** the pacman */
 	this.pacman = null;
-	this.safetile = 14;
+	/** tile to walk on it */
+	this.walktile = 14;
+	/** dimension of the grid */
 	this.gridsize = 16;
+	/** walkspeed of pacman */
 	this.speed = 150;
+	/** threshold for smooth turning */
 	this.threshold = 3;
+	/** positions of pacman */
 	this.marker = new Phaser.Point();
+	/** position for turning */
 	this.turnPoint = new Phaser.Point();
+	/** tiles in the for directions [none, left, right, up, down] */
 	this.directions = [null, null, null, null, null];
+	/** opposite directions for  @see directions */
 	this.opposites = [Phaser.NONE, Phaser.RIGHT, Phaser.LEFT, Phaser.DOWN, Phaser.UP];
-	this.current = Phaser.NONE;
+	/** current direction */
+	this.dir = Phaser.NONE;
+	/** turning direction */
 	this.turning = Phaser.NONE;
+	/** controller for map scaling, dragging */
 	this.mapController = null;
-
+	
 };
 
 Pucman.Game.prototype = {
@@ -58,12 +72,12 @@ Pucman.Game.prototype = {
 		//erzeugt Gruppe von physischen Objekten, in dem Fall die Punkte
 		this.dots = this.add.physicsGroup();
 		//Map aus Tilemap erzeugen
-		this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
+		this.map.createFromTiles(7, this.walktile, 'dot', this.layer, this.dots);
 		//Punkte in die Mitte des Weges setzen
 		this.dots.setAll('x', 6, false, false, 1);
 		this.dots.setAll('y', 6, false, false, 1);
-		//Kollision mit allen Tiles außer safeTile
-		this.map.setCollisionByExclusion([this.safetile], true, this.layer);
+		//Kollision mit allen Tiles außer walktile
+		this.map.setCollisionByExclusion([this.walktile], true, this.layer);
 		//Position Pacman at grid location 14x17 (the +8 accounts for his anchor)
 		//Startposition Pacman: 14,17. 16 ist die tilesize, +8 um ihn zu zentrieren
 		this.pacman = this.add.sprite((14 * 16) + 8, (17 * 16) + 8, 'pacman', 0);
@@ -82,7 +96,7 @@ Pucman.Game.prototype = {
 		//Bewegung nach links starten
 		this.move(Phaser.LEFT);
 		
-		//keine Ahnung?!
+		//controlling for map (dragging, scaling)
 		this.mapController = this.add.sprite(0, 0);
 		this.mapController.inputEnabled = true;
 		this.mapController.input.enableDrag(true);
@@ -99,13 +113,13 @@ Pucman.Game.prototype = {
 	 * check if keys are pressed
 	 */
 	checkKeys: function() {
-		if (this.cursors.left.isDown && this.current !== Phaser.LEFT) {
+		if (this.cursors.left.isDown && this.dir !== Phaser.LEFT) {
 			this.checkDirection(Phaser.LEFT);
-		} else if (this.cursors.right.isDown && this.current !== Phaser.RIGHT) {
+		} else if (this.cursors.right.isDown && this.dir !== Phaser.RIGHT) {
 			this.checkDirection(Phaser.RIGHT);
-		} else if (this.cursors.up.isDown && this.current !== Phaser.UP) {
+		} else if (this.cursors.up.isDown && this.dir !== Phaser.UP) {
 			this.checkDirection(Phaser.UP);
-		} else if (this.cursors.down.isDown && this.current !== Phaser.DOWN) {
+		} else if (this.cursors.down.isDown && this.dir !== Phaser.DOWN) {
 			this.checkDirection(Phaser.DOWN);
 		} else {
 			//This forces them to hold the key down to turn the corner
@@ -117,13 +131,13 @@ Pucman.Game.prototype = {
 	 * check which direction pacman is moving
 	 */
 	checkDirection: function(turnTo) {
-		if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.safetile) {
+		if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.walktile) {
 			//kein Abbiegen, wenn die Richtung gleich ist oder wenn das nächste Tile nicht existiert
 			//oder wenn das nächste Tile nicht betretbar ist
 			return;
 		}
 		//Check if they want to turn around and can
-		if (this.current === this.opposites[turnTo]) {
+		if (this.dir === this.opposites[turnTo]) {
 			this.move(turnTo);
 		} else {
 			this.turning = turnTo;
@@ -178,7 +192,7 @@ Pucman.Game.prototype = {
 			//Drehen
 			this.pacman.angle = 90;
 		}
-		this.current = direction;
+		this.dir = direction;
 	},
 	
 	/**
