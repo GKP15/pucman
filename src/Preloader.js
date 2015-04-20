@@ -13,7 +13,8 @@ Pucman.Preloader.prototype = {
 	 */
 	preload: function() {		
 		this.load.audio('music', 'resources/test.mp3');
-		this.load.audio('ouch', 'resources/ouch.mp3');},
+		this.load.audio('ouch', 'resources/ouch.mp3');
+	},
 
 	/**
 	 * creation of the game state
@@ -23,6 +24,7 @@ Pucman.Preloader.prototype = {
 		this.state.start('MainMenu');
 		//this.state.start('MainMenu');
 		this.ready = false;
+	},
 		
 	/**
 	 * update of the game state
@@ -37,3 +39,4 @@ Pucman.Preloader.prototype = {
             }
         }
 	}
+}

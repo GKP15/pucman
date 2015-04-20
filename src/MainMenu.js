@@ -3,11 +3,28 @@ Pucman.MainMenu = function(game) {};
 Pucman.MainMenu.prototype = {
 	
 	/**
-	 * initialisation of the game state
+	 * initialisation of the game state and the geocoder
 	 */
 	init: function(map) {
-		map.setCenterAndZoom(new mxn.LatLonPoint(51.3365278, 12.3764688), 10);
-		
+		var address = {};
+		address.address = 'Grimma';
+		geocoder = new mxn.Geocoder('openlayers', function(location) {
+
+		    // display the map centered on a latitude and longitude + zoom-level
+		    map.setCenterAndZoom(location.point, 15);
+		    
+		    // create a marker positioned at a lat/lon 
+		    var geocode_marker = new mxn.Marker(location.point);
+		    var bubble = location.locality + ", " + location.region;
+
+			// open the marker
+			geocode_marker.openBubble();
+		    geocode_marker.setInfoBubble(bubble);
+
+		    // display marker 
+		    map.addMarker(geocode_marker);
+		});
+		geocoder.geocode(address);
 	},
 	
 	/**
