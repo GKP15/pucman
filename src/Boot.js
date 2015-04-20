@@ -9,7 +9,7 @@ Pucman.Boot.prototype = {
 		//Erstellt neue Karte. (HTML-Container, Map-API)
 		map = new mxn.Mapstraction('map', 'openlayers');
 		//Center-location
-		var latlon = new mxn.LatLonPoint(51.50733, -0.12769);
+		var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
 		//set Center and zoomlevel
 		map.setCenterAndZoom(latlon, 10);
 		map.setOption('enableDragging', true);

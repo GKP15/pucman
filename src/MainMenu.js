@@ -3,7 +3,7 @@ Pucman.MainMenu = function(game) {};
 Pucman.MainMenu.prototype = {
 	
 	init: function(map) {
-		map.setCenterAndZoom(new mxn.LatLonPoint(0,0), 10);
+		map.setCenterAndZoom(new mxn.LatLonPoint(51.3365278, 12.3764688), 10);
 		//gehe in state Game
 		setTimeout(continueExecution, 10000);
 		
