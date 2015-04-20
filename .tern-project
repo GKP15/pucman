@@ -1,15 +1,14 @@
 {
   "libs": [
     "browser",
-    "ecma5",
+    "infer",
+    "comment",
     "ecma6",
-    "underscore",
+    "def",
     "jquery"
   ],
   "loadEagerly": [
-    "phaser.js",
-    "*.js",
-    "./src/*.js"
+    "phaser.js"
   ],
   "plugins": {
     "node":{},
