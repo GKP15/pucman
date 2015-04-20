@@ -31,7 +31,7 @@ Pucman.MainMenu.prototype = {
 	 * creation of the game state
 	 */
 	create: function() {
-		this.input.mouse.mouseWheelCallback = this.mouseWheel;
+		//this.input.mouse.mouseWheelCallback = this.mouseWheel;
 	},
 	
 	/**

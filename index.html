@@ -14,38 +14,16 @@
   <script src="src/Init.js"></script>
   <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
   <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers,[geocoder])" type="text/javascript"></script>
-  <style>
-    html {
-		margin: 0px;
-		padding: 0px;
-	}
-	
-	#container {
-    }
-    #map {
-      height: 950px;
-      z-index: 0;
-    }
-    #gameContainer {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    
-    #gameContainer {
-      z-index: 1000;
-    }
-  </style>
 </head>
 
 <body>
 	<div id="container">
-		<div id="panel">
+		<!--<div id="panel">
 			<input id="address" type="textbox" value="Search..." onfocus="if(this.value=='Search...') this.value='';" onkeydown="if(event.keyCode == 13) document.getElementById('btnGo').click();"> 
 			<input type="button" id="btnGo" value="Go!" onclick="document.getElementById('btnReset').click();codeAddress();">
 			<input type="button" id="btnReset" value="Reset Pucman" onclick="resetPlayer(pacman,map.getCenter());key = null;resetPlayer(ghost,map.getCenter());">
 			<input type="range" id="sldVolume" value="0.01" min="0" max="0.1" step="0.001" onchange="setVolume(this.value);" onload="setVolume(this.value);">
-		</div>
+		</div>-->
 		<div id="map" ></div>
 		<div id="gameContainer"></div>
 		<script type="text/javascript">
