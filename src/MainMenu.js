@@ -7,7 +7,7 @@ Pucman.MainMenu.prototype = {
 	 */
 	init: function(map) {
 		var address = {};
-		address.address = 'Grimma';
+		address.address = 'Leipzig';
 		geocoder = new mxn.Geocoder('openlayers', function(location) {
 
 		    // display the map centered on a latitude and longitude + zoom-level
