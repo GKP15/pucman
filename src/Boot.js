@@ -3,7 +3,10 @@ var Pucman = {};
 Pucman.Boot = function(game) {};
 
 Pucman.Boot.prototype = {
-
+	
+	/**
+	 * initialisation of the game state
+	 */
 	init: function() {
 	
 		//Erstellt neue Karte. (HTML-Container, Map-API)
@@ -33,11 +36,17 @@ Pucman.Boot.prototype = {
 			this.scale.forceLandscape = true;
 			//horizontal anpassen
 			this.scale.pageAlignHorizontally = true;
-	}
-},
-
+		}
+	},
+	
+	/**
+	 * preload of the game state
+	 */
 	preload: function() {},
-
+	
+	/**
+	 * creation of the game state
+	 */
 	create: function() {
 		//gehe in state Preloader
 		this.state.start('Preloader', true, false, map);

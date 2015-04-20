@@ -18,7 +18,10 @@ Pucman.Game = function(game) {
 };
 
 Pucman.Game.prototype = {
-
+	
+	/**
+	 * initialisation of the game state
+	 */
 	init: function() {
 		//so scalen, dass alles sichtbar ist
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -31,6 +34,9 @@ Pucman.Game.prototype = {
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 	},
 	
+	/**
+	 * preload of the game state
+	 */
 	preload: function() {
 		//Bilder, spritesheet und tilemap laden
 		this.load.image('dot', 'resources/dot.png');
@@ -39,6 +45,9 @@ Pucman.Game.prototype = {
 		this.load.tilemap('map', 'resources/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 	},
 	
+	/**
+	 * creation of the game state
+	 */
 	create: function() {
 		//tilemap hinzufügen
 		this.map = this.add.tilemap('map');
@@ -73,10 +82,6 @@ Pucman.Game.prototype = {
 		//Bewegung nach links starten
 		this.move(Phaser.LEFT);
 		
-		//funktion die aufgerufen wird, wenn mausrad bewegt
-		//nicht benötigt
-		//this.input.mouse.mouseWheelCallback = this.mouseWheel;
-		
 		//keine Ahnung?!
 		this.mapController = this.add.sprite(0, 0);
 		this.mapController.inputEnabled = true;
@@ -89,18 +94,10 @@ Pucman.Game.prototype = {
 		this.backGroundMusic.loop = true;
 		this.backGroundMusic.play();
 	},
-	},
 	
-	mouseWheel: function(event) {
-		//Ausgabe des Wertes des Mausrads
-		console.log(this.input.mouse.wheelDelta);
-		console.log(map.getZoom());
-		this.world.scale.x = map.getZoom() / 10.0; 
-		this.world.scale.y = map.getZoom() / 10.0; 
-		map.setZoom(map.getZoom() + this.input.mouse.wheelDelta);
-	},
-	
-	//Eingabe auswerten
+	/**
+	 * check if keys are pressed
+	 */
 	checkKeys: function() {
 		if (this.cursors.left.isDown && this.current !== Phaser.LEFT) {
 			this.checkDirection(Phaser.LEFT);
@@ -116,6 +113,9 @@ Pucman.Game.prototype = {
 		}
 	},
 	
+	/**
+	 * check which direction pacman is moving
+	 */
 	checkDirection: function(turnTo) {
 		if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.safetile) {
 			//kein Abbiegen, wenn die Richtung gleich ist oder wenn das nächste Tile nicht existiert
@@ -132,6 +132,9 @@ Pucman.Game.prototype = {
 		}
 	},
 	
+	/**
+	 * function for turn around a corner
+	 */
 	turn: function() {
 		var cx = Math.floor(this.pacman.x);
 		var cy = Math.floor(this.pacman.y);
@@ -149,6 +152,9 @@ Pucman.Game.prototype = {
 		return true;
 	},
 	
+	/**
+	 * moving along the map
+	 */
 	move: function(direction) {
 		var speed = this.speed;
 		if (direction === Phaser.LEFT || direction === Phaser.UP) {
@@ -175,6 +181,9 @@ Pucman.Game.prototype = {
 		this.current = direction;
 	},
 	
+	/**
+	 * pacman eats a dot
+	 */
 	eatDot: function(pacman, dot) {
 		//Punkt entfernen
 		dot.kill();
@@ -184,6 +193,9 @@ Pucman.Game.prototype = {
 		}
 	},
 	
+	/**
+	 * update of the game state
+	 */
 	update: function() {
 		//Kollision überprüfen
 		this.physics.arcade.collide(this.pacman, this.layer);

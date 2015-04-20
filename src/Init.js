@@ -1,6 +1,9 @@
-//Wird von HTML ELement aufgerufen
+/**
+ * Einstieg aus der HTML-Datei
+ */
 init = function() {
-	//erstelle neues Spielobject. (Höhe in %, Breite in %, Renderer, HTML-Container, default state, transparent)
+	//Höhe in %, Breite in %, Renderer, HTML-Container, default state, transparent)
+	/**	phaser-game */
 	var game = new Phaser.Game('100', '100', Phaser.AUTO, 'gameContainer', null, true);
 	//add game states
 	game.state.add('Boot', Pucman.Boot);
