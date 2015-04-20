@@ -37,7 +37,9 @@ Pucman.MainMenu.prototype = {
 	/**
 	 * update of the game state
 	 */
-	update: function() {},
+	update: function() {
+		this.state.start('Game');
+	},
 	
 	/**
 	 * catch mousewheel movement
