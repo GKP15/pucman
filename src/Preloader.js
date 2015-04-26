@@ -11,9 +11,7 @@ Pucman.Preloader.prototype = {
 	/**
 	 * preload of the game state
 	 */
-	preload: function() {		
-		this.load.audio('music', 'resources/test.mp3');
-		this.load.audio('ouch', 'resources/ouch.mp3');
+	preload: function() {
 	},
 
 	/**

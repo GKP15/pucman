@@ -32,6 +32,13 @@ Pucman.MainMenu.prototype = {
 	 */
 	create: function() {
 		//this.input.mouse.mouseWheelCallback = this.mouseWheel;
+		
+	},
+	
+	/**
+	 * preloads of the game state
+	 */
+	preload: function() {
 	},
 	
 	/**
