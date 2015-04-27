@@ -60,6 +60,8 @@ Pucman.Game.prototype = {
 		this.load.spritesheet('pacman', 'resources/pacman.png', 32, 32);
 		this.load.tilemap('map', 'resources/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('homePageButtonPic', 'resources/homePageButton.png');
+		this.load.image('plusButtonPic', 'resources/plus.png');
+		this.load.image('minusButtonPic', 'resources/minus.png');
 	},
 	
 	/**
@@ -112,13 +114,19 @@ Pucman.Game.prototype = {
 		this.backGroundMusic = this.game.add.audio('music', this.volumeBackGroundMusic, true);
 		this.backGroundMusic.play();
 		
+		//BUTTONS
 		//button to got to homepage
 		homepageButton = this.game.add.button(((this.game.width / 20) * 17), (this.game.height - 64), 'homePageButtonPic', this.homepageButtonClicked, this);
 		homepageButton.anchor.setTo(0.5,0.5);
+		//button to increase volume
+		plusButton = this.game.add.button(((this.game.width / 20) * 17), (this.game.height - 256), 'plusButtonPic', this.plusButtonClicked, this);
+		//button to  decrease volume
+		minusButton = this.game.add.button(((this.game.width / 20) * 15), (this.game.height - 256), 'minusButtonPic', this.minusButtonClicked, this);
+		
 		//  HUD Lives
-    livesText = this.add.text((this.game.width / 20), (this.game.height - 64) , 'Lives: <3 <3 <3', { fontSize: '32px', fill: '#000' });
-    //  HUD score
-    scoreText = this.add.text((this.game.width / 2), (this.game.height - 64), 'Score: 0', { fontSize: '32px', fill: '#000' });
+		livesText = this.add.text((this.game.width / 20), (this.game.height - 64) , 'Lives: <3 <3 <3', { fontSize: '32px', fill: '#000' });
+		//  HUD score
+		scoreText = this.add.text((this.game.width / 2), (this.game.height - 64), 'Score: 0', { fontSize: '32px', fill: '#000' });
 
 	},
 	
@@ -228,7 +236,27 @@ Pucman.Game.prototype = {
 	 * go to Homepage
 	 */
 	homepageButtonClicked: function() {
-    window.location.href = 'http://pcai042.informatik.uni-leipzig.de/~swp15-gkp/';
+		window.location.href = 'http://pcai042.informatik.uni-leipzig.de/~swp15-gkp/';
+	},
+	
+	/**
+	 * go to Homepage
+	 */
+	plusButtonClicked: function() {
+		if(this.volumeBackGroundMusic < 1){
+			this.volumeBackGroundMusic += 0.1;
+		this.backGroundMusic.volume = this.volumeBackGroundMusic;
+		}
+	},
+	
+	/**
+	 * go to Homepage
+	 */
+	minusButtonClicked: function() {
+		if(this.volumeBackGroundMusic > 0){
+			this.volumeBackGroundMusic -= 0.1;
+		this.backGroundMusic.volume = this.volumeBackGroundMusic;
+		}
 	},
 	
 	/**
