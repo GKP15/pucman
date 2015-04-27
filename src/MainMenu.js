@@ -36,7 +36,6 @@ Pucman.MainMenu.prototype = {
         //button to play
         homepageButton = this.game.add.button((this.game.width / 2), (this.game.height / 2), 'playButtonPic', this.playButtonClicked, this);
         homepageButton.anchor.setTo(0.5, 0.5);
-        textField = new TextField(this.game, (this.game.width / 2 - 400), (this.game.height / 2), 275, 'textFieldPic');
 
     },
 
@@ -45,7 +44,6 @@ Pucman.MainMenu.prototype = {
      */
     preload: function() {
         this.load.image('playButtonPic', 'resources/playButton.png');
-        this.load.image('textFieldPic', 'resources/textField.png');
     },
 
     /**
@@ -66,21 +64,9 @@ Pucman.MainMenu.prototype = {
     },
 
     /**
-     * catch start button clicks
+     * catch mousewheel movement
      */
     playButtonClicked: function() {
         this.state.start('Game');
-    },
-    
-    /**
-     * catch text
-     */
-    
-    /**
-     * catch text field inputs
-     */
-    searchAddress: function(address) {
-    	geocoder.geocode(address);
     }
-    
 };
