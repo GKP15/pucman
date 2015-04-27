@@ -32,6 +32,9 @@ Pucman.MainMenu.prototype = {
 	 */
 	create: function() {
 		//this.input.mouse.mouseWheelCallback = this.mouseWheel;
+		//button to play
+		homepageButton = this.game.add.button((this.game.width / 2), (this.game.height / 2), 'playButtonPic', this.playButtonClicked, this);
+		homepageButton.anchor.setTo(0.5,0.5);
 		
 	},
 	
@@ -39,13 +42,13 @@ Pucman.MainMenu.prototype = {
 	 * preloads of the game state
 	 */
 	preload: function() {
+		this.load.image('playButtonPic', 'resources/playButton.png');
 	},
 	
 	/**
 	 * update of the game state
 	 */
 	update: function() {
-		this.state.start('Game');
 	},
 	
 	/**
@@ -58,6 +61,13 @@ Pucman.MainMenu.prototype = {
 		this.world.scale.x = map.getZoom() / 10.0; 
 		this.world.scale.y = map.getZoom() / 10.0; 
 		map.setZoom(map.getZoom() + this.input.mouse.wheelDelta);
+	},
+	
+	/**
+	 * catch mousewheel movement
+	 */
+	playButtonClicked: function() {
+		this.state.start('Game');
 	}
 };
 
