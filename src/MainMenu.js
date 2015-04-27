@@ -36,7 +36,7 @@ Pucman.MainMenu.prototype = {
         //button to play
         homepageButton = this.game.add.button((this.game.width / 2), (this.game.height / 2), 'playButtonPic', this.playButtonClicked, this);
         homepageButton.anchor.setTo(0.5, 0.5);
-
+        searchField = new TextField(this.game, (this.game.width / 2 - 450), (this.game.height / 2), 275, 'textFieldPic');
     },
 
     /**
@@ -44,6 +44,7 @@ Pucman.MainMenu.prototype = {
      */
     preload: function() {
         this.load.image('playButtonPic', 'resources/playButton.png');
+        this.load.image('textFieldPic', 'resources/textField.png');
     },
 
     /**
