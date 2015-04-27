@@ -59,9 +59,6 @@ Pucman.Game.prototype = {
 		this.load.image('tiles', 'resources/pacman-tiles.png');
 		this.load.spritesheet('pacman', 'resources/pacman.png', 32, 32);
 		this.load.tilemap('map', 'resources/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
-		//nur weil preload gerade anscheinend nicht gestartet wird und somit auch die sound dateien nicht geladen werden
-		this.load.audio('music', 'resources/test.mp3');
-		this.load.audio('ouch', 'resources/ouch.mp3');
 	},
 	
 	/**
@@ -108,7 +105,7 @@ Pucman.Game.prototype = {
 		this.mapController.scale = 1000;
 		this.mapController.scale.y = 1000;
 		
-		//SPielt die Hintergrund musik ab
+		//plays background music (title, volume, loop)
 		this.backGroundMusic = this.game.add.audio('music', this.volumeBackGroundMusic, true);
 		this.backGroundMusic.play();
 	},
