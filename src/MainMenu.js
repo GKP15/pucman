@@ -32,7 +32,7 @@ Pucman.MainMenu.prototype = {
      * creation of the game state
      */
     create: function() {
-        //this.input.mouse.mouseWheelCallback = this.mouseWheel;
+        this.input.mouse.mouseWheelCallback = this.mouseWheel;
         //button to play
         homepageButton = this.game.add.button((this.game.width / 2), (this.game.height / 2), 'playButtonPic', this.playButtonClicked, this);
         homepageButton.anchor.setTo(0.5, 0.5);
