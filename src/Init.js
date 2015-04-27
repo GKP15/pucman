@@ -1,7 +1,7 @@
 /**
  * Einstieg aus der HTML-Datei
  */
-init = function() {
+require(["lib/phaser.js", "MainMenu", "Game"], function() {
     //Höhe in %, Breite in %, Renderer, HTML-Container, default state, transparent)
     /**	phaser-game */
     var game = new Phaser.Game('100', '100', Phaser.AUTO, 'gameContainer', null, true);
@@ -19,4 +19,4 @@ init = function() {
     game.state.add('Game', Pucman.Game);
     //start state Boot
     game.state.start('MainMenu', true, false, map);
-};
+});
