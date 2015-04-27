@@ -59,6 +59,7 @@ Pucman.Game.prototype = {
 		this.load.image('tiles', 'resources/pacman-tiles.png');
 		this.load.spritesheet('pacman', 'resources/pacman.png', 32, 32);
 		this.load.tilemap('map', 'resources/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.image('homePageButtonPic', 'resources/homePageButton.png');
 	},
 	
 	/**
@@ -97,6 +98,8 @@ Pucman.Game.prototype = {
 		this.pacman.play('munch');
 		//Bewegung nach links starten
 		this.move(Phaser.LEFT);
+		//Score
+		this.score = 0;
 		
 		//controlling for map (dragging, scaling)
 		this.mapController = this.add.sprite(0, 0);
@@ -108,6 +111,15 @@ Pucman.Game.prototype = {
 		//plays background music (title, volume, loop)
 		this.backGroundMusic = this.game.add.audio('music', this.volumeBackGroundMusic, true);
 		this.backGroundMusic.play();
+		
+		//button to got to homepage
+		homepageButton = this.game.add.button(((this.game.width / 20) * 17), (this.game.height - 64), 'homePageButtonPic', this.homepageButtonClicked, this);
+		homepageButton.anchor.setTo(0.5,0.5);
+		//  HUD Lives
+    livesText = this.add.text((this.game.width / 20), (this.game.height - 64) , 'Lives: <3 <3 <3', { fontSize: '32px', fill: '#000' });
+    //  HUD score
+    scoreText = this.add.text((this.game.width / 2), (this.game.height - 64), 'Score: 0', { fontSize: '32px', fill: '#000' });
+
 	},
 	
 	/**
@@ -198,14 +210,25 @@ Pucman.Game.prototype = {
 	
 	/**
 	 * pacman eats a dot
+	 * score hets one point higher
 	 */
 	eatDot: function(pacman, dot) {
 		//Punkt entfernen
 		dot.kill();
+		//score gets higher
+    this.score += 1;
+    scoreText.text = 'Score: ' + this.score;
 		//Wenn Punkte alle weg, neue erzeugen
 		if (this.dots.total === 0) {
 			this.dots.callAll('revive');
 		}
+	},
+	
+	/**
+	 * go to Homepage
+	 */
+	homepageButtonClicked: function() {
+    window.location.href = 'http://pcai042.informatik.uni-leipzig.de/~swp15-gkp/';
 	},
 	
 	/**
