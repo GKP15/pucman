@@ -28,8 +28,6 @@ Pucman.Game = function(game) {
 	this.turning = Phaser.NONE;
 	/** controller for map scaling, dragging */
 	this.mapController = null;
-	/** volume of the background music (range from 0 to 1)*/
-	this.volumeBackGroundMusic = 0.5;
 	
 };
 
@@ -62,6 +60,8 @@ Pucman.Game.prototype = {
 		this.load.image('homePageButtonPic', 'resources/homePageButton.png');
 		this.load.image('plusButtonPic', 'resources/plus.png');
 		this.load.image('minusButtonPic', 'resources/minus.png');
+		this.load.audio('music', 'resources/test.mp3');
+		this.load.audio('ouch', 'resources/ouch.mp3');
 	},
 	
 	/**
@@ -111,7 +111,7 @@ Pucman.Game.prototype = {
 		this.mapController.scale.y = 1000;
 		
 		//plays background music (title, volume, loop)
-		this.backGroundMusic = this.game.add.audio('music', this.volumeBackGroundMusic, true);
+		this.backGroundMusic = this.game.add.audio('music', 0.2, true);
 		this.backGroundMusic.play();
 		
 		//BUTTONS
@@ -240,22 +240,20 @@ Pucman.Game.prototype = {
 	},
 	
 	/**
-	 * go to Homepage
+	 * increase background music volume
 	 */
 	plusButtonClicked: function() {
-		if(this.volumeBackGroundMusic < 1){
-			this.volumeBackGroundMusic += 0.1;
-		this.backGroundMusic.volume = this.volumeBackGroundMusic;
+		if(this.backGroundMusic.volume < 1){
+			this.backGroundMusic.volume += 0.05;
 		}
 	},
 	
 	/**
-	 * go to Homepage
+	 * decrease background music volume
 	 */
 	minusButtonClicked: function() {
-		if(this.volumeBackGroundMusic > 0){
-			this.volumeBackGroundMusic -= 0.1;
-		this.backGroundMusic.volume = this.volumeBackGroundMusic;
+		if(this.backGroundMusic.volume > 0){
+			this.backGroundMusic.volume -= 0.05;
 		}
 	},
 	
