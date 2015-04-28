@@ -8,17 +8,23 @@ var myText = null;
 var selected = null;
 /** length of the textfield */
 var length = null;
+/** true if enter was pressed */
+var pressedEnter = null;
 
+/**
+ * builds a new TextField
+ */
 function TextField(game, x, y, length, sprite) {
     this.length = length;
     this.bgSprite = game.add.sprite(x, y, sprite);
     this.bgSprite.inputEnabled = true;
     this.textData = "";
-    this.myText = game.add.text(x + 10, y + 5, 'test');
+    this.myText = game.add.text(x + 10, y + 5, 'Leipzig');
     this.myText.fontSize = 16;
     this.myText.fill = '#000';
     this.selected = false;
     game.input.keyboard.addCallbacks(this, null, this.keyPress, null);
+    this.pressedEnter = false;
 
     this.bgSprite.events.onInputDown.add(this.selector, this);
 };
@@ -31,11 +37,9 @@ TextField.prototype = {
                 case 8:
                     this.textData = this.textData.substring(0, this.textData.length - 1);
                     this.myText.text = this.textData;
-                    break;
+                	break;
                 case 13:
-                	console.log(this.textData);
-                	//searchAddress(this.textData);
-                	this.myText.text = '';
+                	this.pressedEnter = true;
                 	break;
                 default:
                     if ((this.textData.length + 1) <= this.length) {
@@ -45,13 +49,15 @@ TextField.prototype = {
                             this.myText.text = this.textData;
                         }
                     }
-                    break;
+            	break;
             }
         }
     },
 
+    /**
+     * switch selection on/off
+     */
     selector : function() {
-    	console.log('selected');
         this.selected = !this.selected;
     }
 };

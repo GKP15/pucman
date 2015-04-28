@@ -50,7 +50,12 @@ Pucman.MainMenu.prototype = {
     /**
      * update of the game state
      */
-    update: function() {},
+    update: function() {
+    	if(searchField.pressedEnter) {
+    		this.searchAddress(searchField.textData);
+    		searchField.pressedEnter = false;
+    	}
+    },
 
     /**
      * catch mousewheel movement
@@ -68,6 +73,17 @@ Pucman.MainMenu.prototype = {
      * catch mousewheel movement
      */
     playButtonClicked: function() {
-        this.state.start('Game');
+    	this.searchAddress(searchField.textData);
+    	this.game.state.start('Game', true, false, map);
+    	
+    },
+    
+    /**
+     * search and geocode the given address
+     */
+    searchAddress: function(input) {
+    	var address = {};
+    	address.address = input;
+    	geocoder.geocode(address);
     }
 };
