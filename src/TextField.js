@@ -59,5 +59,7 @@ TextField.prototype = {
      */
     selector : function() {
         this.selected = !this.selected;
+        if(this.selected) this.myText.fill = '#000';
+        else this.myText.fill = '#808080';
     }
 };
