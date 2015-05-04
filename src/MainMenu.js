@@ -13,11 +13,12 @@ Pucman.MainMenu.prototype = {
 
             // display the map centered on a latitude and longitude + zoom-level
             map.setCenterAndZoom(location.point, 15);
-
+            
             // create a marker positioned at a lat/lon 
             var geocode_marker = new mxn.Marker(location.point);
             var bubble = location.locality + ", " + location.region;
-
+  
+            
             // open the marker
             geocode_marker.openBubble();
             geocode_marker.setInfoBubble(bubble);
@@ -26,6 +27,10 @@ Pucman.MainMenu.prototype = {
             map.addMarker(geocode_marker);
         });
         geocoder.geocode(address);
+        // vom Mittelpunkt ist der linke und rechte rand um 0,01093268394 entfernt
+        geocoder.latConv(adress);
+        // oberer und unterer Rand sind jeweils 0,005844353 entfernt
+              
     },
 
     /**
