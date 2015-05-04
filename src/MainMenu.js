@@ -70,7 +70,7 @@ Pucman.MainMenu.prototype = {
     },
 
     /**
-     * catch mousewheel movement
+     * playbutton function
      */
     playButtonClicked: function() {
     	this.searchAddress(searchField.textData);
