@@ -18,17 +18,17 @@ Pucman.MainMenu.prototype = {
             var geocode_marker = new mxn.Marker(location.point);
             var bubble = location.locality + ", " + location.region;
   
-            
+            map.addMarker(geocode_marker);
             // open the marker
             geocode_marker.openBubble();
             geocode_marker.setInfoBubble(bubble);
 
             // display marker 
-            map.addMarker(geocode_marker);
+            
         });
         geocoder.geocode(address);
         // vom Mittelpunkt ist der linke und rechte rand um 0,01093268394 entfernt
-        geocoder.latConv(adress);
+        //geocoder.latConv(address);
         // oberer und unterer Rand sind jeweils 0,005844353 entfernt
               
     },
