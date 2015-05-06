@@ -1,6 +1,5 @@
 var Pucman = {};
 Pucman.MainMenu = function(game) {};
-
 Pucman.MainMenu.prototype = {
 
     /**
@@ -27,12 +26,65 @@ Pucman.MainMenu.prototype = {
             
         });
         geocoder.geocode(address);
-        // vom Mittelpunkt ist der linke und rechte rand um 0,01093268394 entfernt
+        // vom Mittelpunkt ist der linke und rechte rand um 0,01093268394 entfernt LATitude
         //geocoder.latConv(address);
-        // oberer und unterer Rand sind jeweils 0,005844353 entfernt
-              
-    },
+        // lon oberer und unterer Rand sind jeweils 0,005844353 entfernt
+        //<bbox-query e="12.387299537658691" n="51.34610786056325" s="51.334419153634336" w="12.365434169769287"/>
+        var east = map.getCenter().lon + 0.00593268394;
+        var north = map.getCenter().lat + 0.002944353 + 0.002944353;
+        var south = map.getCenter().lat;
+        var west = map.getCenter().lon - 0.00593268394;
+        var apiUrlBase = "http://overpass-api.de/api/interpreter?data=[out:json];";
+        var apiUrlData = "(way[\"highway\"][\"highway\"!=\"primary\"][\"highway\"!=\"footway\"][\"highway\"!=\"steps\"]"+
+	        "[\"highway\"!=\"service\"][\"highway\"!=\"construction\"][\"highway\"!=\"cycleway\"][\"highway\"!=\"path\"]" +
+	        "[\"highway\"!=\"elevator\"][\"area\"!=\"yes\"][\"building\"!=\"yes\"]"+
+	        "(" + south + "," + west + "," + north + "," + east + "););out body;>;out skel qt;";
+        jQuery.getJSON(apiUrlBase+apiUrlData, function(data) {
+        })
+        .done(function(data) {
+            //console.log(data);
+            var geoj = osmtogeojson(data);
+            var anzahlDerEintraege = 0;
+            var collectedOSMData = new Array();
+    		var arrayEintrag = new Array();
+            $.each(geoj,function(key,value){
+            	if (key=="features"){
+            		$.each(value,function( ordnungszahl,objekt){
+            			$.each(objekt,function(oberbegriff,bezeichnung){
+            				if(oberbegriff=="geometry"){
+            					$.each(bezeichnung,function(coordinates,array){
+            						if(coordinates=="coordinates"){
+            							arrayEintrag[1]=array;
+            						}
+            						if(coordinates=="type"){
+            							arrayEintrag[2]=array;
+            						}
+            					});
+            				}
+            				if(oberbegriff=="properties"){
+            					$.each(bezeichnung,function(identitaet,nummer){
+            						if(identitaet=="id"){
+            							arrayEintrag[0]=nummer;
+            						}
+            					});
+            				}
+            			});
+            			collectedOSMData[anzahlDerEintraege] = new Object(); 
+            			collectedOSMData[anzahlDerEintraege] = arrayEintrag;
+            			arrayEintrag = new Array();
+            			anzahlDerEintraege++;
+            		});
+            	}  
+    			console.log(collectedOSMData);
+            });
+        })
+        .fail(function( jqxhr, textStatus, error ) {
+            console.log( "Request Failed: " + textStatus);
+        }); 
+	    
+    }, 
 
+    
     /**
      * creation of the game state
      */
@@ -91,4 +143,7 @@ Pucman.MainMenu.prototype = {
     	address.address = input;
     	geocoder.geocode(address);
     }
+    
+
+
 };
