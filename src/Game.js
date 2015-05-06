@@ -114,21 +114,23 @@ Pucman.Game.prototype = {
         this.backGroundMusic = this.game.add.audio('music', 0.2, true);
         this.backGroundMusic.play();
 
+		//HUD
+		
         //BUTTONS
+		console.log("pup " + this.game.cache.getImage('plusButtonPic').height);
         //button to got to homepage
         homepageButton = this.game.add.button(((this.game.width / 20) * 17), (this.game.height - 64), 'homePageButtonPic', this.homepageButtonClicked, this);
-        homepageButton.anchor.setTo(0.5, 0.5);
         //button to increase volume
-        plusButton = this.game.add.button(((this.game.width / 20) * 17), (this.game.height - 256), 'plusButtonPic', this.plusButtonClicked, this);
+        plusButton = this.game.add.button(((this.game.width / 20) * 19), (homepageButton.y - ((this.game.cache.getImage('plusButtonPic').height + 32) * 2)), 'plusButtonPic', this.plusButtonClicked, this);
         //button to  decrease volume
-        minusButton = this.game.add.button(((this.game.width / 20) * 15), (this.game.height - 256), 'minusButtonPic', this.minusButtonClicked, this);
+        minusButton = this.game.add.button(((this.game.width / 20) * 19), (homepageButton.y - (this.game.cache.getImage('plusButtonPic').height + 32)), 'minusButtonPic', this.minusButtonClicked, this);
 
-        //  HUD Lives
+        //  Lives
         livesText = this.add.text((this.game.width / 20), (this.game.height - 64), 'Lives: <3 <3 <3', {
             fontSize: '32px',
             fill: '#000'
         });
-        //  HUD score
+        //  Score
         scoreText = this.add.text((this.game.width / 2), (this.game.height - 64), 'Score: 0', {
             fontSize: '32px',
             fill: '#000'
