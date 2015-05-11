@@ -15,12 +15,14 @@ Pucman.MainMenu.prototype = {
             
             // create a marker positioned at a lat/lon 
             var geocode_marker = new mxn.Marker(location.point);
+			geocode_marker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png",[21,25],[0.5,0.5]);
             var bubble = location.locality + ", " + location.region;
   
             map.addMarker(geocode_marker);
             // open the marker
-            geocode_marker.openBubble();
+            
             geocode_marker.setInfoBubble(bubble);
+			geocode_marker.openBubble();
 
             // display marker 
             
@@ -91,9 +93,9 @@ Pucman.MainMenu.prototype = {
     create: function() {
         this.input.mouse.mouseWheelCallback = this.mouseWheel;
         //button to play
-        homepageButton = this.game.add.button((this.game.width / 2), (this.game.height / 2), 'playButtonPic', this.playButtonClicked, this);
-        homepageButton.anchor.setTo(0.5, 0.5);
-        searchField = new TextField(this.game, (this.game.width / 2 - 450), (this.game.height / 2), 275, 'textFieldPic');
+        playButton = this.game.add.button((this.game.width + 200)/2, (this.game.height / 2), 'playButtonPic', this.playButtonClicked, this);
+        playButton.anchor.setTo(0, 0);
+        searchField = new TextField(this.game, (this.game.width - 600)/2, (this.game.height / 2), 13, 'textFieldPic');
     },
 
     /**
@@ -119,8 +121,8 @@ Pucman.MainMenu.prototype = {
      */
     mouseWheel: function(event) {
         //Ausgabe des Wertes des Mausrads
-        console.log(this.input.mouse.wheelDelta);
-        console.log(map.getZoom());
+        //console.log(this.input.mouse.wheelDelta);
+        //console.log(map.getZoom());
         this.world.scale.x = map.getZoom() / 10.0;
         this.world.scale.y = map.getZoom() / 10.0;
         map.setZoom(map.getZoom() + this.input.mouse.wheelDelta);

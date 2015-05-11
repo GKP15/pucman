@@ -116,8 +116,6 @@ Pucman.Game.prototype = {
 
 		//HUD
 		
-        //BUTTONS
-		console.log("pup " + this.game.cache.getImage('plusButtonPic').height);
         //button to got to homepage
         homepageButton = this.game.add.button(((this.game.width / 20) * 17), (this.game.height - 64), 'homePageButtonPic', this.homepageButtonClicked, this);
         //button to increase volume
@@ -251,18 +249,14 @@ Pucman.Game.prototype = {
      * increase background music volume
      */
     plusButtonClicked: function() {
-        if (this.backGroundMusic.volume < 1) {
-            this.backGroundMusic.volume += 0.05;
-        }
+		this.backGroundMusic.volume = Math.min(1, this.backGroundMusic.volume + 0.05);
     },
 
     /**
      * decrease background music volume
      */
     minusButtonClicked: function() {
-        if (this.backGroundMusic.volume > 0) {
-            this.backGroundMusic.volume -= 0.05;
-        }
+        this.backGroundMusic.volume = Math.max(0, this.backGroundMusic.volume - 0.05);
     },
 
     /**
