@@ -19,8 +19,8 @@ function TextField(game, x, y, length, sprite) {
     this.bgSprite = game.add.sprite(x, y, sprite);
     this.bgSprite.inputEnabled = true;
     this.textData = "";
-    this.myText = game.add.text(x + 10, y + 5, 'Leipzig');
-    this.myText.fontSize = 16;
+    this.myText = game.add.text(x + 5, y + 5, 'Leipzig');
+    this.myText.fontSize = 32;
     this.myText.fill = '#000';
     this.selected = false;
     game.input.keyboard.addCallbacks(this, null, this.keyPress, null);
