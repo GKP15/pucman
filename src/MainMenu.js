@@ -29,7 +29,7 @@ Pucman.MainMenu.prototype = {
         // vom Mittelpunkt ist der linke und rechte rand um 0,01093268394 entfernt LATitude
         //geocoder.latConv(address);
         // lon oberer und unterer Rand sind jeweils 0,005844353 entfernt
-        //<bbox-query e="12.387299537658691" n="51.34610786056325" s="51.334419153634336" w="12.365434169769287"/>
+        //<bbox-query e="12. 387 299 537 658 691" n="51.34 610 786 056 325" s="51. 334 419 153 634 336" w="12. 365 434 169 769 287"/>
         var east = map.getCenter().lon + 0.00593268394;
         var north = map.getCenter().lat + 0.002944353 + 0.002944353;
         var south = map.getCenter().lat;
@@ -45,7 +45,8 @@ Pucman.MainMenu.prototype = {
             //console.log(data);
             var geoj = osmtogeojson(data);
             var anzahlDerEintraege = 0;
-            var collectedOSMData = new Array();
+            var collectedOSMDataWays = new Array();
+            var collectedOSMDataNodes = new Array();
     		var arrayEintrag = new Array();
             $.each(geoj,function(key,value){
             	if (key=="features"){
@@ -55,6 +56,11 @@ Pucman.MainMenu.prototype = {
             					$.each(bezeichnung,function(coordinates,array){
             						if(coordinates=="coordinates"){
             							arrayEintrag[1]=array;
+            							for (var i = 0; i < array.length; ++i){
+            								array[i][0] = Math.round(85000 * (array[i][0]-east));
+            								array[i][1] = Math.round(85000 * (array[i][1]-north));
+            							}
+            							//console.log(arrayEintrag[0] + array);
             						}
             						if(coordinates=="type"){
             							arrayEintrag[2]=array;
@@ -69,19 +75,77 @@ Pucman.MainMenu.prototype = {
             					});
             				}
             			});
-            			collectedOSMData[anzahlDerEintraege] = new Object(); 
-            			collectedOSMData[anzahlDerEintraege] = arrayEintrag;
+            			collectedOSMDataWays [anzahlDerEintraege] = new Object(); 
+            			collectedOSMDataWays [anzahlDerEintraege] = arrayEintrag;
             			arrayEintrag = new Array();
             			anzahlDerEintraege++;
             		});
             	}  
-    			console.log(collectedOSMData);
             });
+			//console.log(collectedOSMDataWays );
+            //wo sich wege ueberschneiden, existieren kreuzungen
+			collectedOSMDataNodes = new Array();
+    		var counter = 0;
+			var size = collectedOSMDataWays.length;
+			for (var i=0; i < size; ++i){
+				var idA = collectedOSMDataWays[i][0];
+				$.each(collectedOSMDataWays[i][1],function(key,coordinateA){
+					for (var j = i; j < size; ++j){
+						if(collectedOSMDataWays[i][0]!==collectedOSMDataWays[j][0]){
+    						$.each(collectedOSMDataWays[j][1],function(key0,coordinateB){
+    							if (coordinateA[0] == coordinateB[0] && coordinateA[1] == coordinateB[1]){
+    								//console.log(idA + " | " + collectedOSMDataWays[j][0]);
+    								var entry = new Array(4);
+    								entry[0]=idA;
+    								entry[1]=collectedOSMDataWays[j][0];
+    								entry[2]=coordinateA[0];
+    								entry[3]= coordinateA[1];
+    								collectedOSMDataNodes[counter] = new Object();
+    								collectedOSMDataNodes[counter] = entry;
+    								counter++;
+    							}
+    						})
+						}
+					}
+				})
+			}
+			//console.log(collectedOSMDataNodes);
+			//jetzt bringen wir die koordinaten noch in eine geeignete Form, also sie werden so multipliziert und gerundet dass sie größer als 0 und kleiner als 1000 sind
+			//koordinaten befinden sich im array collectedOSMDataWays[id[x,y]typ] und collectedOSMDataNodes[idA,idB,x,y]
+			/**
+			var x = 0;
+			var y = 0;
+			for (var i = 0; i < collectedOSMDataNodes.length; ++i){
+				if (i==0){
+					x = collectedOSMDataNodes[i][2];
+					y = collectedOSMDataNodes[i][3];
+				}
+				if (collectedOSMDataNodes[i][2] < x) {
+					x = collectedOSMDataNodes[i][2];
+				}
+				if (collectedOSMDataNodes[i][3] < y){
+					y = collectedOSMDataNodes[i][3];
+				}
+			}
+			console.log("groesster wert: " + x + " " +y );
+			for (var i = 0; i < collectedOSMDataNodes.length; ++i){
+				if (i==0){
+					x = collectedOSMDataNodes[i][2];
+					y = collectedOSMDataNodes[i][3];
+				}
+				if (collectedOSMDataNodes[i][2] > x) {
+					x = collectedOSMDataNodes[i][2];
+				}
+				if (collectedOSMDataNodes[i][3] > y){
+					y = collectedOSMDataNodes[i][3];
+				}
+			}
+			console.log("kleinster wert: " + x + " " +y );
+			**/
         })
         .fail(function( jqxhr, textStatus, error ) {
             console.log( "Request Failed: " + textStatus);
         }); 
-	    
     }, 
 
     
@@ -143,7 +207,6 @@ Pucman.MainMenu.prototype = {
     	address.address = input;
     	geocoder.geocode(address);
     }
-    
-
+   
 
 };
