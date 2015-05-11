@@ -36,7 +36,7 @@ Pucman.Game.prototype = {
     /**
      * initialisation of the game state
      */
-    init: function() {
+    init: function(collectedOSMData) {
         //so scalen, dass alles sichtbar ist
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         //horizontal und vertikal anpassen
@@ -46,6 +46,7 @@ Pucman.Game.prototype = {
         Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
         //startet Physiksimulation im Modus Arcade
         this.physics.startSystem(Phaser.Physics.ARCADE);
+		console.log(collectedOSMData);
     },
 
     /**

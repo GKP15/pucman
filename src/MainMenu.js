@@ -11,7 +11,7 @@ Pucman.MainMenu.prototype = {
         geocoder = new mxn.Geocoder('openlayers', function(location) {
 
             // display the map centered on a latitude and longitude + zoom-level
-            map.setCenterAndZoom(location.point, 15);
+            map.setCenterAndZoom(location.point, 10);
             
             // create a marker positioned at a lat/lon 
             var geocode_marker = new mxn.Marker(location.point);
