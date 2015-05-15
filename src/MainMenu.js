@@ -44,6 +44,9 @@ Pucman.MainMenu.prototype = {
         jQuery.getJSON(apiUrlBase+apiUrlData, function(data) {
         })
         .done(function(data) {
+        	/*auswerten der geoJSON datei die zurueckgegeben wird
+        		-> parsen - wege notieren, kreuzungen notieren
+        		! rechnet auch gleich in pixel um, so dass die kordinaten zwischen 0 und 1000 liegen */
             //console.log(data);
             var geoj = osmtogeojson(data);
             var anzahlDerEintraege = 0;
@@ -59,6 +62,7 @@ Pucman.MainMenu.prototype = {
             						if(coordinates=="coordinates"){
             							arrayEintrag[1]=array;
             							for (var i = 0; i < array.length; ++i){
+            								//die geocoordinaten werden in pixel umgerechnet
             								array[i][0] = Math.round(85000 * (array[i][0]-east));
             								array[i][1] = Math.round(85000 * (array[i][1]-north));
             							}
@@ -84,6 +88,7 @@ Pucman.MainMenu.prototype = {
             		});
             	}  
             });
+            //in collectedOSMDataWays stehen die wege drinne, in der form [id(int),[koordinateOstWest(int),KoordinateNordSued(int)],typ(String)]
 			//console.log(collectedOSMDataWays );
             //wo sich wege ueberschneiden, existieren kreuzungen
 			collectedOSMDataNodes = new Array();
@@ -111,8 +116,8 @@ Pucman.MainMenu.prototype = {
 					}
 				})
 			}
+			//collectedOSMDataNodes stehen die kreuzungen drinne(Array von ints) [idWegA,idWegB,KoordinateOstWest,KoordinateNordSued]
 			//console.log(collectedOSMDataNodes);
-			//jetzt bringen wir die koordinaten noch in eine geeignete Form, also sie werden so multipliziert und gerundet dass sie größer als 0 und kleiner als 1000 sind
 			//koordinaten befinden sich im array collectedOSMDataWays[id[x,y]typ] und collectedOSMDataNodes[idA,idB,x,y]
 			/**
 			var x = 0;
