@@ -1,28 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-
     <head>
         <meta charset="UTF-8" />
         <title>Pucman</title>
         <link rel="stylesheet" href="styles.css">
         <script src="lib/phaser.js"></script>
-        <script src="src/TextField.js"></script>
-        <script src="src/MainMenu.js"></script>
-        <script src="src/Game.js"></script>
         <script src="src/Init.js"></script>
-        <script src="http://rawgit.com/tyrasd/osmtogeojson/gh-pages/osmtogeojson.js"></script>
-        <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
-        <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers,[geocoder])" type="text/javascript"></script>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="src/Game.js"></script>
+        <script src="src/Map.js"></script>
     </head>
 
     <body>
         <div id="container">
-            <div id="map" ></div>
             <div id="gameContainer"></div>
             <script type="text/javascript">
-				window.onload = init();
+                window.onload = init();
             </script>
         </div>
     </body>
