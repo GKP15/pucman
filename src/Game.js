@@ -28,6 +28,7 @@ Pucman.Game.prototype = {
     preload: function() {
         //Bilder, spritesheet und tilemap laden
         this.load.spritesheet('pacman', 'resources/pacman.png', 32, 32);
+        Pucman.Interface.preloadInterface();
     },
 
     /**
@@ -36,6 +37,7 @@ Pucman.Game.prototype = {
     create: function() {
         Pucman.Graph.test(this);
         this.stage.backgroundColor = '#0FFF00';
+        Pucman.Interface.createInterface();
         Pucman.Graph.createGraph(this.graph);
         this.bmd = this.add.bitmapData(this.game.width, this.game.height);
         this.bmd.addToWorld();
@@ -49,5 +51,7 @@ Pucman.Game.prototype = {
      * update of the game state
      */
     //update: function() {
-    //}
+    
+	
+	Pucman.Interface.funktionInterface();
 };
