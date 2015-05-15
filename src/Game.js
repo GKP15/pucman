@@ -34,7 +34,7 @@ Pucman.Game.prototype = {
      * creation of the game state
      */
     create: function() {
-        Pucman.map.test(this);
+        Pucman.Graph.test(this);
         this.stage.backgroundColor = '#0FFF00';
         Pucman.Graph.createGraph(this.graph);
         this.bmd = this.add.bitmapData(this.game.width, this.game.height);
