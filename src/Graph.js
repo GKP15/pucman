@@ -1,4 +1,4 @@
-Pucman.map = (function() {
+Pucman.Graph = (function() {
 
     var connectPointList = function(pointList) {
         for (i = 0; i < pointList.length - 1; i++) {

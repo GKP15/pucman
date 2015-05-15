@@ -36,7 +36,7 @@ Pucman.Game.prototype = {
     create: function() {
         Pucman.map.test(this);
         this.stage.backgroundColor = '#0FFF00';
-        Pucman.map.createGraph(this.graph);
+        Pucman.Graph.createGraph(this.graph);
         this.bmd = this.add.bitmapData(this.game.width, this.game.height);
         this.bmd.addToWorld();
         this.bmd.clear();
