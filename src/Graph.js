@@ -33,17 +33,17 @@ Pucman.Graph = (function() {
     var connectTwoPoints = function(pointA, pointB) {
         var dir = Phaser.Point.subtract(pointA,  pointB);
         if (dir.y < (-1 * Math.abs(dir.x))) {
-            pointA.up = pointB;
-            pointB.down = pointA;
+            pointA[Phaser.DOWN] = pointB;
+            pointB[Phaser.UP] = pointA;
         } else if (dir.x > Math.abs(dir.y)) {
-            pointA.right = pointB;
-            pointB.left = pointA;
+            pointA[Phaser.LEFT] = pointB;
+            pointB[Phaser.RIGHT] = pointA;
         } else if (dir.y > Math.abs(dir.x)) {
-            pointA.down = pointB;
-            pointB.up = pointA;
+            pointA[Phaser.UP] = pointB;
+            pointB[Phaser.DOWN] = pointA;
         } else if (dir.x < (-1 * Math.abs(dir.y))) {
-            pointA.left = pointB;
-            pointB.right = pointA;
+            pointA[Phaser.RIGHT] = pointB;
+            pointB[Phaser.LEFT] = pointA;
         }
     };
 
@@ -52,9 +52,6 @@ Pucman.Graph = (function() {
             interpolatePointList(pointList);
             connectPointList(pointList);
         },
-        test : function(game) {
-            game.arsch = null;
-        }
     };
 })();
 
