@@ -50,10 +50,24 @@ Pucman.Graph = (function() {
         }
     };
 
+    var convertToPointList = function(street) {
+        for (var i = 0; i < street.length; i++) {
+            var pointArray = street.shift();
+            street.push(new Phaser.Point(pointArray[0], pointArray[1]));
+        }
+    };
+
     return {
-        createGraph: function(pointList) {
+        createPath: function(pointList) {
             interpolatePointList(pointList);
             connectPointList(pointList);
         },
+        convertToPaths: function(streets) {
+            for (var i = 0; i < streets.length; i++) {
+                convertToPointList(streets[i]);
+                interpolatePointList(streets[i]);
+                connectPointList(streets[i]);
+            }
+        }
     };
 })();

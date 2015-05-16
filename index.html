@@ -5,10 +5,13 @@
         <meta charset="UTF-8" />
         <title>Pucman</title>
         <link rel="stylesheet" href="styles.css">
+        <script src="lib/jquery.js"></script>
         <script src="lib/phaser.js"></script>
+        <script src="lib/osmtogeojson.js"></script>
         <script src="src/Game.js"></script>
         <script src="src/Graph.js"></script>
         <script src="src/Character.js"></script>
+        <script src="src/GetGeoData.js"></script>
         <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers,[geocoder])" type="text/javascript"></script>
     </head>
@@ -18,18 +21,25 @@
         <div id="gameContainer"></div>
         <script type="text/javascript">
 window.onload = function() {
-    var game = new Phaser.Game(
-            1920, 1080, Phaser.AUTO, 'gameContainer', null, true, false);
-    game.state.add('Game', Pucman.Game);
-    game.state.start('Game', true);
+    //var game = new Phaser.Game(
+    //        1920, 1080, Phaser.AUTO, 'gameContainer', null, true, false);
+    //game.state.add('Game', Pucman.Game);
+    //game.state.start('Game', true);
 
-    var map = new mxn.Mapstraction('map', 'openlayers');
+    map = new mxn.Mapstraction('map', 'openlayers');
     var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
-    map.setCenterAndZoom(latlon, 10);
+    map.setCenterAndZoom(latlon, 15);
     map.setOption('enableDragging', true);
     map.addControls('pan', true);
+    map.click.addHandler(function(eventName, eventSource, eventArgs) {
+        document.getElementById("gameContainer").style.zIndex = "200";
+        console.log('clicked');
+        var game = new Phaser.Game(
+                1920, 900, Phaser.AUTO, 'gameContainer', null, true, false);
+        game.state.add('Game', Pucman.Game);
+        game.state.start('Game', true);
+    });
 };
         </script>
     </body>
-
 </html>

@@ -17,21 +17,29 @@ Pucman.Game.prototype = {
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
         Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+        var streets = Pucman.GetGeoData.getData(
+            this.game.width, this.game.height);
+        Pucman.Graph.convertToPaths(streets);
+        this.graph = [];
+        for( var i = 0; i < streets.length; i++){
+            this.graph = this.graph.concat(streets[i]);
+        }
     },
 
     preload: function() {
-        //Bilder, spritesheet und tilemap laden
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
     },
 
     create: function() {
         this.cursors = this.input.keyboard.createCursorKeys();
-        Pucman.Graph.createGraph(this.graph);
-        this.graphBitmap = this.add.bitmapData(this.game.width, this.game.height);
+        //Pucman.Graph.createPath(this.graph);
+        this.graphBitmap = this.add.bitmapData(
+            this.game.width, this.game.height);
         this.graphBitmap.addToWorld();
         this.graphBitmap.clear();
         for (var i = 0; i < this.graph.length; i++) {
-            this.graphBitmap.rect(this.graph[i].x, this.graph[i].y, 8, 8, 'rgba(0, 0, 0, 1)');
+            this.graphBitmap.rect(
+                this.graph[i].x, this.graph[i].y, 8, 8, 'rgba(0, 0, 0, 1)');
         }
         pucman = new Pucman.Character(this, "pucman", this.graph[100]);
         pucman.anchor.set(0.5);
