@@ -28,7 +28,6 @@ Pucman.MainMenu.prototype = {
             
         });
         geocoder.geocode(address);
-        /*
         // vom Mittelpunkt ist der linke und rechte rand um 0,01093268394 entfernt LATitude
         //geocoder.latConv(address);
         // lon oberer und unterer Rand sind jeweils 0,005844353 entfernt
@@ -45,12 +44,11 @@ Pucman.MainMenu.prototype = {
         jQuery.getJSON(apiUrlBase+apiUrlData, function(data) {
         })
         .done(function(data) {
-        	//auswerten der geoJSON datei die zurueckgegeben wird
-        	//	-> parsen - wege notieren, kreuzungen notieren
-        	//	! rechnet auch gleich in pixel um, so dass die kordinaten zwischen 0 und 1000 liegen 
+        	/*auswerten der geoJSON datei die zurueckgegeben wird
+        		-> parsen - wege notieren, kreuzungen notieren
+        		! rechnet auch gleich in pixel um, so dass die kordinaten zwischen 0 und 1000 liegen */
             //console.log(data);
-        /   
-        var geoj = osmtogeojson(data);
+            var geoj = osmtogeojson(data);
             var anzahlDerEintraege = 0;
             var collectedOSMDataWays = new Array();
             var collectedOSMDataNodes = new Array();
@@ -121,10 +119,40 @@ Pucman.MainMenu.prototype = {
 			//collectedOSMDataNodes stehen die kreuzungen drinne(Array von ints) [idWegA,idWegB,KoordinateOstWest,KoordinateNordSued]
 			//console.log(collectedOSMDataNodes);
 			//koordinaten befinden sich im array collectedOSMDataWays[id[x,y]typ] und collectedOSMDataNodes[idA,idB,x,y]
+			/**
+			var x = 0;
+			var y = 0;
+			for (var i = 0; i < collectedOSMDataNodes.length; ++i){
+				if (i==0){
+					x = collectedOSMDataNodes[i][2];
+					y = collectedOSMDataNodes[i][3];
+				}
+				if (collectedOSMDataNodes[i][2] < x) {
+					x = collectedOSMDataNodes[i][2];
+				}
+				if (collectedOSMDataNodes[i][3] < y){
+					y = collectedOSMDataNodes[i][3];
+				}
+			}
+			console.log("groesster wert: " + x + " " +y );
+			for (var i = 0; i < collectedOSMDataNodes.length; ++i){
+				if (i==0){
+					x = collectedOSMDataNodes[i][2];
+					y = collectedOSMDataNodes[i][3];
+				}
+				if (collectedOSMDataNodes[i][2] > x) {
+					x = collectedOSMDataNodes[i][2];
+				}
+				if (collectedOSMDataNodes[i][3] > y){
+					y = collectedOSMDataNodes[i][3];
+				}
+			}
+			console.log("kleinster wert: " + x + " " +y );
+			**/
         })
         .fail(function( jqxhr, textStatus, error ) {
             console.log( "Request Failed: " + textStatus);
-        }); */
+        }); 
     }, 
 
     
