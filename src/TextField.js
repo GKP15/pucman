@@ -31,16 +31,16 @@ function TextField(game, x, y, length, sprite) {
 
 TextField.prototype = {
     /** handles pressed keys */
-    keyPress: function(data) {
-        if (this.selected) {
-            switch (data.keyCode) {
+    keyPress : function(data) {
+	    if(this.selected) {
+            switch(data.keyCode) {
                 case 8:
                     this.textData = this.textData.substring(0, this.textData.length - 1);
                     this.myText.text = this.textData;
-                    break;
+                	break;
                 case 13:
-                    this.pressedEnter = true;
-                    break;
+                	this.pressedEnter = true;
+                	break;
                 default:
                     if ((this.textData.length + 1) <= this.length) {
                         var char = String.fromCharCode(data.keyCode).toString();
@@ -49,7 +49,7 @@ TextField.prototype = {
                             this.myText.text = this.textData;
                         }
                     }
-                    break;
+            	break;
             }
         }
     },
@@ -57,9 +57,9 @@ TextField.prototype = {
     /**
      * switch selection on/off
      */
-    selector: function() {
+    selector : function() {
         this.selected = !this.selected;
-        if (this.selected) this.myText.fill = '#000';
+        if(this.selected) this.myText.fill = '#000';
         else this.myText.fill = '#808080';
     }
 };
