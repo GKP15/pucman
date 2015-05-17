@@ -15,6 +15,7 @@ Pucman.Character.prototype.update = function() {
 };
 
 Pucman.Character.prototype.move = function() {
+    var nextDir = 0;
     var pressedKey = null;
     if (this.game.cursors.up.isDown) {
         pressedKey = Phaser.UP;
@@ -30,40 +31,33 @@ Pucman.Character.prototype.move = function() {
     }
 
     if (this.position[pressedKey] !== undefined) {
-        this.lastPosition = this.position;
-        this.direction = pressedKey;
-        this.position = this.position[pressedKey];
+        nextDir = pressedKey;
     } else {
-        this.nextPosition();
-    }
-};
-
-Pucman.Character.prototype.nextPosition = function() {
-    var numCon = 0;
-    for (var dir = 1; dir < 5; dir++) {
-        numCon += (this.position[dir] !== undefined) ? 1 : 0;
-    }
-    console.log(numCon);    
-    switch (numCon) {
-        case 2:
-            for (var i = 1; i <= 4; i++) {
-                if (this.position[i] !== undefined &&
-                    this.position[i] != this.lastPosition) {
-                    this.lastPosition = this.position;
-                    this.direction = i;
-                    this.position = this.position[i];
+        var numCon = 0;
+        for (var i = 1; i < 5; i++) {
+            numCon += (this.position[i] !== undefined) ? 1 : 0;
+        }
+        switch (numCon) {
+            case 2:
+                for (i = 1; i < 5; i++) {
+                    if (this.position[i] !== undefined &&
+                        !this.position[i].equals(this.lastPosition)) {
+                        nextDir = i;
+                    }
                 }
-            }
-            break;
-        case 1:
-        case 3:
-        case 4:
-            if (this.position[this.direction] !== undefined) {
-                this.lastPosition = this.position;
-                this.position = this.position[this.direction];
-            } else {
-                this.lastPosition = this.position;
-            }
-            break;
+                break;
+            case 1:
+            case 3:
+            case 4:
+                if (this.position[this.direction] !== undefined) {
+                    nextDir = this.direction;
+                }
+                break;
+        }
+    }
+    this.lastPosition = this.position;
+    if ( nextDir !== 0 ){
+        this.position = this.position[nextDir];
+        this.direction = nextDir;
     }
 };

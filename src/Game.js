@@ -3,11 +3,7 @@ var Pucman = {};
 Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
-    this.graph = [new Phaser.Point(0, 0),
-        new Phaser.Point(1100, 500),
-        new Phaser.Point(100, 100),
-        new Phaser.Point(1920, 1080)
-    ];
+    this.graph = null; 
     
     var opposites = [
         Phaser.NONE,
@@ -41,7 +37,6 @@ Pucman.Game.prototype = {
 
     create: function() {
         this.cursors = this.input.keyboard.createCursorKeys();
-        //Pucman.Graph.createPath(this.graph);
         this.graphBitmap = this.add.bitmapData(
             this.game.width, this.game.height);
         this.graphBitmap.addToWorld();

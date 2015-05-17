@@ -35,7 +35,7 @@ window.onload = function() {
         document.getElementById("gameContainer").style.zIndex = "200";
         console.log('clicked');
         var game = new Phaser.Game(
-                1920, 900, Phaser.AUTO, 'gameContainer', null, true, false);
+                "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
         game.state.add('Game', Pucman.Game);
         game.state.start('Game', true);
     });

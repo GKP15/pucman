@@ -16,29 +16,24 @@ Pucman.GetGeoData = (function() {
     };
 
     var convertStreetsToPixel = function(width, height) {
-        var widthConversion =  width / (east - west);
+        var widthConversion = width / (east - west);
         var heightConversion = height / (south - north);
         for (var i = 0; i < streets.length; i++) {
-            for (var j = 0; j < streets[i].length; j++) {
-                var test = streets[i][j][0];
-                streets[i][j][0] = (streets[i][j][0] - west) * widthConversion;
-                streets[i][j][1] = (streets[i][j][1] - north) * heightConversion;
+            for (var j = 0, len = streets[i].length; j < len; j++) {
+                var point = streets[i].shift();
+                point[0] = Math.round((point[0] - west) * widthConversion);
+                point[1] = Math.round((point[1] - north) * heightConversion);
+                if (point[0] >= 0 && point[1] >= 0 &&
+                    point[0] <= width && point[1] <= height) {
+                    streets[i].push(point);
+                }
             }
         }
     };
 
-    var toPixelPoint = function(pX, pY, width, height) {
-        pX = (pX - west) * width / (east - west);
-        pY = (pY - north) * height / (south - north);
-    };
 
     return {
         getData: function(width, height) {
-            //var east = map.getCenter().lon + 0.00593268394;
-            //var north = map.getCenter().lat + 0.002944353 + 0.002944353;
-            //var south = map.getCenter().lat;
-            //var west = map.getCenter().lon - 0.00593268394;
-
             north = map.getBounds().ne.lat;
             east = map.getBounds().ne.lon;
             south = map.getBounds().sw.lat;
