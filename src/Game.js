@@ -8,6 +8,15 @@ Pucman.Game = function(game) {
         new Phaser.Point(100, 100),
         new Phaser.Point(1920, 1080)
     ];
+    
+    var opposites = [
+        Phaser.NONE,
+        Phaser.RIGHT,
+        Phaser.LEFT,
+        Phaser.DOWN,
+        Phaser.UP
+    ];
+
 };
 
 Pucman.Game.prototype = {

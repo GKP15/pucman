@@ -1,5 +1,13 @@
 Pucman.Graph = (function() {
 
+    var opposites = [
+        Phaser.NONE,
+        Phaser.RIGHT,
+        Phaser.LEFT,
+        Phaser.DOWN,
+        Phaser.UP
+    ];
+
     var connectPointList = function(pointList) {
         for (i = 0; i < pointList.length - 1; i++) {
             connectTwoPoints(pointList[i], pointList[i + 1]);
@@ -50,6 +58,87 @@ Pucman.Graph = (function() {
         }
     };
 
+    var connectStreets = function(streets) {
+        for (var street = 0; street < streets.length; street++) {
+            for (var point = 0; point < streets[street].length; point++) {
+                isPointJunction(streets[street][point], streets);       
+            }
+        }
+    };
+
+    var isPointJunction = function(pointToCheck, streets) {
+        for (var street = 0; street < streets.length; street++) {
+            for (var point = 0; point < streets[street].length; point++) {
+                if (pointToCheck.equals(streets[street][point])) {
+                    createJunction(pointToCheck, streets[street][point]);
+                }
+            }
+        }
+    };
+
+    var createJunction = function(pointA, pointB) {
+        // dir is short for Phaser directions
+        for (var dir = 1; dir < 5; dir++) {
+            if (pointA[dir] === undefined && pointB[dir] !== undefined) {
+                pointA[dir] = pointB[dir];
+                pointA[dir][opposites[dir]] = pointA;
+            }
+        }
+    };
+
+    /* 
+     * Delete streets who are involved in a junction between more than four 
+     * streets.
+     * Delete streets who connect to junction from the same direction as another
+     * street.
+     */
+    var clearStreets = function(streets) {
+        for (var counter = 0, len = streets.length; counter < len; counter++) {
+            var street = streets.shift();
+            var isIllegalStreet = false;
+            for (var point = 0; point < street.length; point++) {
+                isIllegalStreet = isIllegalStreet ||
+                    isPointIllegal(streets, street[point]);
+            }
+            if (!isIllegalStreet) {
+                streets.push(street);
+            }
+        }
+    };
+
+    var isPointIllegal = function(streets, pointToCheck) {
+        var numberJunctions = 0;
+        var isIllegal = false;
+        for (var street = 0; street < streets.length; street++) {
+            for (var point = 0; point < streets[street].length; point++) {
+                if (pointToCheck.equals(streets[street][point])) {
+                    isIllegal = isIllegal ||
+                        shareConInDir(pointToCheck, streets[street][point]);
+                    numberJunctions++;
+                }
+            }
+        }
+        if (numberJunctions > 3) {
+            return true;
+        } else {
+            return isIllegal;
+        }
+    };
+
+    var shareConInDir = function(pointA, pointB) {
+        if (pointA == pointB) {
+            return true;
+        }
+        var shareCon = false;
+        // dir is short for Phaser directions
+        for (var dir = 1; dir < 5; dir++) {
+            if (pointA[dir] !== undefined && pointB[dir] !== undefined) {
+                shareCon = true;
+            }
+        }
+        return shareCon;
+    };
+
     var convertToPointList = function(street) {
         for (var i = 0; i < street.length; i++) {
             var pointArray = street.shift();
@@ -65,9 +154,11 @@ Pucman.Graph = (function() {
         convertToPaths: function(streets) {
             for (var i = 0; i < streets.length; i++) {
                 convertToPointList(streets[i]);
-                interpolatePointList(streets[i]);
+                //interpolatePointList(streets[i]);
                 connectPointList(streets[i]);
             }
+            clearStreets(streets);
+            connectStreets(streets);
         }
     };
 })();
