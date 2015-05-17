@@ -14,6 +14,19 @@ Pucman.Graph = (function() {
         }
     };
 
+    var interpolateStreet = function(street) {
+        startPoint = street.shift();
+        street.unshift(startPoint.clone());
+        endPoint = street.pop();
+        street.push(endPoint.clone());
+        interpolatePointList(street);
+        street.shift();
+        street.unshift(startPoint);
+        street.pop();
+        street.push(endPoint);
+        connectPointList(street);
+    };
+
     var interpolatePointList = function(pointList) {
         var pointListX = [];
         var pointListY = [];
@@ -150,11 +163,13 @@ Pucman.Graph = (function() {
         convertToPaths: function(streets) {
             for (var i = 0; i < streets.length; i++) {
                 convertToPointList(streets[i]);
-                //interpolatePointList(streets[i]);
                 connectPointList(streets[i]);
             }
-            //clearStreets(streets);
+            clearStreets(streets);
             connectStreets(streets);
+            for (i = 0; i < streets.length; i++) {
+                interpolateStreet(streets[i]);
+            }
         }
     };
 })();

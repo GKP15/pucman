@@ -28,7 +28,7 @@ window.onload = function() {
 
     map = new mxn.Mapstraction('map', 'openlayers');
     var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
-    map.setCenterAndZoom(latlon, 17);
+    map.setCenterAndZoom(latlon, 15);
     map.setOption('enableDragging', true);
     map.addControls('pan', true);
     map.click.addHandler(function(eventName, eventSource, eventArgs) {
