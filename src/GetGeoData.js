@@ -8,12 +8,38 @@ Pucman.GetGeoData = (function() {
 
 
     var cytoscape = function(result) {
-        var cy = cytoscape({
+    	var elements = [];
+    	elements.nodes = [];
+    	elements.edges = [];
+    	for(var i = 0; i < result.elements.length ; ++i){
+    		if(result.elements[i].type === "node"){
+    			var node = result.elements[i];
+    			var newNode = {data:{},position:[]};
+    			newNode.data.id = node.id;
+    			newNode.position.x = node.lon;
+    			newNode.position.y = node.lat;
+    			elements.nodes.push(newNode);
+    		}
+    		else if(result.elements[i].type === "ways"){
+    			var way = result.elements[i];
+    			var node = null;
+    			while ( way.nodes.length > 1 ){
+    				node = way.nodes.pop();
+	    			var newWay = {data:{}};
+	    			newWay.data.id = node + "" + way.nodes[0];
+	    			newWay.data.source = node;
+	    			newWay.data.target = way.nodes[0];
+	    			elements.edges.push(newWay);
+    			}
+    		}
+    	}
+    	
+    	var cy = cytoscape({
             ready: function() {
                 console.log('ready');
             },
             headless: true,
-            elements: geoJSONData2.features
+            elements: elements
         });
 
     };
