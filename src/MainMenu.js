@@ -36,6 +36,7 @@ Pucman.MainMenu.prototype = {
 	},
 
     create: function() {
+        this.input.mouse.mouseWheelCallback = this.mouseWheel;
         searchButton = this.game.add.button((this.game.width + 200)/2, (this.game.height / 2), 'searchButtonPic', this.searchButtonClicked, this);
         searchField = new TextField(this.game, (this.game.width - 600)/2, (this.game.height / 2), 13, 'textFieldPic');
     },
@@ -65,5 +66,17 @@ Pucman.MainMenu.prototype = {
     	var address = {};
     	address.address = input;
     	geocoder.geocode(address);
+    },
+
+    /**
+     * catch mousewheel movement
+     */
+    mouseWheel: function(event) {
+        //Ausgabe des Wertes des Mausrads
+        console.log(this.input.mouse.wheelDelta);
+        //console.log(map.getZoom());
+        this.world.scale.x = map.getZoom() / 10.0;
+        this.world.scale.y = map.getZoom() / 10.0;
+        map.setZoom(map.getZoom() + this.input.mouse.wheelDelta);
     }
 };
