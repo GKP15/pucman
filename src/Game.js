@@ -1,5 +1,3 @@
-var Pucman = {};
-
 Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
