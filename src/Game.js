@@ -33,6 +33,7 @@ Pucman.Game.prototype = {
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
+		Pucman.Interface.preloadInterface(this);
     },
 
     create: function() {
@@ -48,6 +49,7 @@ Pucman.Game.prototype = {
         pucman = new Pucman.Character(this, "pucman", this.graph[100]);
         pucman.anchor.set(0.5);
         this.add.existing(pucman);
+		Pucman.Interface.createInterface(this);
     },
 
     update: function() {}
