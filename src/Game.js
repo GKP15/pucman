@@ -24,9 +24,9 @@ Pucman.Game.prototype = {
         Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
         var streets = Pucman.GetGeoData.getData(
             this.game.width, this.game.height);
-        Pucman.Graph.convertToPaths(this, streets);
-        this.graph = [];
-        for (var i = 0; i < streets.length; i++) {
+         Pucman.Graph.convertToPaths(this, streets);
+         this.graph = [];
+         for (var i = 0; i < streets.length; i++) {
             this.graph = this.graph.concat(streets[i]);
         }
     },

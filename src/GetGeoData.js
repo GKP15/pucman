@@ -5,22 +5,25 @@ Pucman.GetGeoData = (function() {
     var east = null;
     var south = null;
     var west = null;
+	var elements = {};
 
 
-    var cytoscape = function(result) {
-    	var elements = [];
-    	elements.nodes = [];
+    var convertToGraph = function(result) {
+
     	elements.edges = [];
+    	elements.nodes = [];
+    	
+    	
     	for(var i = 0; i < result.elements.length ; ++i){
     		if(result.elements[i].type === "node"){
     			var node = result.elements[i];
-    			var newNode = {data:{},position:[]};
-    			newNode.data.id = node.id;
+    			var newNode = {data:{},position:{}};
+    			newNode.data.id = "" + node.id;
     			newNode.position.x = node.lon;
     			newNode.position.y = node.lat;
     			elements.nodes.push(newNode);
     		}
-    		else if(result.elements[i].type === "ways"){
+    		else if(result.elements[i].type === "way"){
     			var way = result.elements[i];
     			var node = null;
     			while ( way.nodes.length > 1 ){
@@ -34,14 +37,14 @@ Pucman.GetGeoData = (function() {
     		}
     	}
     	
-    	var cy = cytoscape({
-            ready: function() {
-                console.log('ready');
-            },
-            headless: true,
-            elements: elements
-        });
-
+    	 var cy = cytoscape({
+             ready: function() {
+                 console.log('ready');
+             },
+             headless: true,
+             elements: elements
+         });
+    	
     };
 
 
@@ -91,11 +94,15 @@ Pucman.GetGeoData = (function() {
                 DataType: 'json',
                 async: false,
                 success: function(result) {
-                    cytoscape(result);
+                	convertToGraph(result);
                 }
             });
+            
+           
+
+            
             //convertStreetsToPixel(width, height);
-            return streets;
+            //return streets;
         }
     };
 })();
