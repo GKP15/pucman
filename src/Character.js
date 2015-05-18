@@ -5,13 +5,18 @@ Pucman.Character = function(game, key, node) {
     this.position = node;
     this.lastPosition = node;
     this.direction = Phaser.LEFT;
+    this.debugCounter = 0;
 };
 
 Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);
 Pucman.Character.constructor = Pucman.Character;
 
 Pucman.Character.prototype.update = function() {
-    this.move();
+    this.debugCounter++;
+    if (this.debugCounter > 20) {
+        this.move();
+        this.debugCounter = 0;
+    }
 };
 
 Pucman.Character.prototype.move = function() {
@@ -56,7 +61,7 @@ Pucman.Character.prototype.move = function() {
         }
     }
     this.lastPosition = this.position;
-    if ( nextDir !== 0 ){
+    if (nextDir !== 0) {
         this.position = this.position[nextDir];
         this.direction = nextDir;
     }

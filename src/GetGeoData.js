@@ -15,14 +15,14 @@ Pucman.GetGeoData = (function() {
         }
     };
 
-    var convertStreetsToPixel = function(width, height) {
+    var convertStreetsToPixel = function(streets, width, height) {
         var widthConversion = width / (east - west);
         var heightConversion = height / (south - north);
         for (var i = 0; i < streets.length; i++) {
             for (var j = 0, len = streets[i].length; j < len; j++) {
                 var point = streets[i].shift();
-                point[0] = Math.round((point[0] - west) * widthConversion);
-                point[1] = Math.round((point[1] - north) * heightConversion);
+                point.x = Math.round((point.x - west) * widthConversion);
+                point.y = Math.round((point.y - north) * heightConversion);
                 streets[i].push(point);
             }
         }
@@ -30,6 +30,9 @@ Pucman.GetGeoData = (function() {
 
 
     return {
+        convertStreetsToPixel: function(streets, width, height) {
+            convertStreetsToPixel(streets, width, height);
+        },
         getData: function(width, height) {
             //grenzen dynamisch eingrenzen
             north = map.getBounds().ne.lat;
@@ -53,7 +56,7 @@ Pucman.GetGeoData = (function() {
                     extractStreets(result);
                 }
             });
-            convertStreetsToPixel(width, height);
+            //convertStreetsToPixel(width, height);
             return streets;
         }
     };

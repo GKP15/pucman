@@ -3,8 +3,8 @@ var Pucman = {};
 Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
-    this.graph = null; 
-    
+    this.graph = null;
+
     var opposites = [
         Phaser.NONE,
         Phaser.RIGHT,
@@ -26,14 +26,14 @@ Pucman.Game.prototype = {
             this.game.width, this.game.height);
         Pucman.Graph.convertToPaths(this, streets);
         this.graph = [];
-        for( var i = 0; i < streets.length; i++){
+        for (var i = 0; i < streets.length; i++) {
             this.graph = this.graph.concat(streets[i]);
         }
     },
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
-		Pucman.Interface.preloadInterface(this);
+        Pucman.Interface.preloadInterface(this);
     },
 
     create: function() {
@@ -49,8 +49,14 @@ Pucman.Game.prototype = {
         pucman = new Pucman.Character(this, "pucman", this.graph[100]);
         pucman.anchor.set(0.5);
         this.add.existing(pucman);
-		Pucman.Interface.createInterface(this);
+        Pucman.Interface.createInterface(this);
     },
 
-    update: function() {}
+    update: function() {},
+
+    render: function() {
+        // Sprite debug info
+        //this.game.debug.spriteInfo(pucman, 32, 32);
+
+    }
 };

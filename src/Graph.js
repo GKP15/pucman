@@ -104,6 +104,7 @@ Pucman.Graph = (function() {
      * streets.
      * Delete streets who connect to junction from the same direction as another
      * street.
+     * Delete streets with points outside the game world.
      */
     var clearStreets = function(pucman, streets) {
         for (var counter = 0, len = streets.length; counter < len; counter++) {
@@ -126,7 +127,7 @@ Pucman.Graph = (function() {
         if (pointToCheck.x <= 0 || pointToCheck.y <= 0 ||
             pointToCheck.x >= pucman.game.width ||
             pointToCheck.y >= pucman.game.height) {
-        isIllegal = true;
+        //isIllegal = true;
         }
 
         for (var street = 0; street < streets.length; street++) {
@@ -175,8 +176,9 @@ Pucman.Graph = (function() {
             }
             clearStreets(pucman, streets);
             connectStreets(streets);
+            Pucman.GetGeoData.convertStreetsToPixel(streets, pucman.game.width, pucman.game.height);
             for (i = 0; i < streets.length; i++) {
-                interpolateStreet(streets[i]);
+                //interpolateStreet(streets[i]);
             }
         }
     };
