@@ -74,7 +74,7 @@ Pucman.Graph = (function() {
     var connectStreets = function(streets) {
         for (var street = 0; street < streets.length; street++) {
             for (var point = 0; point < streets[street].length; point++) {
-                isPointJunction(streets[street][point], streets);       
+                isPointJunction(streets[street][point], streets);
             }
         }
     };
@@ -105,13 +105,13 @@ Pucman.Graph = (function() {
      * Delete streets who connect to junction from the same direction as another
      * street.
      */
-    var clearStreets = function(streets) {
+    var clearStreets = function(pucman, streets) {
         for (var counter = 0, len = streets.length; counter < len; counter++) {
             var street = streets.shift();
             var isIllegalStreet = false;
             for (var point = 0; point < street.length; point++) {
                 isIllegalStreet = isIllegalStreet ||
-                    isPointIllegal(streets, street[point]);
+                    isPointIllegal(pucman, streets, street[point]);
             }
             if (!isIllegalStreet) {
                 streets.push(street);
@@ -119,17 +119,19 @@ Pucman.Graph = (function() {
         }
     };
 
-    var isPointIllegal = function(streets, pointToCheck) {
+    var isPointIllegal = function(pucman, streets, pointToCheck) {
         var numberJunctions = 0;
         var isIllegal = false;
-/*
-        if (pointToCheck.x  >= 0 || pointToCheck.y >= 0 ||
-        pointToCheck.x <= game.width || pointToCheck.y <= game.height)
-  */      
-        
+
+        if (pointToCheck.x <= 0 || pointToCheck.y <= 0 ||
+            pointToCheck.x >= pucman.game.width ||
+            pointToCheck.y >= pucman.game.height) {
+        isIllegal = true;
+        }
+
         for (var street = 0; street < streets.length; street++) {
             for (var point = 0; point < streets[street].length; point++) {
-            	
+
                 if (pointToCheck.equals(streets[street][point])) {
                     isIllegal = isIllegal ||
                         shareConInDir(pointToCheck, streets[street][point]);
@@ -166,12 +168,12 @@ Pucman.Graph = (function() {
     };
 
     return {
-        convertToPaths: function(streets) {
+        convertToPaths: function(pucman, streets) {
             for (var i = 0; i < streets.length; i++) {
                 convertToPointList(streets[i]);
                 connectPointList(streets[i]);
             }
-            clearStreets(streets);
+            clearStreets(pucman, streets);
             connectStreets(streets);
             for (i = 0; i < streets.length; i++) {
                 interpolateStreet(streets[i]);

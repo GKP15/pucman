@@ -23,10 +23,7 @@ Pucman.GetGeoData = (function() {
                 var point = streets[i].shift();
                 point[0] = Math.round((point[0] - west) * widthConversion);
                 point[1] = Math.round((point[1] - north) * heightConversion);
-                if (point[0] >= 0 || point[1] >= 0 ||
-                    point[0] <= width || point[1] <= height) {
-                    streets[i].push(point);
-                }
+                streets[i].push(point);
             }
         }
     };
@@ -34,7 +31,7 @@ Pucman.GetGeoData = (function() {
 
     return {
         getData: function(width, height) {
-        	//grenzen dynamisch eingrenzen
+            //grenzen dynamisch eingrenzen
             north = map.getBounds().ne.lat;
             east = map.getBounds().ne.lon;
             south = map.getBounds().sw.lat;
