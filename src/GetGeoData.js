@@ -7,6 +7,18 @@ Pucman.GetGeoData = (function() {
     var west = null;
 
 
+    var cytoscape = function(result) {
+        var cy = cytoscape({
+            ready: function() {
+                console.log('ready');
+            },
+            headless: true,
+            elements: geoJSONData2.features
+        });
+
+    };
+
+
     var extractStreets = function(geoData) {
         streets = [];
         var geoJSONData = osmtogeojson(geoData);
@@ -53,7 +65,7 @@ Pucman.GetGeoData = (function() {
                 DataType: 'json',
                 async: false,
                 success: function(result) {
-                    extractStreets(result);
+                    cytoscape(result);
                 }
             });
             //convertStreetsToPixel(width, height);

@@ -1,185 +1,189 @@
-Pucman.Graph = (function() {
 
-    var opposites = [
-        Phaser.NONE,
-        Phaser.RIGHT,
-        Phaser.LEFT,
-        Phaser.DOWN,
-        Phaser.UP
-    ];
 
-    var connectPointList = function(pointList) {
-        for (i = 0; i < pointList.length - 1; i++) {
-            connectTwoPoints(pointList[i], pointList[i + 1]);
-        }
-    };
+    Pucman.Graph = (function() {
 
-    var interpolateStreet = function(street) {
-        startPoint = street.shift();
-        street.unshift(startPoint.clone());
-        endPoint = street.pop();
-        street.push(endPoint.clone());
-        interpolatePointList(street);
-        street.shift();
-        street.unshift(startPoint);
-        street.pop();
-        street.push(endPoint);
-        connectPointList(street);
-    };
+        var opposites = [
+            Phaser.NONE,
+            Phaser.RIGHT,
+            Phaser.LEFT,
+            Phaser.DOWN,
+            Phaser.UP
+        ];
 
-    var interpolatePointList = function(pointList) {
-        var pointListX = [];
-        var pointListY = [];
-        var step = 1 / spanOfPointList(pointList);
-        while (pointList.length !== 0) {
-            var point = pointList.shift();
-            pointListX.push(point.x);
-            pointListY.push(point.y);
-        }
-        for (i = 1; i >= 0; i -= step) {
-            var pX = Phaser.Math.catmullRomInterpolation(pointListX, i);
-            var pY = Phaser.Math.catmullRomInterpolation(pointListY, i);
-            var nextPoint = new Phaser.Point(Math.round(pX), Math.round(pY));
-            if (pointList.length === 0 || !nextPoint.equals(pointList[0])) {
-                pointList.unshift(nextPoint);
+
+
+        var connectPointList = function(pointList) {
+            for (i = 0; i < pointList.length - 1; i++) {
+                connectTwoPoints(pointList[i], pointList[i + 1]);
             }
-        }
-    };
+        };
 
-    var spanOfPointList = function(pointList) {
-        var span = 0;
-        for (var i = 0; i < pointList.length - 1; i++) {
-            span += Phaser.Point.distance(pointList[i], pointList[i + 1]);
-        }
-        return span;
-    };
+        var interpolateStreet = function(street) {
+            startPoint = street.shift();
+            street.unshift(startPoint.clone());
+            endPoint = street.pop();
+            street.push(endPoint.clone());
+            interpolatePointList(street);
+            street.shift();
+            street.unshift(startPoint);
+            street.pop();
+            street.push(endPoint);
+            connectPointList(street);
+        };
 
-    var connectTwoPoints = function(pointA, pointB) {
-        var dir = Phaser.Point.subtract(pointA, pointB);
-        if (dir.y < (-1 * Math.abs(dir.x))) {
-            pointA[Phaser.DOWN] = pointB;
-            pointB[Phaser.UP] = pointA;
-        } else if (dir.x >= Math.abs(dir.y)) {
-            pointA[Phaser.LEFT] = pointB;
-            pointB[Phaser.RIGHT] = pointA;
-        } else if (dir.y > Math.abs(dir.x)) {
-            pointA[Phaser.UP] = pointB;
-            pointB[Phaser.DOWN] = pointA;
-        } else if (dir.x <= (-1 * Math.abs(dir.y))) {
-            pointA[Phaser.RIGHT] = pointB;
-            pointB[Phaser.LEFT] = pointA;
-        }
-    };
-
-    var connectStreets = function(streets) {
-        for (var street = 0; street < streets.length; street++) {
-            for (var point = 0; point < streets[street].length; point++) {
-                isPointJunction(streets[street][point], streets);
+        var interpolatePointList = function(pointList) {
+            var pointListX = [];
+            var pointListY = [];
+            var step = 1 / spanOfPointList(pointList);
+            while (pointList.length !== 0) {
+                var point = pointList.shift();
+                pointListX.push(point.x);
+                pointListY.push(point.y);
             }
-        }
-    };
-
-    var isPointJunction = function(pointToCheck, streets) {
-        for (var street = 0; street < streets.length; street++) {
-            for (var point = 0; point < streets[street].length; point++) {
-                if (pointToCheck.equals(streets[street][point])) {
-                    createJunction(pointToCheck, streets[street][point]);
+            for (i = 1; i >= 0; i -= step) {
+                var pX = Phaser.Math.catmullRomInterpolation(pointListX, i);
+                var pY = Phaser.Math.catmullRomInterpolation(pointListY, i);
+                var nextPoint = new Phaser.Point(Math.round(pX), Math.round(pY));
+                if (pointList.length === 0 || !nextPoint.equals(pointList[0])) {
+                    pointList.unshift(nextPoint);
                 }
             }
-        }
-    };
+        };
 
-    var createJunction = function(pointA, pointB) {
-        // dir is short for Phaser directions
-        for (var dir = 1; dir < 5; dir++) {
-            if (pointA[dir] === undefined && pointB[dir] !== undefined) {
-                pointA[dir] = pointB[dir];
-                pointA[dir][opposites[dir]] = pointA;
+        var spanOfPointList = function(pointList) {
+            var span = 0;
+            for (var i = 0; i < pointList.length - 1; i++) {
+                span += Phaser.Point.distance(pointList[i], pointList[i + 1]);
             }
-        }
-    };
+            return span;
+        };
 
-    /* 
-     * Delete streets who are involved in a junction between more than four 
-     * streets.
-     * Delete streets who connect to junction from the same direction as another
-     * street.
-     * Delete streets with points outside the game world.
-     */
-    var clearStreets = function(pucman, streets) {
-        for (var counter = 0, len = streets.length; counter < len; counter++) {
-            var street = streets.shift();
-            var isIllegalStreet = false;
-            for (var point = 0; point < street.length; point++) {
-                isIllegalStreet = isIllegalStreet ||
-                    isPointIllegal(pucman, streets, street[point]);
+        var connectTwoPoints = function(pointA, pointB) {
+            var dir = Phaser.Point.subtract(pointA, pointB);
+            if (dir.y < (-1 * Math.abs(dir.x))) {
+                pointA[Phaser.DOWN] = pointB;
+                pointB[Phaser.UP] = pointA;
+            } else if (dir.x >= Math.abs(dir.y)) {
+                pointA[Phaser.LEFT] = pointB;
+                pointB[Phaser.RIGHT] = pointA;
+            } else if (dir.y > Math.abs(dir.x)) {
+                pointA[Phaser.UP] = pointB;
+                pointB[Phaser.DOWN] = pointA;
+            } else if (dir.x <= (-1 * Math.abs(dir.y))) {
+                pointA[Phaser.RIGHT] = pointB;
+                pointB[Phaser.LEFT] = pointA;
             }
-            if (!isIllegalStreet) {
-                streets.push(street);
-            }
-        }
-    };
+        };
 
-    var isPointIllegal = function(pucman, streets, pointToCheck) {
-        var numberJunctions = 0;
-        var isIllegal = false;
-
-        if (pointToCheck.x <= 0 || pointToCheck.y <= 0 ||
-            pointToCheck.x >= pucman.game.width ||
-            pointToCheck.y >= pucman.game.height) {
-        //isIllegal = true;
-        }
-
-        for (var street = 0; street < streets.length; street++) {
-            for (var point = 0; point < streets[street].length; point++) {
-
-                if (pointToCheck.equals(streets[street][point])) {
-                    isIllegal = isIllegal ||
-                        shareConInDir(pointToCheck, streets[street][point]);
-                    numberJunctions++;
+        var connectStreets = function(streets) {
+            for (var street = 0; street < streets.length; street++) {
+                for (var point = 0; point < streets[street].length; point++) {
+                    isPointJunction(streets[street][point], streets);
                 }
             }
-        }
-        if (numberJunctions > 3) {
-            return true;
-        } else {
-            return isIllegal;
-        }
-    };
+        };
 
-    var shareConInDir = function(pointA, pointB) {
-        if (pointA == pointB) {
-            return true;
-        }
-        var shareCon = false;
-        // dir is short for Phaser directions
-        for (var dir = 1; dir < 5; dir++) {
-            if (pointA[dir] !== undefined && pointB[dir] !== undefined) {
-                shareCon = true;
+        var isPointJunction = function(pointToCheck, streets) {
+            for (var street = 0; street < streets.length; street++) {
+                for (var point = 0; point < streets[street].length; point++) {
+                    if (pointToCheck.equals(streets[street][point])) {
+                        createJunction(pointToCheck, streets[street][point]);
+                    }
+                }
             }
-        }
-        return shareCon;
-    };
+        };
 
-    var convertToPointList = function(street) {
-        for (var i = 0; i < street.length; i++) {
-            var pointArray = street.shift();
-            street.push(new Phaser.Point(pointArray[0], pointArray[1]));
-        }
-    };
+        var createJunction = function(pointA, pointB) {
+            // dir is short for Phaser directions
+            for (var dir = 1; dir < 5; dir++) {
+                if (pointA[dir] === undefined && pointB[dir] !== undefined) {
+                    pointA[dir] = pointB[dir];
+                    pointA[dir][opposites[dir]] = pointA;
+                }
+            }
+        };
 
-    return {
-        convertToPaths: function(pucman, streets) {
-            for (var i = 0; i < streets.length; i++) {
-                convertToPointList(streets[i]);
-                connectPointList(streets[i]);
+        /* 
+         * Delete streets who are involved in a junction between more than four 
+         * streets.
+         * Delete streets who connect to junction from the same direction as another
+         * street.
+         * Delete streets with points outside the game world.
+         */
+        var clearStreets = function(pucman, streets) {
+            for (var counter = 0, len = streets.length; counter < len; counter++) {
+                var street = streets.shift();
+                var isIllegalStreet = false;
+                for (var point = 0; point < street.length; point++) {
+                    isIllegalStreet = isIllegalStreet ||
+                        isPointIllegal(pucman, streets, street[point]);
+                }
+                if (!isIllegalStreet) {
+                    streets.push(street);
+                }
             }
-            clearStreets(pucman, streets);
-            connectStreets(streets);
-            Pucman.GetGeoData.convertStreetsToPixel(streets, pucman.game.width, pucman.game.height);
-            for (i = 0; i < streets.length; i++) {
-                //interpolateStreet(streets[i]);
+        };
+
+        var isPointIllegal = function(pucman, streets, pointToCheck) {
+            var numberJunctions = 0;
+            var isIllegal = false;
+
+            if (pointToCheck.x <= 0 || pointToCheck.y <= 0 ||
+                pointToCheck.x >= pucman.game.width ||
+                pointToCheck.y >= pucman.game.height) {
+                //isIllegal = true;
             }
-        }
-    };
-})();
+
+            for (var street = 0; street < streets.length; street++) {
+                for (var point = 0; point < streets[street].length; point++) {
+
+                    if (pointToCheck.equals(streets[street][point])) {
+                        isIllegal = isIllegal ||
+                            shareConInDir(pointToCheck, streets[street][point]);
+                        numberJunctions++;
+                    }
+                }
+            }
+            if (numberJunctions > 3) {
+                return true;
+            } else {
+                return isIllegal;
+            }
+        };
+
+        var shareConInDir = function(pointA, pointB) {
+            if (pointA == pointB) {
+                return true;
+            }
+            var shareCon = false;
+            // dir is short for Phaser directions
+            for (var dir = 1; dir < 5; dir++) {
+                if (pointA[dir] !== undefined && pointB[dir] !== undefined) {
+                    shareCon = true;
+                }
+            }
+            return shareCon;
+        };
+
+        var convertToPointList = function(street) {
+            for (var i = 0; i < street.length; i++) {
+                var pointArray = street.shift();
+                street.push(new Phaser.Point(pointArray[0], pointArray[1]));
+            }
+        };
+
+        return {
+            convertToPaths: function(pucman, streets) {
+                for (var i = 0; i < streets.length; i++) {
+                    convertToPointList(streets[i]);
+                    connectPointList(streets[i]);
+                }
+                clearStreets(pucman, streets);
+                connectStreets(streets);
+                Pucman.GetGeoData.convertStreetsToPixel(streets, pucman.game.width, pucman.game.height);
+                for (i = 0; i < streets.length; i++) {
+                    //interpolateStreet(streets[i]);
+                }
+            }
+        };
+    })();
