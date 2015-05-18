@@ -122,8 +122,14 @@ Pucman.Graph = (function() {
     var isPointIllegal = function(streets, pointToCheck) {
         var numberJunctions = 0;
         var isIllegal = false;
+/*
+        if (pointToCheck.x  >= 0 || pointToCheck.y >= 0 ||
+        pointToCheck.x <= game.width || pointToCheck.y <= game.height)
+  */      
+        
         for (var street = 0; street < streets.length; street++) {
             for (var point = 0; point < streets[street].length; point++) {
+            	
                 if (pointToCheck.equals(streets[street][point])) {
                     isIllegal = isIllegal ||
                         shareConInDir(pointToCheck, streets[street][point]);
