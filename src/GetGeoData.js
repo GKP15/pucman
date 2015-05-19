@@ -7,7 +7,6 @@ Pucman.GetGeoData = (function() {
     var west = null;
 	var elements = {};
 
-
     var convertToGraph = function(result) {
 
     	elements.edges = [];
@@ -37,14 +36,14 @@ Pucman.GetGeoData = (function() {
     		}
     	}
     	
-    	 var cy = cytoscape({
+    	 cy = cytoscape({
              ready: function() {
                  console.log('ready');
              },
              headless: true,
              elements: elements
          });
-    	
+    	 return cy;
     };
 
 
@@ -69,6 +68,29 @@ Pucman.GetGeoData = (function() {
         }
     };
 
+    var removeNode = function(node) {
+    	//wenn der knoten keine nachbarn mehr hat, töte ihn
+    	if (node.degree(false) === 0){
+			node.remove();
+			console.log(node);
+    	}
+    	//wenn der knoten noch einen nachbarn hat
+    	else if(node.degree(false) === 1){
+    		//suche den einen Nachbarn
+    		//rufe für den nachbarn removeNode ( cy, node) auf und töte den knoten selbst
+        	var edges = node.connectedEdges();
+        	var nodeSource = edges[0].source();
+        	var nodeTarget = edges[0].target();
+        	if (nodeSource === node){
+    			nodeSource.remove();
+    			removeNode(nodeTarget);
+        	}
+        	else {
+        		nodeTarget.remove();
+    			removeNode(nodeSource);
+        	}
+    	}
+    };
 
     return {
         convertStreetsToPixel: function(streets, width, height) {
@@ -94,14 +116,27 @@ Pucman.GetGeoData = (function() {
                 DataType: 'json',
                 async: false,
                 success: function(result) {
-                	convertToGraph(result);
+                	 cy = convertToGraph(result);
+                     //schritt 3: sackgassen entfernen
+                     //node nehmen, schauen ob er weniger als 2 nachbarn hat. node entfernen
+                     //iteriert über alle knoten des graphen
+                     cy.nodes().forEach(function( ele ){
+                 		//wenn der Grad des Knoten kleiner als 2 (weniger als 2 nachbarknoten) wird dieser knoten aus dem graphen entfernt
+                 		if(ele.degree(false) < 2){
+                 			removeNode(ele);
+                 		}
+                     });
                 }
             });
             
-           
+            //graph ist erstellt.
+            //schritt 1: strassen die aus der gleichen richtung kommen entfernen
+            //schritt 2: strassen entfernen, wenn sie an kreuzungen liegen die mehr als 4 nachbarn haben (sollte schon erledigt sein da schritt 1
+            
 
             
-            //convertStreetsToPixel(width, height);
+           
+             //convertStreetsToPixel(width, height);
             //return streets;
         }
     };
