@@ -133,8 +133,12 @@ Pucman.Graph = (function() {
                     removePathSaveCoor(startNode, coord, lastNode);
                     coord.push(new Phaser.Point(node.position()));
                     interpolatePointList(coord);
+                    coord.push();
+                    coord.shift();
                     //Wenn alles klappt, hier aus coord wie in createCyGraph
-                    //elements basteln und hinzufuegen
+                    //elements.node und elements.edges basteln und hinzufuegen.
+                    //Wobei die aussen liegenden edges mit lastNode und startNode
+                    //verbinden muessen
                 }
             }
         });
