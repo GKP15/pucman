@@ -1,5 +1,3 @@
-var Pucman = {};
-
 Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
@@ -17,23 +15,18 @@ Pucman.Game = function(game) {
 
 Pucman.Game.prototype = {
 
-    init: function() {
+    init: function(graph) {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
         Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
-        var streets = Pucman.GetGeoData.getData(
-            this.game.width, this.game.height);
-         Pucman.Graph.convertToPaths(this, streets);
-         this.graph = [];
-         for (var i = 0; i < streets.length; i++) {
-            this.graph = this.graph.concat(streets[i]);
-        }
+        this.graph = graph;
+
     },
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
-        Pucman.Interface.preloadInterface(this);
+        //Pucman.Interface.preloadInterface(this);
     },
 
     create: function() {
@@ -42,21 +35,17 @@ Pucman.Game.prototype = {
             this.game.width, this.game.height);
         this.graphBitmap.addToWorld();
         this.graphBitmap.clear();
-        for (var i = 0; i < this.graph.length; i++) {
+        this.graph.nodes().forEach(function(ele) {
             this.graphBitmap.rect(
-                this.graph[i].x, this.graph[i].y, 8, 8, 'rgba(0, 0, 0, 1)');
-        }
-        pucman = new Pucman.Character(this, "pucman", this.graph[100]);
-        pucman.anchor.set(0.5);
-        this.add.existing(pucman);
-        Pucman.Interface.createInterface(this);
+                ele.x, ele.y, 8, 8, 'rgba(0, 0, 0, 1)');
+        });
+        //pucman = new Pucman.Character(this, "pucman", this.graph[100]);
+        //pucman.anchor.set(0.5);
+        //this.add.existing(pucman);
+        //Pucman.Interface.createhttp://www.smart-webentwicklung.de/2013/05/javascript-callback-funktionen-erstellen-nutzen/Interface(this);
     },
 
     update: function() {},
 
-    render: function() {
-        // Sprite debug info
-        //this.game.debug.spriteInfo(pucman, 32, 32);
-
-    }
+    render: function() {}
 };
