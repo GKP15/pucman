@@ -9,7 +9,6 @@ Pucman.MainMenu.prototype = {
 
             // display the map centered on a latitude and longitude + zoom-level
             map.setCenterAndZoom(location.point, 10);
-            
             // create a marker positioned at a lat/lon 
             var geocode_marker = new mxn.Marker(location.point);
 			geocode_marker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png",[21,25],[0.5,0.5]);
@@ -39,6 +38,8 @@ Pucman.MainMenu.prototype = {
         this.input.mouse.mouseWheelCallback = this.mouseWheel;
         searchButton = this.game.add.button((this.game.width + 200)/2, (this.game.height / 2), 'searchButtonPic', this.searchButtonClicked, this);
         searchField = new TextField(this.game, (this.game.width - 600)/2, (this.game.height / 2), 13, 'textFieldPic');
+		//get Markerdata from RDF DB
+		var markers = rdfmarkerget();
     },
 
     update: function() {
