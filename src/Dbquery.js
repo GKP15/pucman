@@ -8,7 +8,7 @@ function rdfmarkerget() {
 			var markerelement = [];
 			var bindings = data.results.bindings;
 			for(var i in bindings) {
-				markerelement = [bindings[i].City.value, bindings[i].long.value, bindings[i].lat.value, bindings[i].Person.value, bindings[i].Score.value];
+				markerelement = [bindings[i].City.value, bindings[i].longi.value,bindings[i].lat.value,bindings[i].Person.value,bindings[i].Score.value];
 				markerlist.push(markerelement);
 				markerelement = null;
 			};
