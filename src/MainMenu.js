@@ -39,18 +39,17 @@ Pucman.MainMenu.prototype = {
         searchButton = this.game.add.button((this.game.width + 200)/2, (this.game.height / 2), 'searchButtonPic', this.searchButtonClicked, this);
         searchField = new TextField(this.game, (this.game.width - 600)/2, (this.game.height / 2), 13, 'textFieldPic');
 		
-		//get Markerdata from RDF DB Array[[city,longi,lati,person,score],[...]]
+		// get Markerdata from RDF DB Array[[city,longi,lati,person,score],[...]]
 		var geomapmarkers = rdfmarkerget();
-	
-		var rofllol =geomapmarkers[0]; // Hier sollte das 1. array übergeben werden, tut es aber nicht!
-	//	console.log(rofllol);
-	//	var point = new mxn.LatLonPoint(markers.lati, markers.longi);
-		var highscore_marker = new mxn.Marker(/*lat+long koord from geomapmarkers*/);
+		// 
+		var markerPoint = [geomapmarkers[0][2],geomapmarkers[0][1]];
+		//var point = new mxn.LatLonPoint(markerPoint);
+		var highscore_marker = new mxn.Marker(markerPoint);
 			highscore_marker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png",[21,25],[0.5,0.5]);
-		map.addMarker(geocode_marker);
+		map.addMarker(highscore_marker);
         // open the marker            
-        geocode_marker.setInfoBubble(bubble);
-		geocode_marker.openBubble();
+        highscore_marker.setInfoBubble(bubble);
+		highscore_marker.openBubble();
 		
     },
 
