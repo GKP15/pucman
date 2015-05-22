@@ -86,10 +86,12 @@ Pucman.Graph = (function() {
     };
 
     var deleteDeadEnds = function(node) {
-        if (node.degree() === 1) {
-            node.remove();
-            deleteDeadEnds(node.neighborhood('node[id]'));
-        }
+    		 if (node.degree() === 1) {
+    		 var nextNode = node.neighborhood('node[id]');
+    		 node.connectedEdges().remove();
+    		 node.remove();
+    		 deleteDeadEnds(nextNode);
+    		 }
     };
 
     var dirAToB = function(pointA, pointB) {
@@ -128,45 +130,17 @@ Pucman.Graph = (function() {
             pointList.push(edge.target().position());
             interpolatePointList(pointList);
             //wenn die kante interpoliert ist fuege sie in cyGraph ein
-            createPath(pointList);
+            createPath(pointList,edge);
         })
     };
-         
-              //interpoliere jede Kante
-            
-            
-            /*
-            // wenn der knoten mehr als 2 ausgehende kanten hat
-            if (startNode.degree() >= 3) {
-            	
-            	
-            	//betrachte die nachbarschaft des knoten
-                var neighbors = startNode.neighborhood('node[id]');
-                //fuer jeden nachbarknoten
-                for (var i = 0, len = neighbors.length; i < len; i++) {
-                    var coord = [];
-                    //schreib dir die position auf
-                    var newPoint = new Phaser.Point(neighbors[i].position());
-                    coord.push(newPoint);
-                    //bis hierhin läufts
-                    //den alten pfad löschen return letzter knoten (also nächste kreuzung)
-                    var lastNode = removePathSaveCoor(startNode, coord);
-                    //coord.push(newPoint);
-                    interpolatePointList(coord);
-                    coord.push();
-                    //coord.shift();
-                    //Wenn alles klappt, hier aus coordList wie in createCyGraph
-                    //elements.node und elements.edges basteln und hinzufuegen.
-                    //Wobei die aussen liegenden edges mit lastNode und startNode
-                    //verbinden muessen
-                    createPath(coord, startNode, lastNode);
-                }
-            }
-            
-        });*/
-var createPath = function (coordList){
 
+var createPath = function (coordList,edge){
+	coordList.pop();
+	coordList.shift();
    	var len = coordList.length;
+   	//lösche ersten und letzten punkt
+   	var id0;
+   	var idLast;
    	for(var i = 0; i < len ; ++i){
    		//1. schritt: neuen knoten definieren
    		if (i === 0){
@@ -183,10 +157,9 @@ var createPath = function (coordList){
 			    data: { id: id },
 			    position: { x: x, y: y}
 			});
+			id0 = id + "";
    		}
    		else{
-   			//oldNewNode = copyNode(newNode);
-   			// folgenden iterationsschritten ist source = der zuletzt eingefügte knoten
    			var lastId = id;
    			id = coordList[i].x + "node" + coordList[i].y;
    			x = 0;
@@ -198,11 +171,7 @@ var createPath = function (coordList){
 			    data: { id: id },
 			    position: { x: x, y: y}
 			});
-			//console.log(newNode.position);
-   		
-			//neuer knoten hat koordinaten und eine id - knoten wird als neues elemnt hinzugefügt
-			//zweiter schritt: neue Kante einfügen
-			//kante geht von vorherigem knoten zu aktuellem knoten
+   			idLast = id + "";
    			var edgeId = lastId + "edge" + id;
 	        cyGraph.add([
    			        {group: "edges", 
@@ -211,6 +180,15 @@ var createPath = function (coordList){
    			]);
    		}
    	}
+   	cyGraph.add([
+			        {group: "edges", 
+			        	data: { id: edge.source().id() + "" + id0 , source: edge.source().id() , target: id0  }
+			        },
+			        {group: "edges", 
+			        	data: { id: idLast + "" + edge.target().id(), source: idLast , target: edge.target().id()  }
+			        }
+			]);
+   	cyGraph.remove(edge);
 };
 
 var copyNode = function(original){
@@ -226,64 +204,7 @@ var copyNode = function(original){
 	return copy;
 }
 
-    /*
-    var createPath = function (coordList, startNode, lastNode){
-    	 var newElements = {
-    	            edges: [],
-    	            nodes: []
-    	        };
-    	 var newNode = {
-					data: {},
-					position: {}
-				};
-    	 var len = coordList.length
-    	for(var i = 0; i < len ; ++i){
-    		//datenstruktur muss hier geändert werden. die neu einzufuegenden nodes haben keine id.
-    		//deren neue id ist x-koordinate cat y-kordinate
-    		//1. schritt: neuen knoten definieren
-    		var x = coordList[i].x;
-    		var y = coordList[i].y;
-    		var id = x + "" + y;
-    		if (i === 0){
-    			//im ersten iterationsschritt ist source = startNode
-				var oldNewNode = startNode;
-    		}
-    		else{
-    			// folgenden iterationsschritten ist source = der zuletzt eingefügte knoten
-    			oldNewNode = newNode;
-    		}
-    		newNode.data.id = id;
-			newNode.position.x = x;
-			newNode.position.y = y;
-			//neuer knoten hat koordinaten und eine id - knoten wird als neues elemnt hinzugefügt
-			newElements.nodes.push(newNode);
-			var newWay = {
-                    data: {}
-                };
-			//zweiter schritt: neue Kante einfügen
-			//kante geht von vorherigem knoten zu aktuellem knoten
-			newWay.data.id = oldNewNode.id() + "" + id;
-            newWay.data.source = oldNewNode;
-            newWay.data.target = newNode;
-            //neue kante hat id, source und target, kann eingefügt werden
-            newElements.edges.push(newWay);
-            // nach dem letzten iterationsschritt muss nocch die letzte kante eingefügt werden 
-        	// source = letzter hinzugefügter knoten + target = lastNode
-            if( i === (len-1) ){
-            	var newWay = {
-                        data: {}
-                    };
-            	newWay.data.id = newNode.id() + "" + lastNode.id();
-                newWay.data.source = newNode;
-                newWay.data.target = lastNode;
-                //neue kante hat id, source und target, kann eingefügt werden
-                newElements.edges.push(newWay);
-                // udn wenn alle drin sind, müssen diese elemente noch an cyGraph geadded werden
-                cyGraph.add(newElements);
-            }
-    	}
-    };
-    */
+
     var removePathSaveCoor = function(node, coord) {
         var lastNode = null;
         coord.push(new Phaser.Point(node.position()));
@@ -341,14 +262,34 @@ var copyNode = function(original){
                 "(" + south + "," + west + "," + north + "," + east + "););out body;>;out skel qt;";
             geoData = getGeoData();
             cyGraph = createCyGraph(geoData);
+        
             cyGraph.nodes().forEach(function(ele) {
                 deleteDeadEnds(ele);
             });
+           
+          
             cyGraph.nodes().forEach(function(ele) {
                 cleanCrossroads(ele);
+               
             });
+            
             cyGraph.nodes().forEach(function(ele) {
                 convertNodeToPixel(ele);
+            });
+            /*
+            cyGraph.nodes().forEach(function(ele) {
+                deleteDeadEnds(ele);
+            });
+            */
+            cyGraph.nodes().forEach(function(ele){
+            	if(ele.degree()===0){
+            		ele.remove();
+            	}
+            });
+            cyGraph.nodes().forEach(function(ele){
+            	if(ele.degree()===0){
+            		ele.remove();
+            	}
             });
             interpolateGraph();
             state.graphReady = true;
