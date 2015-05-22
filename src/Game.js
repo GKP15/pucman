@@ -30,7 +30,7 @@ Pucman.Game.prototype = {
     },
 
     preload: function() {
-        this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
+        this.load.spritesheet('pucman', 'resources/pucman.svg', 32, 32);
         Pucman.Interface.preloadInterface(this);
     },
 
