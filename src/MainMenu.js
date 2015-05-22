@@ -49,18 +49,6 @@ Pucman.MainMenu.prototype = {
         this.input.mouse.mouseWheelCallback = this.mouseWheel;
         searchButton = this.game.add.button((this.game.width + 200)/2, (this.game.height / 2), 'searchButtonPic', this.searchButtonClicked, this);
         searchField = new TextField(this.game, (this.game.width - 600)/2, (this.game.height / 2), 13, 'textFieldPic');
-		// display marker 
-			// get Markerdata from RDF DB
-			var markers = [];
-			var markerdata = rdfmarkerget();
-			for(var i = 0; i < markerdata[0].length; i++) {
-				markers[i] = new mxn.Marker(mxn.LatLonPoint(markerdata[i][2], markerdata[i][1]));
-				markers[i].setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png",[21,25],[0.5,0.5]);
-				map.addMarker(markers[i]);
-				markers[i].setInfoBubble(markerdata[i][3] + " erzielte in " + markerdata[i][0] + " " + markerdata[i][4] + " Punkte");
-				markers[i].openBubble();
-				
-			};
     },
 
     update: function() {
