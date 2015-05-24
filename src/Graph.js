@@ -142,7 +142,7 @@ Pucman.Graph = (function() {
         idTarget = null;
         for (var i = 0; i <= coordList.length; ++i) {
             if (i < coordList.length) {
-                idTarget = edge.id() + '.' + i;
+                idTarget = edge.id() + '.n' + i;
                 var x = 0;
                 var y = 0;
                 x += coordList[i].x;
@@ -160,15 +160,16 @@ Pucman.Graph = (function() {
             } else {
                 idTarget = edge.target().id();
             }
-            var edgeId = edge.id() + '.' + i;
-            cyGraph.add([{
+            var edgeId = edge.id() + '.e' + i;
+            cyGraph.add({
                 group: "edges",
                 data: {
                     id: edgeId,
                     source: idSource,
                     target: idTarget
                 }
-            }]);
+            });
+            idSource = idTarget;
         }
     };
 
@@ -227,6 +228,7 @@ Pucman.Graph = (function() {
     };
 
     return {
+        dirAToB: dirAToB,
         getGraph: function(game) {
             state = game;
             map = state.map;
@@ -249,16 +251,7 @@ Pucman.Graph = (function() {
             });
 
 
-            cyGraph.edges().forEach(function(ele) {
-                if (ele.source().data.id === ele.target().data.id) {
-                    console.log();
-                }
-                //cleanCrossroads(ele);
-            });
             cyGraph.nodes().forEach(function(ele) {
-                if (ele.degree() === 1) {
-                    console.log();
-                }
                 cleanCrossroads(ele);
 
             });

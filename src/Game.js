@@ -40,10 +40,10 @@ Pucman.Game.prototype = {
             bitmap.rect(
                 ele.position().x, ele.position().y, 4, 4, 'rgba(0, 0, 0, 1)');
         });
-        //pucman = new Pucman.Character(this, "pucman", this.graph[100]);
-        //pucman.anchor.set(0.5);
-        //this.add.existing(pucman);
-        //Pucman.Interface.createhttp://www.smart-webentwicklung.de/2013/05/javascript-callback-funktionen-erstellen-nutzen/Interface(this);
+        pucman = new Pucman.Character(this, "pucman", this.graph.nodes()[110]);
+        pucman.anchor.set(0.5);
+        this.add.existing(pucman);
+        //Pucman.Interface.create(this);
     },
 
     update: function() {},
