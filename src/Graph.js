@@ -44,14 +44,14 @@ Pucman.Graph = (function() {
                 elements.nodes.push(newNode);
             } else if (result.elements[i].type === "way") {
                 var way = result.elements[i];
-                var node = null;
+                var source = null;
                 while (way.nodes.length > 1) {
-                    node = way.nodes.pop();
+                    source = way.nodes.shift();
                     var newWay = {
                         data: {}
                     };
-                    newWay.data.id = node + "" + way.nodes[0];
-                    newWay.data.source = node;
+                    newWay.data.id = source + " " + way.nodes[0];
+                    newWay.data.source = source;
                     newWay.data.target = way.nodes[0];
                     elements.edges.push(newWay);
                 }
@@ -86,12 +86,12 @@ Pucman.Graph = (function() {
     };
 
     var deleteDeadEnds = function(node) {
-    		 if (node.degree() === 1) {
-    		 var nextNode = node.neighborhood('node[id]');
-    		 node.connectedEdges().remove();
-    		 node.remove();
-    		 deleteDeadEnds(nextNode);
-    		 }
+        if (node.degree() === 1) {
+            var nextNode = node.neighborhood('node[id]');
+            node.connectedEdges().remove();
+            node.remove();
+            deleteDeadEnds(nextNode);
+        }
     };
 
     var dirAToB = function(pointA, pointB) {
@@ -125,91 +125,72 @@ Pucman.Graph = (function() {
 
     var interpolateGraph = function() {
         cyGraph.edges().forEach(function(edge) {
-        	var pointList = [];
-        	pointList.push(edge.source().position());
+            var pointList = [];
+            pointList.push(edge.source().position());
             pointList.push(edge.target().position());
             interpolatePointList(pointList);
             //wenn die kante interpoliert ist fuege sie in cyGraph ein
-            createPath(pointList,edge);
-        })
+            createPath(pointList, edge);
+            edge.remove();
+        });
     };
 
-var createPath = function (coordList,edge){
-	coordList.pop();
-	coordList.shift();
-   	var len = coordList.length;
-   	//lösche ersten und letzten punkt
-   	var id0;
-   	var idLast;
-   	for(var i = 0; i < len ; ++i){
-   		//1. schritt: neuen knoten definieren
-   		if (i === 0){
-   			//im ersten iterationsschritt gibt es keine source
-   			//also neuen knoten erstellen und i hochsetzen
-   			var id = coordList[i].x + "node" + coordList[i].y;
-   			var x = 0;
-   			var y = 0;
-   			x += coordList[i].x;
-   			y += coordList[i].y;
-			++i;
-			cyGraph.add({
-			    group: "nodes",
-			    data: { id: id },
-			    position: { x: x, y: y}
-			});
-			id0 = id + "";
-   		}
-   		else{
-   			var lastId = id;
-   			id = coordList[i].x + "node" + coordList[i].y;
-   			x = 0;
-   			y = 0;
-   			x += coordList[i].x;
-   			y += coordList[i].y;
-   			cyGraph.add({
-			    group: "nodes",
-			    data: { id: id },
-			    position: { x: x, y: y}
-			});
-   			idLast = id + "";
-   			var edgeId = lastId + "edge" + id;
-	        cyGraph.add([
-   			        {group: "edges", 
-   			        	data: { id: edgeId, source: lastId , target: id }
-   			        }
-   			]);
-   		}
-   	}
-   	cyGraph.add([
-			        {group: "edges", 
-			        	data: { id: edge.source().id() + "" + id0 , source: edge.source().id() , target: id0  }
-			        },
-			        {group: "edges", 
-			        	data: { id: idLast + "" + edge.target().id(), source: idLast , target: edge.target().id()  }
-			        }
-			]);
-   	cyGraph.remove(edge);
-};
+    var createPath = function(coordList, edge) {
+        coordList.pop();
+        coordList.shift();
+        idSource = edge.source().id();
+        idTarget = null;
+        for (var i = 0; i <= coordList.length; ++i) {
+            if (i < coordList.length) {
+                idTarget = edge.id() + '.' + i;
+                var x = 0;
+                var y = 0;
+                x += coordList[i].x;
+                y += coordList[i].y;
+                cyGraph.add({
+                    group: "nodes",
+                    data: {
+                        id: idTarget
+                    },
+                    position: {
+                        x: x,
+                        y: y
+                    }
+                });
+            } else {
+                idTarget = edge.target().id();
+            }
+            var edgeId = edge.id() + '.' + i;
+            cyGraph.add([{
+                group: "edges",
+                data: {
+                    id: edgeId,
+                    source: idSource,
+                    target: idTarget
+                }
+            }]);
+        }
+    };
 
-var copyNode = function(original){
-	var copy = {
-			data: {},
-			position: {}
-	};
-	copy.data.id = original.data.id + "";
-	copy.position.x = original.position.x + 1;
-	copy.position.y = original.position.y + 1;
-	--copy.position.x;
-	--copy.position.y;
-	return copy;
-}
+    var copyNode = function(original) {
+        var copy = {
+            data: {},
+            position: {}
+        };
+        copy.data.id = original.data.id + "";
+        copy.position.x = original.position.x + 1;
+        copy.position.y = original.position.y + 1;
+        --copy.position.x;
+        --copy.position.y;
+        return copy;
+    };
 
 
     var removePathSaveCoor = function(node, coord) {
         var lastNode = null;
         coord.push(new Phaser.Point(node.position()));
         if (node.degree() === 1) {
-        	lastNeighbor = node.neighborhood('node[id]');
+            lastNeighbor = node.neighborhood('node[id]');
             node.remove();
             removePathSaveCoor(lastNeighbor, coord);
         } else {
@@ -262,34 +243,34 @@ var copyNode = function(original){
                 "(" + south + "," + west + "," + north + "," + east + "););out body;>;out skel qt;";
             geoData = getGeoData();
             cyGraph = createCyGraph(geoData);
-        
+
             cyGraph.nodes().forEach(function(ele) {
                 deleteDeadEnds(ele);
             });
-           
-          
-            cyGraph.nodes().forEach(function(ele) {
-                cleanCrossroads(ele);
-               
+
+
+            cyGraph.edges().forEach(function(ele) {
+                if (ele.source().data.id === ele.target().data.id) {
+                    console.log();
+                }
+                //cleanCrossroads(ele);
             });
-            
+            cyGraph.nodes().forEach(function(ele) {
+                if (ele.degree() === 1) {
+                    console.log();
+                }
+                cleanCrossroads(ele);
+
+            });
+
             cyGraph.nodes().forEach(function(ele) {
                 convertNodeToPixel(ele);
             });
-            /*
+
             cyGraph.nodes().forEach(function(ele) {
-                deleteDeadEnds(ele);
-            });
-            */
-            cyGraph.nodes().forEach(function(ele){
-            	if(ele.degree()===0){
-            		ele.remove();
-            	}
-            });
-            cyGraph.nodes().forEach(function(ele){
-            	if(ele.degree()===0){
-            		ele.remove();
-            	}
+                if (ele.degree() === 0) {
+                    ele.remove();
+                }
             });
             interpolateGraph();
             state.graphReady = true;
