@@ -51,7 +51,7 @@ Pucman.Graph = (function() {
                 newNode.position.y = node.lat;
                 elements.nodes.push(newNode);
             } else if (result.elements[i].type === "way") {
-            	//each way from json is to be formed into an edge with an id, an id of the source node and an id of the target node
+                //each way from json is to be formed into an edge with an id, an id of the source node and an id of the target node
                 var way = result.elements[i];
                 var source = null;
                 while (way.nodes.length > 1) {
@@ -107,7 +107,7 @@ Pucman.Graph = (function() {
      * @param any node
      */
     var deleteDeadEnds = function(node) {
-    	//first delete all connected edges, second delete the node itself, third call the function with formerly connected node  
+        //first delete all connected edges, second delete the node itself, third call the function with formerly connected node  
         if (node.degree() === 1) {
             var nextNode = node.neighborhood('node[id]');
             node.connectedEdges().remove();
@@ -123,16 +123,16 @@ Pucman.Graph = (function() {
      * @return a direction
      */
     var dirAToB = function(pointA, pointB) {
-        var dir = Phaser.Point.subtract(pointA, pointB);
+        var dir = Phaser.Point.subtract(pointB, pointA);
         var dirArrow = null;
         if (dir.y < (-1 * Math.abs(dir.x))) {
-            dirArrow = Phaser.DOWN;
-        } else if (dir.x >= Math.abs(dir.y)) {
-            dirArrow = Phaser.LEFT;
-        } else if (dir.y > Math.abs(dir.x)) {
             dirArrow = Phaser.UP;
-        } else if (dir.x <= (-1 * Math.abs(dir.y))) {
+        } else if (dir.x >= Math.abs(dir.y)) {
             dirArrow = Phaser.RIGHT;
+        } else if (dir.y > Math.abs(dir.x)) {
+            dirArrow = Phaser.DOWN;
+        } else if (dir.x <= (-1 * Math.abs(dir.y))) {
+            dirArrow = Phaser.LEFT;
         }
         return dirArrow;
     };
@@ -163,10 +163,10 @@ Pucman.Graph = (function() {
      */
     var interpolateGraph = function() {
         cyGraph.edges().forEach(function(edge) {
-        	//iterate over all edges, forEach one do:
-        	//get the source and the target, put them into a list of points
-        	//call the interpolate function with that list
-        	//put that list of nodes into the graph and delete the edge you interpolated
+            //iterate over all edges, forEach one do:
+            //get the source and the target, put them into a list of points
+            //call the interpolate function with that list
+            //put that list of nodes into the graph and delete the edge you interpolated
             var pointList = [];
             pointList.push(edge.source().position());
             pointList.push(edge.target().position());
@@ -184,7 +184,7 @@ Pucman.Graph = (function() {
      */
     var createPath = function(coordList, edge) {
         //first an last coord comes form the edge, so it can be deleted from the coordList
-    	coordList.pop();
+        coordList.pop();
         coordList.shift();
         idSource = edge.source().id();
         idTarget = null;
@@ -239,8 +239,8 @@ Pucman.Graph = (function() {
         for (i = 1; i >= 0; i -= step) {
             var pX = Phaser.Math.linearInterpolation(pointListX, i);
             var pY = Phaser.Math.linearInterpolation(pointListY, i);
-            var nextPoint = new Phaser.Point(Math.round(pX), Math.round(pY));
-            if (pointList.length === 0 || !nextPoint.equals(pointList[0])) {
+            var nextPoint = new Phaser.Point(pX, pY);
+            if (pointList.length === 0 || nextPoint.distance(pointList[0]) > 1) {
                 pointList.unshift(nextPoint);
             }
         }
@@ -312,6 +312,7 @@ Pucman.Graph = (function() {
 			});
 			interpolateGraph();
     }
+
     return {
         dirAToB: dirAToB,
         getGraph: function(game) {
