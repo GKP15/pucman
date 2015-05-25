@@ -27,11 +27,7 @@ Pucman.Game.prototype = {
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
-<<<<<<< HEAD
-	    this.load.image('dot', 'resources/dot.png',3,3);
-=======
         this.load.spritesheet('dot', 'resources/pucman.png', 10, 10);
->>>>>>> 4f97f323ad59f17e12dc5511c05dcb1de755dec0
 
         //Pucman.Interface.preloadInterface(this);
     },
@@ -47,21 +43,7 @@ Pucman.Game.prototype = {
         this.dots = this.add.group();
         var dots = this.dots;
         this.graph.nodes().forEach(function(ele) {
-<<<<<<< HEAD
-        	++count;
-        	if ( count%30 == 0 ){
-        		ele.grabify();
-        		//dots.create(ele.position.x, ele.position.y, 'dot');
-        	}
-        	else{
-        		bitmap.rect(
-        				ele.position().x, 
-        				ele.position().y, 
-        				4, 4, 'rgba(0, 0, 0, 1)'
-        				);
-        		ele.ungrabify();
-        	}
-=======
+
             ++count;
             if (count % 10 === 0) {
                 var dot = dots.create(ele.position().x, ele.position().y, 'dot');
@@ -73,7 +55,6 @@ Pucman.Game.prototype = {
                 ele.position().y,
                 4, 4, 'rgba(0, 0, 0, 1)'
             );
->>>>>>> 4f97f323ad59f17e12dc5511c05dcb1de755dec0
         });
         pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);
