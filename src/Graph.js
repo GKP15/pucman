@@ -258,7 +258,48 @@ Pucman.Graph = (function() {
         }
         return span;
     };
-
+    
+    /**
+     * der grösste teilgraph wird ermittelt. kleinere teilgraphen werden gelöscht
+     */
+    var findBiggestConnectedPartGraph = function(){
+    	var found = 0;
+    	var node = cyGraph.nodes().eq(Math.floor(Math.random(cyGraph.nodes().length)));
+    	cyGraph.nodes().forEach(function (ele){
+    		//für jeden knoten, mache eine a* suche nach jedem knoten, 
+    		// zaehle die true und false (aStar.found = true wenn gefunden, false sonst
+    		// es wird eine verbindung von einem zufälligen knoten (node) zu jedem anderen knoten (ele) im graph gesucht
+    		//was am ende die grössere zahl ist, ist der grösste graph
+    		var aStar = cyGraph.elements().aStar({ root: ele, goal: node });
+    		if(aStar.found){
+    			++found;
+    		}
+    	})
+    	var notFound = cyGraph.nodes().length - found;
+    	//Fall 1: die anzahl der nicht verbundnen knoten ist kleiner als die zahl der verbundnen alle nicht verbundenn werden gelöscht
+		if (notFound < found){
+			//found wird erhalten, notFound wird gelöscht
+			cyGraph.nodes().forEach(function (ele){
+	    		var aStar = cyGraph.elements().aStar({ root: node, goal: ele });
+	    		if(!aStar.found){
+	    			ele.connectedEdges().remove();
+	                ele.remove();
+	            }
+	    	})
+		}
+		else {
+			//found ist kleiner oder gleich notFound
+			//notFound wird erhalten, found wird gelöscht
+			cyGraph.nodes().forEach(function (ele){
+	    		var aStar = cyGraph.elements().aStar({ root: node, goal: ele });
+	    		if(aStar.found){
+	    			ele.connectedEdges().remove();
+	                ele.remove();
+	            }
+	    	})
+		}
+    }
+    
     var calculateBounds = function (limiter){
     	if(limiter===0){
     		limiter = 0.6;
@@ -310,6 +351,7 @@ Pucman.Graph = (function() {
 					ele.remove();
 				}
 			});
+			findBiggestConnectedPartGraph();
 			interpolateGraph();
     }
 
