@@ -26,6 +26,8 @@ Pucman.Game.prototype = {
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
+	    this.load.image('dot', 'ressources/a92dd25b2c280345f10be915553a2efd.png',3,3);
+
         //Pucman.Interface.preloadInterface(this);
     },
 
@@ -37,15 +39,12 @@ Pucman.Game.prototype = {
         this.graphBitmap.clear();
         var bitmap =  this.graphBitmap;
         var count = 0;
+        dots = this.add.group();
         this.graph.nodes().forEach(function(ele) {
         	++count;
-        	if (count%30 == 29 || count%30 == 0 || count%30 == 1 )
-        		{
-        		bitmap.rect(
-                        ele.position().x, 
-                        ele.position().y,
-                        4, 4, 'rgba(255, 255, 0, 1)'
-                        );
+        	if ( count%30 == 0 ){
+        		ele.grabify();
+        		dots.create(ele.position.x, ele.position.y, 'dot');
         	}
         	else{
         		bitmap.rect(
@@ -53,6 +52,7 @@ Pucman.Game.prototype = {
         				ele.position().y, 
         				4, 4, 'rgba(0, 0, 0, 1)'
         				);
+        		ele.ungrabify();
         	}
         });
         pucman = new Pucman.Character(

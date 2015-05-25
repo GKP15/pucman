@@ -74,5 +74,18 @@ Pucman.Character.prototype.getNodeInDir = function(dir) {
             nodeInDir = neighbors[i];
         }
     }
+    if(this.node.grabbable()){
+		this.node.ungrabify();
+		//punkt wieder übermalen, einen punkt plus rechnen, fertig
+		/*
+		Pucman.Game.graphBitmap.rect(
+				node.position().x, 
+				node.position().y, 
+				4, 4, 'rgba(0, 0, 0, 1)'
+				);
+				*/
+		//punkte++
+	}
     return nodeInDir;
+    
 };
