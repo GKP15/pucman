@@ -2,6 +2,7 @@ Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
     this.graph = null;
+    this.dots = null;
 
     var opposites = [
         Phaser.NONE,
@@ -26,7 +27,7 @@ Pucman.Game.prototype = {
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
-	    this.load.image('dot', 'ressources/a92dd25b2c280345f10be915553a2efd.png',3,3);
+        this.load.spritesheet('dot', 'resources/pucman.png', 10, 10);
 
         //Pucman.Interface.preloadInterface(this);
     },
@@ -37,23 +38,22 @@ Pucman.Game.prototype = {
             this.game.width, this.game.height);
         this.graphBitmap.addToWorld();
         this.graphBitmap.clear();
-        var bitmap =  this.graphBitmap;
+        var bitmap = this.graphBitmap;
         var count = 0;
-        dots = this.add.group();
+        this.dots = this.add.group();
+        var dots = this.dots;
         this.graph.nodes().forEach(function(ele) {
-        	++count;
-        	if ( count%30 == 0 ){
-        		ele.grabify();
-        		dots.create(ele.position.x, ele.position.y, 'dot');
-        	}
-        	else{
-        		bitmap.rect(
-        				ele.position().x, 
-        				ele.position().y, 
-        				4, 4, 'rgba(0, 0, 0, 1)'
-        				);
-        		ele.ungrabify();
-        	}
+            ++count;
+            if (count % 10 === 0) {
+                var dot = dots.create(ele.position().x, ele.position().y, 'dot');
+                dot.anchor.set(0.5);
+                ele.data('dot', dot);
+            }
+            bitmap.rect(
+                ele.position().x,
+                ele.position().y,
+                4, 4, 'rgba(0, 0, 0, 1)'
+            );
         });
         pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);
