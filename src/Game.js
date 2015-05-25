@@ -40,8 +40,8 @@ Pucman.Game.prototype = {
             bitmap.rect(
                 ele.position().x, ele.position().y, 4, 4, 'rgba(0, 0, 0, 1)');
         });
-        pucman = new Pucman.Character(this, "pucman", this.graph.nodes()[110]);
-        pucman.anchor.set(0.5);
+        pucman = new Pucman.Character(
+            this, "pucman", this.graph.nodes()[110]);
         this.add.existing(pucman);
         //Pucman.Interface.create(this);
     },

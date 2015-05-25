@@ -12,7 +12,6 @@ Pucman.Graph = (function() {
     var apiUrlData = null;
 
     var getGeoData = function() {
-
         var result = null;
         $.ajax({
             url: apiUrlBase + apiUrlData,
@@ -26,7 +25,6 @@ Pucman.Graph = (function() {
     };
 
     var createCyGraph = function(result) {
-
         var elements = {
             edges: [],
             nodes: []
@@ -173,33 +171,6 @@ Pucman.Graph = (function() {
         }
     };
 
-    var copyNode = function(original) {
-        var copy = {
-            data: {},
-            position: {}
-        };
-        copy.data.id = original.data.id + "";
-        copy.position.x = original.position.x + 1;
-        copy.position.y = original.position.y + 1;
-        --copy.position.x;
-        --copy.position.y;
-        return copy;
-    };
-
-
-    var removePathSaveCoor = function(node, coord) {
-        var lastNode = null;
-        coord.push(new Phaser.Point(node.position()));
-        if (node.degree() === 1) {
-            lastNeighbor = node.neighborhood('node[id]');
-            node.remove();
-            removePathSaveCoor(lastNeighbor, coord);
-        } else {
-            lastNode = node;
-            return lastNode;
-        }
-    };
-
     var interpolatePointList = function(pointList) {
         var pointListX = [];
         var pointListY = [];
@@ -210,8 +181,8 @@ Pucman.Graph = (function() {
             pointListY.push(point.y);
         }
         for (i = 1; i >= 0; i -= step) {
-            var pX = Phaser.Math.catmullRomInterpolation(pointListX, i);
-            var pY = Phaser.Math.catmullRomInterpolation(pointListY, i);
+            var pX = Phaser.Math.linearInterpolation(pointListX, i);
+            var pY = Phaser.Math.linearInterpolation(pointListY, i);
             var nextPoint = new Phaser.Point(Math.round(pX), Math.round(pY));
             if (pointList.length === 0 || !nextPoint.equals(pointList[0])) {
                 pointList.unshift(nextPoint);
@@ -229,6 +200,7 @@ Pucman.Graph = (function() {
 
     return {
         dirAToB: dirAToB,
+
         getGraph: function(game) {
             state = game;
             map = state.map;
@@ -245,22 +217,12 @@ Pucman.Graph = (function() {
                 "(" + south + "," + west + "," + north + "," + east + "););out body;>;out skel qt;";
             geoData = getGeoData();
             cyGraph = createCyGraph(geoData);
-
-            cyGraph.nodes().forEach(function(ele) {
-                deleteDeadEnds(ele);
-            });
-
-
-            cyGraph.nodes().forEach(function(ele) {
-                cleanCrossroads(ele);
-
-            });
-
             cyGraph.nodes().forEach(function(ele) {
                 convertNodeToPixel(ele);
             });
-
             cyGraph.nodes().forEach(function(ele) {
+                deleteDeadEnds(ele);
+                cleanCrossroads(ele);
                 if (ele.degree() === 0) {
                     ele.remove();
                 }

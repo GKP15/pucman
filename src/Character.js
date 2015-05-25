@@ -1,7 +1,7 @@
 Pucman.Character = function(game, key, node) {
 
     Phaser.Sprite.call(this, game, 100, 100, key);
-    //this.anchor.set(0.5);
+    this.anchor.set(0.5);
     this.position = node.position();
     this.node = node;
     this.lastNode = node;
@@ -13,11 +13,7 @@ Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);
 Pucman.Character.constructor = Pucman.Character;
 
 Pucman.Character.prototype.update = function() {
-    //this.debugCounter++;
-    //if (this.debugCounter > 20) {
-        this.move();
-    //    this.debugCounter = 0;
-    //}
+    this.move();
 };
 
 Pucman.Character.prototype.move = function() {
