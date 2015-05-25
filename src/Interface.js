@@ -15,7 +15,8 @@ Pucman.Interface = (function() {
 		preloadInterface: function(that) {
 			that.load.image('homePageButtonPic', 'resources/homePageButton.png');
 			that.load.image('plusButtonPic', 'resources/plus.png');
-			that.load.image('minusButtonPic', 'resources/minus.png');	
+			that.load.image('minusButtonPic', 'resources/minus.png');
+
 			
 			// music
 			that.load.audio('music', 'resources/test.mp3');

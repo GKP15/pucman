@@ -26,7 +26,7 @@ Pucman.Game.prototype = {
 
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 32, 32);
-	    this.load.image('dot', 'ressources/a92dd25b2c280345f10be915553a2efd.png',3,3);
+	    this.load.image('dot', 'resources/dot.png',3,3);
 
         //Pucman.Interface.preloadInterface(this);
     },
@@ -44,7 +44,7 @@ Pucman.Game.prototype = {
         	++count;
         	if ( count%30 == 0 ){
         		ele.grabify();
-        		dots.create(ele.position.x, ele.position.y, 'dot');
+        		//dots.create(ele.position.x, ele.position.y, 'dot');
         	}
         	else{
         		bitmap.rect(
