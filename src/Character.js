@@ -1,6 +1,6 @@
 Pucman.Character = function(game, key, node) {
 
-    Phaser.Sprite.call(this, game, 100, 100, key);
+    Phaser.Sprite.call(this, game, 100, 100, key, 0);
     this.anchor.set(0.5);
     this.position = node.position();
     this.node = node;

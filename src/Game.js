@@ -47,19 +47,19 @@ Pucman.Game.prototype = {
             ++count;
             if (count % 10 === 0) {
                 var dot = dots.create(ele.position().x, ele.position().y, 'dot');
-                dot.anchor.set(0.5);
+                dot.anchor.set(0.5, 0.5);
                 ele.data('dot', dot);
             }
             bitmap.rect(
-                ele.position().x,
-                ele.position().y,
-                4, 4, 'rgba(0, 0, 0, 1)'
+                ele.position().x - 5,
+                ele.position().y - 5,
+                10, 10, 'rgba(27, 247, 181, 0.2)'
             );
         });
         pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);
-        this.add.existing(pucman);
         //Pucman.Interface.create(this);
+        this.add.existing(pucman);
     },
 
     update: function() {}
