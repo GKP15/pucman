@@ -36,9 +36,24 @@ Pucman.Game.prototype = {
         this.graphBitmap.addToWorld();
         this.graphBitmap.clear();
         var bitmap =  this.graphBitmap;
+        var count = 0;
         this.graph.nodes().forEach(function(ele) {
-            bitmap.rect(
-                ele.position().x, ele.position().y, 4, 4, 'rgba(0, 0, 0, 1)');
+        	++count;
+        	if (count%30 == 29 || count%30 == 0 || count%30 == 1 )
+        		{
+        		bitmap.rect(
+                        ele.position().x, 
+                        ele.position().y,
+                        4, 4, 'rgba(255, 255, 0, 1)'
+                        );
+        	}
+        	else{
+        		bitmap.rect(
+        				ele.position().x, 
+        				ele.position().y, 
+        				4, 4, 'rgba(0, 0, 0, 1)'
+        				);
+        	}
         });
         pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);

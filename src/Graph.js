@@ -206,6 +206,7 @@ Pucman.Graph = (function() {
                         y: y
                     }
                 });
+               
             } else {
                 idTarget = edge.target().id();
             }
@@ -258,38 +259,66 @@ Pucman.Graph = (function() {
         return span;
     };
 
+    var calculateBounds = function (limiter){
+    	if(limiter===0){
+    		limiter = 0.6;
+    	}
+    	north = map.getBounds().ne.lat;
+        east = map.getBounds().ne.lon;
+        south = map.getBounds().sw.lat;
+        west = map.getBounds().sw.lon;
+        centerY = map.getCenter().lat;
+        centerX = map.getCenter().lon;
+        distY = limiter * (north - south);
+        distX = limiter * (east - west);
+        newNorth = centerY + distY * 0.5;
+        newSouth = centerY - distY * 0.5;
+        newEast = centerX + distX * 0.5;
+        newWest = centerX - distX * 0.5;
+    }
     
+    init = function (){
+        	calculateBounds(0);
+        	apiUrlBase = "http://overpass-api.de/api/interpreter?data=[out:json];";
+        	apiUrlData = "(way[\"highway\"]" +
+        	"[\"highway\"!=\"primary\"]" +
+        	"[\"highway\"!=\"footway\"]" +
+        	"[\"highway\"!=\"steps\"]" +
+        	"[\"highway\"!=\"service\"]" +
+        	"[\"highway\"!=\"construction\"]" +
+        	"[\"highway\"!=\"cycleway\"]" +
+        	"[\"highway\"!=\"path\"]" +
+        	"[\"highway\"!=\"elevator\"]" +
+        	"[\"area\"!=\"yes\"]" +
+        	"[\"building\"!=\"yes\"]" +
+        	"[\"highway\"!=\"bridleway\"]" +
+			"[\"highway\"!=\"raceway\"]" +
+			"[\"highway\"!=\"track\"]" +
+			"[\"highway\"!=\"trunk\"]" +
+			"[\"highway\"!=\"tertiary_link\"]" +
+			"[\"highway\"!=\"secondary_link\"]" +
+			"(" + newSouth + "," + newWest + "," + newNorth + "," + newEast + "););out body;>;out skel qt;";
+			geoData = getGeoData();
+			cyGraph = createCyGraph(geoData);
+			cyGraph.nodes().forEach(function(ele) {
+			convertNodeToPixel(ele);
+			});
+			cyGraph.nodes().forEach(function(ele) {
+				deleteDeadEnds(ele);
+				cleanCrossroads(ele);
+				if (ele.degree() === 0) {
+					ele.remove();
+				}
+			});
+			interpolateGraph();
+    }
     return {
         dirAToB: dirAToB,
-
         getGraph: function(game) {
-            state = game;
+        	state = game;
             map = state.map;
-            north = map.getBounds().ne.lat;
-            east = map.getBounds().ne.lon;
-            south = map.getBounds().sw.lat;
-            west = map.getBounds().sw.lon;
-            apiUrlBase = "http://overpass-api.de/api/interpreter?data=[out:json];";
-            apiUrlData = "(way[\"highway\"][\"highway\"!=\"primary\"][\"highway\"!=\"footway\"][\"highway\"!=\"steps\"]" +
-                "[\"highway\"!=\"service\"][\"highway\"!=\"construction\"][\"highway\"!=\"cycleway\"][\"highway\"!=\"path\"]" +
-                "[\"highway\"!=\"elevator\"][\"area\"!=\"yes\"][\"building\"!=\"yes\"][\"highway\"!=\"bridleway\"]" +
-                "[\"highway\"!=\"raceway\"][\"highway\"!=\"track\"][\"highway\"!=\"trunk\"][\"highway\"!=\"tertiary_link\"]" +
-                "[\"highway\"!=\"secondary_link\"]" +
-                "(" + south + "," + west + "," + north + "," + east + "););out body;>;out skel qt;";
-            geoData = getGeoData();
-            cyGraph = createCyGraph(geoData);
-            cyGraph.nodes().forEach(function(ele) {
-                convertNodeToPixel(ele);
-            });
-            cyGraph.nodes().forEach(function(ele) {
-                deleteDeadEnds(ele);
-                cleanCrossroads(ele);
-                if (ele.degree() === 0) {
-                    ele.remove();
-                }
-            });
-            interpolateGraph();
-            state.graphReady = true;
+        	init();
+        	state.graphReady = true;
             return cyGraph;
         }
     };
