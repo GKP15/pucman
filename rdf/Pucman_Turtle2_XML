@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:pucgm="http://localhost/pm/gamer/" xmlns:puchs="http://localhost/pm/highscore/" xmlns:pucmap="http://localhost/pm/map/" xmlns:puctown="http://localhost/pm/town/" xmlns:pucvoc="http://localhost/pm/schema/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:shv="http://ns.aksw.org/spatialHierarchy/" xmlns:wgs84="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <rdf:Description rdf:about="pucvoc:Highscore">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:Highscore">
+    <rdfs:label xml:lang="en">Highscore</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:Player">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:Player">
+    <rdfs:label xml:lang="de">Spieler</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:Player">
+    <owl:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:City">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:City">
+    <owl:subClassOf rdf:resource="http://ns.aksw.org/spatialHierarchy/City"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:value">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:value">
+    <rdfs:domain rdf:resource="http://localhost/pm/schema/Highscore"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:value">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:player">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:player">
+    <rdfs:domain rdf:resource="http://localhost/pm/schema/Highscore"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:player">
+    <rdfs:range rdf:resource="http://localhost/pm/schema/Player"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:city">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:city">
+    <rdfs:domain rdf:resource="http://localhost/pm/schema/Highscore"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="pucvoc:city">
+    <rdfs:range rdf:resource="http://localhost/pm/schema/City"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/KayVollers0815">
+    <rdf:type rdf:resource="http://localhost/pm/schema/Player"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/KayVollers0815">
+    <foaf:firstname>Kay</foaf:firstname>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/KayVollers0815">
+    <foaf:lastname>Vollers</foaf:lastname>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/KayVollers0815">
+    <foaf:nick>KayVollers0815</foaf:nick>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/HorstDieWurst0813">
+    <rdf:type rdf:resource="http://localhost/pm/schema/Player"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/HorstDieWurst0813">
+    <foaf:firstname>Horst</foaf:firstname>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/HorstDieWurst0813">
+    <foaf:lastname>DieWurst</foaf:lastname>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/gamer/HorstDieWurst0813">
+    <foaf:nick>HorstDieWurst0813</foaf:nick>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/town/Leipzig01">
+    <rdf:type rdf:resource="http://localhost/pm/schema/City"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/town/Leipzig01">
+    <rdfs:label>Leipzig</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/town/Leipzig01">
+    <shv:hasCenter rdf:resource="http://localhost/center/Leipzig01"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/town/Halle01">
+    <rdf:type rdf:resource="http://localhost/pm/schema/City"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/town/Halle01">
+    <rdfs:label>Halle</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/town/Halle01">
+    <shv:hasCenter rdf:resource="http://localhost/center/Halle01"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/center/Leipzig01">
+    <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#Point"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/center/Leipzig01">
+    <wgs84:long>12.09324</wgs84:long>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/center/Leipzig01">
+    <wgs84:lat>51.334</wgs84:lat>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/center/Halle01">
+    <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#Point"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/center/Halle01">
+    <wgs84:long>11.965</wgs84:long>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/center/Halle01">
+    <wgs84:lat>51.49</wgs84:lat>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Leipzig-01KayVollers0815-01">
+    <rdf:type rdf:resource="http://localhost/pm/schema/Highscore"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Leipzig-01KayVollers0815-01">
+    <pucvoc:value>17</pucvoc:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Leipzig-01KayVollers0815-01">
+    <pucvoc:player rdf:resource="http://localhost/pm/gamer/KayVollers0815"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Leipzig-01KayVollers0815-01">
+    <pucvoc:city rdf:resource="http://localhost/pm/town/Leipzig01"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Halle-01HorstDieWurst0813-01">
+    <rdf:type rdf:resource="http://localhost/pm/schema/Highscore"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Halle-01HorstDieWurst0813-01">
+    <pucvoc:value>219</pucvoc:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Halle-01HorstDieWurst0813-01">
+    <pucvoc:player rdf:resource="http://localhost/pm/gamer/HorstDieWurst0813"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost/pm/highscore/Halle-01HorstDieWurst0813-01">
+    <pucvoc:city rdf:resource="http://localhost/pm/town/Halle01"/>
+  </rdf:Description>
+</rdf:RDF>
+

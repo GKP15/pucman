@@ -1,0 +1,31 @@
+Abfrage:
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX pucvoc: <http://localhost/pm/schema/>
+PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX shv: <http://ns.aksw.org/spatialHierarchy/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT ?City ?long ?lat ?Person ?Score{
+?ainstanz a pucvoc:Highscore .
+?ainstanz pucvoc:city ?atownindex .
+?atownindex a pucvoc:City .
+?atownindex rdfs:label ?City.
+?atownindex shv:hasCenter ?atowncoord .
+?atowncoord wgs84:long ?long .
+?atowncoord wgs84:long ?lat .
+?ainstanz pucvoc:player ?aplayer .
+?aplayer a pucvoc:Player .
+?aplayer foaf:nick ?Person .
+?ainstanz pucvoc:value ?Score .
+}
+
+
+Ergebnis:
+
+---------------------------------------------------------------------
+| City      | long       | lat        | Person              | Score |
+=====================================================================
+| "Leipzig" | "12.09324" | "12.09324" | "KayVollers0815"    | "17"  |
+| "Halle"   | "11.965"   | "11.965"   | "HorstDieWurst0813" | "219" |
+---------------------------------------------------------------------

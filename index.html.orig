@@ -9,15 +9,18 @@
         <script src="lib/jquery.js"></script>
         <script src="lib/phaser.js"></script>
         <script src="lib/osmtogeojson.js"></script>
+<<<<<<< HEAD
         <script src="src/TextField.js"></script>
         <script src="src/MainMenu.js"></script>
+=======
         <script src="lib/cytoscape.js"></script>
         <script src="src/Load.js"></script>
+>>>>>>> master
         <script src="src/Game.js"></script>
         <script src="src/Graph.js"></script>
         <script src="src/Character.js"></script>
         <script src="src/Interface.js"></script>
-        <script src="src/Dbquery.js"></script>
+		<script src="src/Dbquery.js"></script>
         <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers,[geocoder])" type="text/javascript"></script>
     </head>
@@ -27,34 +30,36 @@
         <div id="gameContainer"></div>
         <script type="text/javascript">
 window.onload = function() {
+<<<<<<< HEAD
+    //var game = new Phaser.Game(
+    //        1920, 1080, Phaser.AUTO, 'gameContainer', null, true, false);
+    //game.state.add('Game', Pucman.Game);
+    //game.state.start('Game', true);
+=======
+>>>>>>> master
     map = new mxn.Mapstraction('map', 'openlayers');
     var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
     map.setCenterAndZoom(latlon, 16);
     map.setOption('enableDragging', true);
     map.addControls('pan', true);
-
-    var bbox = "(" +
-        map.getBounds().sw.lat + "," + map.getBounds().sw.lon + "," +
-        map.getBounds().ne.lat + "," + map.getBounds().ne.lon + ");";
-    var apiUrlBase = 
-        "http://overpass-api.de/api/interpreter?data=[out:json];";
-    var apiUrlData =  
-        "(node[place = 'city']" + bbox +  
-        "node[place = 'borough']" + bbox +  
-        "node[place = 'suburb']" + bbox +  
-        "node[place = 'quarter']" + bbox +  
-        "node[place = 'neighbourhood']" + bbox + ");" +
-        "out body; >; out skel qt;";
-    var getLocations = Pucman.Graph.getGeoData( apiUrlBase, apiUrlData); 
-
-    map.click.addHandler(function(eventName, eventSource, eventArgs) {
+	//map.click.addHandler(function(eventName, eventSource, eventArgs) {
         document.getElementById("gameContainer").style.zIndex = "200";
+<<<<<<< HEAD
+    //    console.log('clicked');
+=======
+>>>>>>> master
         var game = new Phaser.Game(
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
-        game.state.add('Load', Pucman.Load);
+        game.state.add('MainMenu', Pucman.MainMenu);
         game.state.add('Game', Pucman.Game);
+<<<<<<< HEAD
+        game.state.start('MainMenu');
+	//});
+=======
+        game.state.add('Load', Pucman.Load);
         game.state.start('Load', true, false, map);
     });
+>>>>>>> master
 };
         </script>
     </body>
