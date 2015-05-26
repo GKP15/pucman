@@ -27,13 +27,29 @@
         <div id="gameContainer"></div>
         <script type="text/javascript">
 window.onload = function() {
-    map = new mxn.Mapstraction('map', 'openlayers');
-    var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
-    map.setCenterAndZoom(latlon, 16);
-    //map.setOption('enableDragging', true);
-    //map.addControls('pan', true);
 
     var Menu = {};
+
+
+    Menu.initMap = function() {
+        map = new mxn.Mapstraction('map', 'openlayers');
+        var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
+        map.setCenterAndZoom(latlon, 10);
+        //map.setOption('enableDragging', true);
+        //map.addControls('pan', true);
+        Menu.getLocations();
+        
+        var getLocTimeOut;
+
+        map.changeZoom.addHandler(function(eventName, eventSource, eventArgs) {
+            clearTimeout(getLocTimeOut);
+            getLocTimeOut = setTimeout(Menu.getLocations(), 2000);
+        });
+        map.endPan.addHandler(function(eventName, eventSource, eventArgs) {
+            clearTimeout(getLocTimeOut);
+            getLocTimeOut = setTimeout(Menu.getLocations(), 2000);
+        });
+    }
 
     Menu.Highscore = function( nick , score) {
         this.nick = nick;
@@ -42,20 +58,30 @@ window.onload = function() {
 
 
     Menu.getLocations = function() {
+        var zoom = map.getZoom();
         var bbox = "(" +
             map.getBounds().sw.lat + "," + map.getBounds().sw.lon + "," +
             map.getBounds().ne.lat + "," + map.getBounds().ne.lon + ");";
         var apiUrlBase = 
             "http://overpass-api.de/api/interpreter?data=[out:json];";
-        var apiUrlData =  
-            "(node[place = 'city']" + bbox +  
-            "node[place = 'borough']" + bbox +  
-            "node[place = 'suburb']" + bbox +  
-            "node[place = 'quarter']" + bbox +  
-            "node[place = 'neighbourhood']" + bbox + ");" +
-            "out body; >; out skel qt;";
+        var apiUrlData =  function(zoom) {
+            var url = "(node[capital = yes]" + bbox  
+                if (zoom = 9) { 
+                    url += 
+                        "node[place = 'city']" + bbox +  
+                        "node[place = 'town']" + bbox  
+                }
+            if (zoom >= 12) {
+                url +=
+                    "node[place = 'borough']" + bbox +  
+                    "node[place = 'suburb']" + bbox +  
+                    "node[place = 'quarter']" + bbox +  
+                    "node[place = 'neighbourhood']" + bbox
+            } 
+            return url += ");" + "out body; >; out skel qt;";
+        };
         $.ajax({
-            url: apiUrlBase + apiUrlData,
+            url: apiUrlBase + apiUrlData(zoom),
             DataType: 'json',
             async: true,
             success: function(data) {
@@ -83,21 +109,16 @@ window.onload = function() {
         marker.setInfoBubble(infoBubble);
         marker.click.addHandler(function(eventName, eventSource, eventArgs) {
             Menu.startGame(eventSource);
+            marker.closeBubble();
+            map.removeMarker(eventSource);
         });
         map.addMarker(marker);
     }
 
-    map.load.addHandler(function(eventName, eventSource, eventArgs) {
-        Menu.getLocations();
-    });
-    map.changeZoom.addHandler(function(eventName, eventSource, eventArgs) {
-        Menu.getLocations();
-    });
-    map.endPan.addHandler(function(eventName, eventSource, eventArgs) {
-        Menu.getLocations();
-    });
 
     Menu.startGame = function(source) {
+        map.changeZoom.removeAllHandlers();
+        map.endPan.removeAllHandlers();
         map.setCenterAndZoom(source.location, 16);
         map.removeAllMarkers();
         document.getElementById("gameContainer").style.zIndex = "200";
@@ -108,6 +129,7 @@ window.onload = function() {
         game.state.start('Game', true, false, map);
         game.state.start('Load', true, false, map);
     };
+    Menu.initMap();
 };
         </script>
     </body>
