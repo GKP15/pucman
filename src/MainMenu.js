@@ -9,15 +9,15 @@ Pucman.MainMenu.prototype = {
     init: function(map) {
         this.map = map;
         // create a marker positioned at a lat/lon 
-        var geocodeMarker = new mxn.Marker(location.point);
-        geocodeMarker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png", [21, 25], [0.5, 0.5]);
-        var bubble = location.locality + ", " + location.region;
+        //var geocodeMarker = new mxn.Marker(location.point);
+        //geocodeMarker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png", [21, 25], [0.5, 0.5]);
+        //var bubble = location.locality + ", " + location.region;
 
-        map.addMarker(geocodeMarker);
+        //map.addMarker(geocodeMarker);
         // open the marker
 
-        geocodeMarker.setInfoBubble(bubble);
-        geocodeMarker.openBubble();
+        //geocodeMarker.setInfoBubble(bubble);
+        //geocodeMarker.openBubble();
 
         // display marker 
 
@@ -38,16 +38,16 @@ Pucman.MainMenu.prototype = {
             this.game, (this.game.width - 600) / 2, (this.game.height / 2), 13, 'textFieldPic');
 
         // get Markerdata from RDF DB Array[[city,longi,lati,person,score],[...]]
-        var geomapmarkers = rdfmarkerget();
+        //var geomapmarkers = rdfmarkerget();
         // 
-        var markerPoint = [geomapmarkers[0][2], geomapmarkers[0][1]];
+        //var markerPoint = [geomapmarkers[0][2], geomapmarkers[0][1]];
         //var point = new mxn.LatLonPoint(markerPoint);
-        var highscore_marker = new mxn.Marker(markerPoint);
-        highscore_marker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png", [21, 25], [0.5, 0.5]);
-        map.addMarker(highscore_marker);
+        //var highscore_marker = new mxn.Marker(markerPoint);
+       // highscore_marker.setIcon("http://bibinfo.kobv.de/Bibfuehrer/resources/markers/marker-gold.png", [21, 25], [0.5, 0.5]);
+        //map.addMarker(highscore_marker);
         // open the marker            
-        highscore_marker.setInfoBubble(bubble);
-        highscore_marker.openBubble();
+        //highscore_marker.setInfoBubble(bubble);
+        //highscore_marker.openBubble();
 
     },
 
@@ -64,8 +64,8 @@ Pucman.MainMenu.prototype = {
      * searchButton function
      */
     searchButtonClicked: function() {
-        this.searchAddress(searchField.textData);
-        this.state.start('Game', true);
+        //this.searchAddress(searchField.textData);
+		this.game.state.start('Load', true, false, map);
 
     },
 
