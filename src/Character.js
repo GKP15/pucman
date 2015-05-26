@@ -7,19 +7,19 @@ Pucman.Character = function(game, key, node) {
     this.lastNode = node;
     this.direction = Phaser.LEFT;
     this.debugCounter = 0;
-	this.score = 0;
+    this.score = 0;
 };
 
 Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);
 Pucman.Character.constructor = Pucman.Character;
 
 Pucman.Character.prototype.update = function() {
-    this.move();
+
+    this.move(this.getDir());
     this.eatDot();
 };
 
-Pucman.Character.prototype.move = function() {
-    var nextDir = 0;
+Pucman.Character.prototype.getDir = function() {
     var pressedKey = null;
     if (this.game.cursors.up.isDown) {
         pressedKey = Phaser.UP;
@@ -33,7 +33,11 @@ Pucman.Character.prototype.move = function() {
     if (this.game.cursors.left.isDown) {
         pressedKey = Phaser.LEFT;
     }
+    return pressedKey;
+}; 
 
+Pucman.Character.prototype.move = function(pressedKey) {
+    var nextDir = 0;
     if (this.getNodeInDir(pressedKey) !== undefined) {
         nextDir = pressedKey;
     } else {
@@ -80,12 +84,11 @@ Pucman.Character.prototype.getNodeInDir = function(dir) {
 };
 
 Pucman.Character.prototype.eatDot = function() {
-    var dot = this.node.data( 'dot' ); 
-    if( dot != undefined) {
+    var dot = this.node.data('dot');
+    if (dot !== undefined) {
         this.game.dots.remove(dot);
-		this.node.removeData();
-		this.score++;
-		Pucman.Interface.eatDot(this.game.scoreText, this.score);
-        //console.log();
+        this.node.removeData();
+        this.game.score++;
+        Pucman.Interface.eatDot(this.game);
     }
 };

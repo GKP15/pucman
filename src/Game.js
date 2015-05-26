@@ -1,8 +1,12 @@
 Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
+    this.ghostPinky = null;
     this.graph = null;
     this.dots = null;
+    this.lives = 3;
+    this.maxScore = null;
+    this.score = 0;
 
     var opposites = [
         Phaser.NONE,
@@ -44,10 +48,13 @@ Pucman.Game.prototype = {
         this.dots = this.add.group();
         var dots = this.dots;
         this.graph.nodes().forEach(function(ele) {
-
             ++count;
             if (count % 10 === 0) {
-                var dot = dots.create(ele.position().x, ele.position().y, 'dot');
+                var dot = dots.create(
+                    ele.position().x, 
+                    ele.position().y, 
+                    'dot'
+                );
                 dot.anchor.set(0.5, 0.5);
                 ele.data('dot', dot);
             }
@@ -60,6 +67,13 @@ Pucman.Game.prototype = {
         pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);
         this.add.existing(pucman);
+
+        ghostPinky = new Pucman.Character(
+            this, "pucman", this.graph.nodes()[10]);
+        ghostPinky.getDir = function() {
+            return this.game.rnd.integerInRange(0, 4);
+        };
+        this.add.existing(ghostPinky);
     },
 
     update: function() {}
