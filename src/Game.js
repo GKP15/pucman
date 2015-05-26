@@ -1,6 +1,7 @@
 Pucman.Game = function(game) {
     this.graphBitmap = null;
     this.pucman = null;
+    this.ghosts = [];
     this.ghostPinky = null;
     this.graph = null;
     this.dots = null;
@@ -51,8 +52,8 @@ Pucman.Game.prototype = {
             ++count;
             if (count % 10 === 0) {
                 var dot = dots.create(
-                    ele.position().x, 
-                    ele.position().y, 
+                    ele.position().x,
+                    ele.position().y,
                     'dot'
                 );
                 dot.anchor.set(0.5, 0.5);
@@ -64,18 +65,39 @@ Pucman.Game.prototype = {
                 10, 10, 'rgba(27, 247, 181, 0.2)'
             );
         });
-        pucman = new Pucman.Character(
+        this.pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);
-        this.add.existing(pucman);
+        this.add.existing(this.pucman);
 
+        this.ghosts = this.add.group();
         ghostPinky = new Pucman.Character(
             this, "pucman", this.graph.nodes()[10]);
         ghostPinky.getDir = function() {
             return this.game.rnd.integerInRange(0, 4);
         };
-        this.add.existing(ghostPinky);
+        this.ghosts.add(ghostPinky);
+    },
+    update: function() {
+        this.eat();
+        if ( this.lives === 0 ){
+            this.gameOver();
+        }
     },
 
-    update: function() {}
+    eat: function() {
+        for (var i = 0; i < this.ghosts.length; i++) {
+            if (this.pucman.node === this.ghosts.getChildAt(i).node) {
+                this.lives--;
+                this.livesText.setText('Lives: ' + this.lives);
+            }
+        }
+    },
+    
+    gameOver: function() {
+        Menu.initMap();
+        this.destroy();
+    }
+
+
 
 };

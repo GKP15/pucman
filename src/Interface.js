@@ -25,7 +25,7 @@ Pucman.Interface = (function() {
             }, that);
 
             //  Lives
-            that.livesText = that.add.text((that.game.width / 20), (that.game.height - 64), 'Lives: <3 <3 <3', {
+            that.livesText = that.add.text((that.game.width / 20), (that.game.height - 64), 'Lives: ' + that.game.lives, {
                 fontSize: '32px',
                 fill: '#000'
             });

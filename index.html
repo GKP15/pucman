@@ -28,26 +28,29 @@
         <script type="text/javascript">
 window.onload = function() {
 
-    var Menu = {};
+    Menu = {};
 
+        map = new mxn.Mapstraction('map', 'openlayers');
 
     Menu.initMap = function() {
-        map = new mxn.Mapstraction('map', 'openlayers');
+        document.getElementById("gameContainer").style.zIndex = "100";
+        document.getElementById("map").style.zIndex = "200";
         var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
         map.setCenterAndZoom(latlon, 10);
         //map.setOption('enableDragging', true);
         //map.addControls('pan', true);
-        Menu.getLocations();
+            getLocTimeOut = setTimeout(Menu.getLocations, 1);
 
-        var getLocTimeOut;
 
         map.changeZoom.addHandler(function(eventName, eventSource, eventArgs) {
             clearTimeout(getLocTimeOut);
-            getLocTimeOut = setTimeout(Menu.getLocations(), 2000);
+            map.removeAllMarkers();
+            getLocTimeOut = setTimeout(Menu.getLocations, 2000);
         });
         map.endPan.addHandler(function(eventName, eventSource, eventArgs) {
             clearTimeout(getLocTimeOut);
-            getLocTimeOut = setTimeout(Menu.getLocations(), 2000);
+            //map.removeAllMarkers();
+            getLocTimeOut = setTimeout(Menu.getLocations, 2000);
         });
     }
 
@@ -65,12 +68,12 @@ window.onload = function() {
         var apiUrlBase = 
             "http://overpass-api.de/api/interpreter?data=[out:json];";
         var apiUrlData =  function(zoom) {
-            var url = "(node[capital = yes]" + bbox  
-                if (zoom = 9) { 
-                    url += 
-                        "node[place = 'city']" + bbox +  
-                        "node[place = 'town']" + bbox  
-                }
+            var url = "(node[capital = yes]" + bbox;  
+            if (zoom >= 9) { 
+                url += 
+                    "node[place = 'city']" + bbox +  
+                    "node[place = 'town']" + bbox  
+            }
             if (zoom >= 12) {
                 url +=
                     "node[place = 'borough']" + bbox +  
@@ -122,6 +125,7 @@ window.onload = function() {
         map.setCenterAndZoom(source.location, 16);
         map.removeAllMarkers();
         document.getElementById("gameContainer").style.zIndex = "200";
+        document.getElementById("map").style.zIndex = "100";
         var game = new Phaser.Game(
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
         game.state.add('Load', Pucman.Load);
