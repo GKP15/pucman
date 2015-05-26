@@ -33,6 +33,7 @@ Pucman.Game.prototype = {
     },
 
     create: function() {
+        Pucman.Interface.createInterface(this);
         this.cursors = this.input.keyboard.createCursorKeys();
         this.graphBitmap = this.add.bitmapData(
             this.game.width, this.game.height);
@@ -42,7 +43,6 @@ Pucman.Game.prototype = {
         var count = 0;
         this.dots = this.add.group();
         var dots = this.dots;
-		this.score = 0;
         this.graph.nodes().forEach(function(ele) {
 
             ++count;
@@ -50,9 +50,6 @@ Pucman.Game.prototype = {
                 var dot = dots.create(ele.position().x, ele.position().y, 'dot');
                 dot.anchor.set(0.5, 0.5);
                 ele.data('dot', dot);
-				this.score ++;
-				//Pucman.Interface.eatDot(this.scoreText, this.score);
-				//scoreText.text = 'Score: ' + score;
             }
             bitmap.rect(
                 ele.position().x - 5,
@@ -62,7 +59,6 @@ Pucman.Game.prototype = {
         });
         pucman = new Pucman.Character(
             this, "pucman", this.graph.nodes()[110]);
-        Pucman.Interface.createInterface(this);
         this.add.existing(pucman);
     },
 

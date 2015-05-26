@@ -24,7 +24,7 @@ Pucman.Interface = (function() {
 				fill: '#000'
 			});
 			//  Score
-			scoreText = that.add.text((that.game.width / 2), (that.game.height - 64), 'Score: 0', {
+			that.scoreText = that.add.text((that.game.width / 2), (that.game.height - 64), 'Score: 0', {
 				fontSize: '32px',
 				fill: '#000'
 			});

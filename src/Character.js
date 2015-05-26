@@ -7,6 +7,7 @@ Pucman.Character = function(game, key, node) {
     this.lastNode = node;
     this.direction = Phaser.LEFT;
     this.debugCounter = 0;
+	this.score = 0;
 };
 
 Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);
@@ -80,8 +81,10 @@ Pucman.Character.prototype.getNodeInDir = function(dir) {
 
 Pucman.Character.prototype.eatDot = function() {
     var dot = this.node.data( 'dot' ); 
-    if( dot !== undefined) {
+    if( dot != undefined) {
         this.game.dots.remove(dot);
+		this.score++;
+		Pucman.Interface.eatDot(this.game.scoreText, this.score);
         console.log();
     }
 };
