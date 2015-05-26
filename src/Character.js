@@ -83,8 +83,9 @@ Pucman.Character.prototype.eatDot = function() {
     var dot = this.node.data( 'dot' ); 
     if( dot != undefined) {
         this.game.dots.remove(dot);
+		this.node.removeData();
 		this.score++;
 		Pucman.Interface.eatDot(this.game.scoreText, this.score);
-        console.log();
+        //console.log();
     }
 };
