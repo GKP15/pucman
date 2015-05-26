@@ -98,8 +98,8 @@ window.onload = function() {
     });
 
     Menu.startGame = function(source) {
-        map.removeAllMarkers();
         map.setCenterAndZoom(source.location, 16);
+        map.removeAllMarkers();
         document.getElementById("gameContainer").style.zIndex = "200";
         var game = new Phaser.Game(
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
