@@ -30,33 +30,84 @@ window.onload = function() {
     map = new mxn.Mapstraction('map', 'openlayers');
     var latlon = new mxn.LatLonPoint(51.3365278, 12.3764688);
     map.setCenterAndZoom(latlon, 16);
-    map.setOption('enableDragging', true);
-    map.addControls('pan', true);
+    //map.setOption('enableDragging', true);
+    //map.addControls('pan', true);
 
-    var bbox = "(" +
-        map.getBounds().sw.lat + "," + map.getBounds().sw.lon + "," +
-        map.getBounds().ne.lat + "," + map.getBounds().ne.lon + ");";
-    var apiUrlBase = 
-        "http://overpass-api.de/api/interpreter?data=[out:json];";
-    var apiUrlData =  
-        "(node[place = 'city']" + bbox +  
-        "node[place = 'borough']" + bbox +  
-        "node[place = 'suburb']" + bbox +  
-        "node[place = 'quarter']" + bbox +  
-        "node[place = 'neighbourhood']" + bbox + ");" +
-        "out body; >; out skel qt;";
-    var getLocations = Pucman.Graph.getGeoData( apiUrlBase, apiUrlData); 
+    var Menu = {};
 
-    //map.click.addHandler(function(eventName, eventSource, eventArgs) {
+    Menu.Highscore = function( nick , score) {
+        this.nick = nick;
+        this.score = score;
+    }
+
+
+    Menu.getLocations = function() {
+        var bbox = "(" +
+            map.getBounds().sw.lat + "," + map.getBounds().sw.lon + "," +
+            map.getBounds().ne.lat + "," + map.getBounds().ne.lon + ");";
+        var apiUrlBase = 
+            "http://overpass-api.de/api/interpreter?data=[out:json];";
+        var apiUrlData =  
+            "(node[place = 'city']" + bbox +  
+            "node[place = 'borough']" + bbox +  
+            "node[place = 'suburb']" + bbox +  
+            "node[place = 'quarter']" + bbox +  
+            "node[place = 'neighbourhood']" + bbox + ");" +
+            "out body; >; out skel qt;";
+        $.ajax({
+            url: apiUrlBase + apiUrlData,
+            DataType: 'json',
+            async: true,
+            success: function(data) {
+                Menu.buildMarkers(data.elements);
+            }
+        });
+    }
+
+    Menu.buildMarkers = function (locations){
+        for( var i = 0; i < locations.length; i++) {
+            var loc = new mxn.LatLonPoint( 
+                    locations[i].lat, 
+                    locations[i].lon 
+                    );
+            var marker = new mxn.Marker( loc );
+            marker.setLabel(locations[i].tags.name);
+            marker.id = locations[i].id;
+            marker.setIcon( "resources/pucman_open.png");
+            Menu.getHighscore(marker);
+        }
+    }
+
+    Menu.getHighscore = function (marker) {
+        var infoBubble = marker.labelText + "\n Horst: 9000";
+        marker.setInfoBubble(infoBubble);
+        marker.click.addHandler(function(eventName, eventSource, eventArgs) {
+            Menu.startGame(eventSource);
+        });
+        map.addMarker(marker);
+    }
+
+    map.load.addHandler(function(eventName, eventSource, eventArgs) {
+        Menu.getLocations();
+    });
+    map.changeZoom.addHandler(function(eventName, eventSource, eventArgs) {
+        Menu.getLocations();
+    });
+    map.endPan.addHandler(function(eventName, eventSource, eventArgs) {
+        Menu.getLocations();
+    });
+
+    Menu.startGame = function(source) {
+        map.removeAllMarkers();
+        map.setCenterAndZoom(source.location, 16);
         document.getElementById("gameContainer").style.zIndex = "200";
         var game = new Phaser.Game(
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
-        game.state.add('MainMenu', Pucman.MainMenu);
         game.state.add('Load', Pucman.Load);
         game.state.add('Game', Pucman.Game);
-        game.state.start('MainMenu', true, false, map);
-        //game.state.start('Load', true, false, map);
-    //});
+        game.state.start('Game', true, false, map);
+        game.state.start('Load', true, false, map);
+    };
 };
         </script>
     </body>
