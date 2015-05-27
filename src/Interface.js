@@ -32,6 +32,11 @@ Pucman.Interface = (function() {
             minusButton = that.game.add.button(((that.game.width / 20) * 19), (homepageButton.y - (that.game.cache.getImage('plusButtonPic').height + 32)), 'minusButtonPic', function() {
                 that.backGroundMusic.volume = Math.max(0, that.backGroundMusic.volume - 0.05);
             }, that);
+			//button to start/pause the game
+			var pauseText = 'Pause';
+			pauseButton = that.game.add.button(((that.game.width / 20) * 10), (that.game.height - 64), pauseText, function() {
+                
+            }, that);
 
             //  Lives
 			var text = null;
