@@ -73,9 +73,7 @@ Pucman.Game.prototype = {
         this.ghosts = this.add.group();
         ghostPinky = new Pucman.Ghost(
             this, "ghost", this.graph.nodes()[10]);
-        ghostPinky.getDir = function() {
-            return this.game.rnd.integerInRange(0, 4);
-        };
+        
         this.ghosts.add(ghostPinky);
     },
     update: function() {

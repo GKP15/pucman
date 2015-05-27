@@ -19,20 +19,11 @@ Pucman.Ghost.prototype.update = function() {
 };
 
 Pucman.Ghost.prototype.getDir = function() {
-    var pressedKey = null;
-    if (this.game.cursors.up.isDown) {
-        pressedKey = Phaser.UP;
+    
+    if(Math.random() * 10 < 2) {
+        return Math.floor(Math.random() * 4);
     }
-    if (this.game.cursors.right.isDown) {
-        pressedKey = Phaser.RIGHT;
-    }
-    if (this.game.cursors.down.isDown) {
-        pressedKey = Phaser.DOWN;
-    }
-    if (this.game.cursors.left.isDown) {
-        pressedKey = Phaser.LEFT;
-    }
-    return pressedKey;
+    
 }; 
 
 Pucman.Ghost.prototype.move = function(pressedKey) {
