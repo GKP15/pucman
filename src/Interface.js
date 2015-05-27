@@ -35,7 +35,7 @@ Pucman.Interface = (function() {
 
             //  Lives
 			var text = null;
-			if(typeof that.game.pucman.lives == 'undefined') {
+			if(typeof that.game.pucman == 'undefined') {
 			    text = 'Lives: 3';
 			} else {
 			    text = 'Lives: ' + that.game.pucman.lives;
