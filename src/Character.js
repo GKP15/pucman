@@ -8,6 +8,7 @@ Pucman.Character = function(game, key, node) {
     this.direction = Phaser.LEFT;
     this.debugCounter = 0;
     this.score = 0;
+	this.lives = 3;
 };
 
 Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);

@@ -5,7 +5,6 @@ Pucman.Game = function(game) {
     this.ghostPinky = null;
     this.graph = null;
     this.dots = null;
-    this.lives = 3;
     this.maxScore = null;
     this.score = 0;
 
@@ -92,7 +91,7 @@ Pucman.Game.prototype = {
 	 */
     update: function() {
         this.eat();
-        if ( this.lives === 0 ){
+        if ( this.pucman.lives === 0 ){
             this.gameOver();
         }
     },
@@ -103,8 +102,8 @@ Pucman.Game.prototype = {
     eat: function() {
         for (var i = 0; i < this.ghosts.length; i++) {
             if (this.pucman.node === this.ghosts.getChildAt(i).node) {
-                this.lives--;
-                this.livesText.setText('Lives: ' + this.lives);
+                this.pucman.lives--;
+                this.livesText.setText('Lives: ' + this.pucman.lives);
             }
         }
     },

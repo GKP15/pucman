@@ -34,7 +34,13 @@ Pucman.Interface = (function() {
             }, that);
 
             //  Lives
-            that.livesText = that.add.text((that.game.width / 20), (that.game.height - 64), 'Lives: ' + that.game.lives, {
+			var text = null;
+			if(typeof that.game.pucman.lives == 'undefined') {
+			    text = 'Lives: 3';
+			} else {
+			    text = 'Lives: ' + that.game.pucman.lives;
+			}
+            that.livesText = that.add.text((that.game.width / 20), (that.game.height - 64), text, {
                 fontSize: '32px',
                 fill: '#000'
             });
