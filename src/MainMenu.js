@@ -5,7 +5,11 @@ Pucman.MainMenu = function(game, map) {
 };
 
 Pucman.MainMenu.prototype = {
-
+    
+	/**
+	 * initialisation of the state
+	 * @param map from mapstraction
+	 */
     init: function(map) {
         this.map = map;
         // create a marker positioned at a lat/lon 
@@ -22,12 +26,18 @@ Pucman.MainMenu.prototype = {
         // display marker 
 
     },
-
+    
+	/**
+	 * preloads data for the state
+	 */
     preload: function() {
         this.load.image('searchButtonPic', 'resources/playButton.png');
         this.load.image('textFieldPic', 'resources/textField.png');
     },
-
+	
+	/**
+	 * called on creation of the state
+	 */
     create: function() {
         this.input.mouse.mouseWheelCallback = this.mouseWheel;
         searchButton = this.game.add.button(
@@ -50,7 +60,10 @@ Pucman.MainMenu.prototype = {
         //highscore_marker.openBubble();
 
     },
-
+    
+	/**
+	 * updates the state
+	 */
     update: function() {
 
         if (searchField.pressedEnter) {
@@ -71,6 +84,7 @@ Pucman.MainMenu.prototype = {
 
     /**
      * search and geocode the given address
+	 * @param text from the textfield
      */
     searchAddress: function(input) {
         var address = {};
@@ -80,6 +94,7 @@ Pucman.MainMenu.prototype = {
 
     /**
      * catch mousewheel movement
+	 * @param mouswheel event
      */
     mouseWheel: function(event) {
         //Ausgabe des Wertes des Mausrads

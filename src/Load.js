@@ -14,12 +14,20 @@ Pucman.Load = function(game, map) {
 };
 
 Pucman.Load.prototype = {
-    init: function(map) {
+    
+	/**
+	 * initialisation of the state
+	 * @param the map from mapstraction
+	 */
+	init: function(map) {
         this.map = map;
         this.graph = Pucman.Graph.getGraph(this);
 
     },
-
+	
+	/**
+	 * updates the state
+	 */
     update: function() {
         if (this.graphReady) {
             this.game.state.start('Game', false, false, this.graph);

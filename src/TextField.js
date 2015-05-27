@@ -13,6 +13,11 @@ var pressedEnter = null;
 
 /**
  * builds a new TextField
+ * @param game is the game state
+ * @param x is the horizontal coordinate
+ * @param y is the vertical coordinate
+ * @param length is the length of the textfield
+ * @param sprite is the sprite of the textfield
  */
 function TextField(game, x, y, length, sprite) {
     this.length = length;
@@ -30,7 +35,9 @@ function TextField(game, x, y, length, sprite) {
 };
 
 TextField.prototype = {
-    /** handles pressed keys */
+    /** 
+	 * handles pressed keys 
+	 */
     keyPress : function(data) {
 	    if(this.selected) {
             switch(data.keyCode) {
@@ -45,6 +52,7 @@ TextField.prototype = {
                     if ((this.textData.length + 1) <= this.length) {
                         var char = String.fromCharCode(data.keyCode).toString();
                         if (char.length > 0) {
+						    if(!data.shiftKey) char = char.toLowerCase();
                             this.textData += char;
                             this.myText.text = this.textData;
                         }

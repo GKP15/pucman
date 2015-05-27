@@ -13,12 +13,19 @@ Pucman.Character = function(game, key, node) {
 Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);
 Pucman.Character.constructor = Pucman.Character;
 
+/**
+ * updates the position and handles eating
+ */
 Pucman.Character.prototype.update = function() {
 
     this.move(this.getDir());
     this.eatDot();
 };
 
+/**
+ * gets the direction from keyboard input
+ * @return current direction
+ */
 Pucman.Character.prototype.getDir = function() {
     var pressedKey = null;
     if (this.game.cursors.up.isDown) {
@@ -36,6 +43,10 @@ Pucman.Character.prototype.getDir = function() {
     return pressedKey;
 }; 
 
+/**
+ * moves pucman
+ * @param the key which is pressed
+ */
 Pucman.Character.prototype.move = function(pressedKey) {
     var nextDir = 0;
     if (this.getNodeInDir(pressedKey) !== undefined) {
@@ -71,6 +82,11 @@ Pucman.Character.prototype.move = function(pressedKey) {
     }
 };
 
+/**
+ * searches for the next node at given direction
+ * @param direction
+ * @return next node at this direction
+ */
 Pucman.Character.prototype.getNodeInDir = function(dir) {
     var nodeInDir;
     var neighbors = this.node.neighborhood('node[id]');
@@ -83,6 +99,9 @@ Pucman.Character.prototype.getNodeInDir = function(dir) {
     return nodeInDir;
 };
 
+/**
+ * pucman eats a dot and get points
+ */
 Pucman.Character.prototype.eatDot = function() {
     var dot = this.node.data('dot');
     if (dot !== undefined) {

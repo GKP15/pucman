@@ -20,7 +20,11 @@ Pucman.Game = function(game) {
 };
 
 Pucman.Game.prototype = {
-
+	
+	/**
+	 * initialisation of the state
+	 * @param graph of the streets
+     */
     init: function(graph) {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
@@ -29,7 +33,10 @@ Pucman.Game.prototype = {
         this.graph = graph;
 
     },
-
+	
+	/**
+	 * preloads data for the state
+	 */
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman2.png', 32, 32);
 		this.load.spritesheet('ghost', 'resources/ghost.png', 32, 32);
@@ -37,7 +44,10 @@ Pucman.Game.prototype = {
 
         Pucman.Interface.preloadInterface(this);
     },
-
+	
+	/**
+	 * caleld on creation of the state
+	 */
     create: function() {
         Pucman.Interface.createInterface(this);
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -76,13 +86,20 @@ Pucman.Game.prototype = {
         
         this.ghosts.add(ghostPinky);
     },
+	
+	/**
+	 * updates the state
+	 */
     update: function() {
         this.eat();
         if ( this.lives === 0 ){
             this.gameOver();
         }
     },
-
+	
+	/**
+	 * eating of pucman by a ghost
+	 */
     eat: function() {
         for (var i = 0; i < this.ghosts.length; i++) {
             if (this.pucman.node === this.ghosts.getChildAt(i).node) {
@@ -92,6 +109,9 @@ Pucman.Game.prototype = {
         }
     },
     
+	/**
+	 * end of game (win or lose)
+	 */
     gameOver: function() {
         Menu.initMap();
         this.destroy();

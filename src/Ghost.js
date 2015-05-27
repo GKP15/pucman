@@ -13,11 +13,18 @@ Pucman.Ghost = function(game, key, node) {
 Pucman.Ghost.prototype = Object.create(Phaser.Sprite.prototype);
 Pucman.Ghost.constructor = Pucman.Ghost;
 
+/**
+ * updates the position
+ */
 Pucman.Ghost.prototype.update = function() {
 
     this.move(this.getDir());
 };
 
+/**
+ * gets the direction (random)
+ * @return current direction
+ */
 Pucman.Ghost.prototype.getDir = function() {
     
     if(Math.random() * 10 < 2) {
@@ -26,6 +33,10 @@ Pucman.Ghost.prototype.getDir = function() {
     
 }; 
 
+/**
+ * moves the ghost
+ * @param the key which is pressed
+ */
 Pucman.Ghost.prototype.move = function(pressedKey) {
     var nextDir = 0;
     if (this.getNodeInDir(pressedKey) !== undefined) {
@@ -61,6 +72,11 @@ Pucman.Ghost.prototype.move = function(pressedKey) {
     }
 };
 
+/**
+ * searches for the next node at given direction
+ * @param direction
+ * @return next node at this direction
+ */
 Pucman.Ghost.prototype.getNodeInDir = function(dir) {
     var nodeInDir;
     var neighbors = this.node.neighborhood('node[id]');

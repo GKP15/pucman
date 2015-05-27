@@ -1,5 +1,10 @@
 Pucman.Interface = (function() {
     return {
+		
+		/**
+		 * preloads data for the interface
+		 * @param game state
+		 */
         preloadInterface: function(that) {
             that.load.image('homePageButtonPic', 'resources/homePageButton.png');
             that.load.image('plusButtonPic', 'resources/plus.png');
@@ -9,7 +14,11 @@ Pucman.Interface = (function() {
             that.load.audio('music', 'resources/test.mp3');
             that.load.audio('ouch', 'resources/ouch.mp3');
         },
-
+		
+		/**
+		 * creates the interface
+		 * @param gane state
+		 */
         createInterface: function(that) {
             //button to got to homepage
             homepageButton = that.game.add.button(((that.game.width / 20) * 17), (that.game.height - 64), 'homePageButtonPic', function() {
@@ -40,7 +49,11 @@ Pucman.Interface = (function() {
             that.backGroundMusic = that.game.add.audio('music', 0.2, true);
             that.backGroundMusic.play();
         },
-
+		
+		/**
+		 * updates the score after eating a dot
+		 * @param game state
+		 */
         eatDot: function(game) {
             //  Score
             game.scoreText.text = 'Score: ' + game.score;
