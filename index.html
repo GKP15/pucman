@@ -103,7 +103,7 @@ window.onload = function() {
             var marker = new mxn.Marker( loc );
             marker.setLabel(locations[i].tags.name);
             marker.id = locations[i].id;
-            marker.setIcon( "resources/pucman_open.png");
+            marker.setIcon( "resources/marker.png");
             Menu.getHighscore(marker);
         }
     }
@@ -111,6 +111,7 @@ window.onload = function() {
     Menu.getHighscore = function (marker) {
         var infoBubble = marker.labelText + "\n Horst: 9000";
         marker.setInfoBubble(infoBubble);
+		marker.setHover(true);
         marker.click.addHandler(function(eventName, eventSource, eventArgs) {
             Menu.startGame(eventSource);
             marker.closeBubble();
