@@ -102,10 +102,10 @@ window.onload = function() {
                     locations[i].lat, 
                     locations[i].lon 
                     );
-            var marker = new mxn.Marker( loc );
+            var marker = new mxn.Marker(loc);
             marker.setLabel(locations[i].tags.name);
             marker.id = locations[i].id;
-            marker.setIcon( "resources/marker.png");
+            marker.setIcon("resources/marker.png");
             Menu.getHighscore(marker);
         }
     }

@@ -78,6 +78,8 @@ Pucman.Character.prototype.move = function(pressedKey) {
     this.lastNode = this.node;
     if (nextDir !== 0) {
         this.node = this.getNodeInDir(nextDir);
+        //rotate the sprite to the direction of the next node
+		this.rotation = Math.atan2(this.node.position().y-this.lastNode.position().y,this.node.position().x-this.lastNode.position().x);
         this.direction = nextDir;
         this.position = this.node.position();
     }
