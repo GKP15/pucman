@@ -8,6 +8,7 @@ Pucman.Ghost = function(game, key, node) {
     this.direction = Phaser.LEFT;
     this.debugCounter = 0;
     this.score = 0;
+	this.stateGame = game.state.getCurrentState();
 };
 
 Pucman.Ghost.prototype = Object.create(Phaser.Sprite.prototype);
@@ -18,18 +19,30 @@ Pucman.Ghost.constructor = Pucman.Ghost;
  */
 Pucman.Ghost.prototype.update = function() {
 
+	if((new Date()).getTime() % 3 != 0)
     this.move(this.getDir());
 };
 
 /**
  * gets the direction (random)
- * @return current direction
+ * @return next direction
  */
 Pucman.Ghost.prototype.getDir = function() {
     
-    if(Math.random() * 10 < 2) {
-        return Math.floor(Math.random() * 4);
-    }
+	if(this.node.neighborhood('node[id]').length > 2) {
+		
+		var ghostPos = this.node.position();
+		var pucmanPos = this.stateGame.getPucmanNode().position();
+		console.log('distance squared: ' + (ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y))
+		if((ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y) > 15000) {
+			return Pucman.Graph.dirAToB(ghostPos, pucmanPos);
+		}
+		
+		return Math.floor(Math.random() * 4);
+	}
+	
+	
+	return this.direction;
     
 }; 
 

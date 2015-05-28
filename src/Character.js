@@ -1,3 +1,5 @@
+'use strict';
+
 Pucman.Character = function(game, key, node) {
 
     Phaser.Sprite.call(this, game, 100, 100, key, 0);
@@ -9,6 +11,11 @@ Pucman.Character = function(game, key, node) {
     this.debugCounter = 0;
     this.score = 0;
 	this.lives = 3;
+	this.invulnerable = false;
+	this.stateGame = game.state.getCurrentState();
+	
+	this.animations.add('flashing', [1,2], 30, true, true);
+	
 };
 
 Pucman.Character.prototype = Object.create(Phaser.Sprite.prototype);
@@ -29,16 +36,16 @@ Pucman.Character.prototype.update = function() {
  */
 Pucman.Character.prototype.getDir = function() {
     var pressedKey = null;
-    if (this.game.cursors.up.isDown) {
+    if (this.stateGame.cursors.up.isDown) {
         pressedKey = Phaser.UP;
     }
-    if (this.game.cursors.right.isDown) {
+    if (this.stateGame.cursors.right.isDown) {
         pressedKey = Phaser.RIGHT;
     }
-    if (this.game.cursors.down.isDown) {
+    if (this.stateGame.cursors.down.isDown) {
         pressedKey = Phaser.DOWN;
     }
-    if (this.game.cursors.left.isDown) {
+    if (this.stateGame.cursors.left.isDown) {
         pressedKey = Phaser.LEFT;
     }
     return pressedKey;
@@ -108,12 +115,12 @@ Pucman.Character.prototype.getNodeInDir = function(dir) {
 Pucman.Character.prototype.eatDot = function() {
     var dot = this.node.data('dot');
     if (dot !== undefined) {
-        this.game.dots.remove(dot);
+        this.stateGame.dots.remove(dot);
         this.node.removeData();
-        this.game.score++;
-        Pucman.Interface.eatDot(this.game);
-        if(this.game.dots.length == 0) {
-            this.game.gameOver();
+        this.stateGame.score++;
+        Pucman.Interface.eatDot(this.stateGame);
+        if(this.stateGame.dots.length == 0) {
+            this.stateGame.gameOver();
         }
     }
 };

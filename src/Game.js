@@ -37,7 +37,7 @@ Pucman.Game.prototype = {
 	 * preloads data for the state
 	 */
     preload: function() {
-        this.load.spritesheet('pucman', 'resources/pucman2.png', 32, 32);
+        this.load.spritesheet('pucman', 'resources/pucman.png', 28, 28);
 		this.load.spritesheet('ghost', 'resources/ghost.png', 32, 32);
         this.load.spritesheet('dot', 'resources/dot.png', 10, 10);
 
@@ -76,14 +76,15 @@ Pucman.Game.prototype = {
             );
         });
         this.pucman = new Pucman.Character(
-            this, "pucman", this.graph.nodes()[110]);
+            this.game, "pucman", this.graph.nodes()[110]);
         this.add.existing(this.pucman);
 
         this.ghosts = this.add.group();
         ghostPinky = new Pucman.Ghost(
-            this, "ghost", this.graph.nodes()[10]);
+            this.game, "ghost", this.graph.nodes()[10]);
         
         this.ghosts.add(ghostPinky);
+	    
     },
 	
 	/**
@@ -104,6 +105,9 @@ Pucman.Game.prototype = {
             if (this.pucman.node === this.ghosts.getChildAt(i).node) {
                 this.pucman.lives--;
                 this.livesText.setText('Lives: ' + this.pucman.lives);
+				this.pucman.animations.play('flashing');
+				this.pucman.invulnerable = true;
+				this.game.time.events.add(Phaser.Timer.SECOND * 5, function() {this.pucman.invulnerable = false;}, this)
             }
         }
     },
@@ -114,8 +118,14 @@ Pucman.Game.prototype = {
     gameOver: function() {
         Menu.initMap();
         this.destroy();
+    },
+	
+	destroy: function() {
+	    window.location.reload();
+    },
+	
+	getPucmanNode: function() {
+        return this.pucman.node;
     }
-
-
 
 };
