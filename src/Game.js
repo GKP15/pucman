@@ -61,31 +61,16 @@ Pucman.Game.prototype = {
                 node.data('dot', dot);
             }
             bitmap.rect(
-                node.position().x - 6,
-                node.position().y - 6,
-                12, 1, 'rgb(40, 15, 220)'
-            );
-            bitmap.rect(
-                node.position().x - 6,
-                node.position().y - 6,
-                1, 12, 'rgb(40, 15, 220)'
-            );
-            bitmap.rect(
-                node.position().x + 6,
-                node.position().y - 6,
-                1, 12, 'rgb(40, 15, 220)'
-            );
-            bitmap.rect(
-                node.position().x - 6,
-                node.position().y + 6,
-                12, 1, 'rgb(40, 15, 220)'
+                node.position().x - 7,
+                node.position().y - 7,
+                14, 14, 'rgb(40, 15, 220)'
             );
         });
         this.graph.nodes().forEach(function(node) {
             bitmap.rect(
                 node.position().x - 5,
                 node.position().y - 5,
-                10, 10, 'rgba(0, 0, 0, 0.5)'
+                10, 10, 'rgba(0, 0, 0, 1)'
             );
         });
         this.pucman = new Pucman.Character(

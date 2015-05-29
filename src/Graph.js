@@ -240,7 +240,7 @@ Pucman.Graph = (function() {
             var pX = Phaser.Math.linearInterpolation(pointListX, i);
             var pY = Phaser.Math.linearInterpolation(pointListY, i);
             var nextPoint = new Phaser.Point(pX, pY);
-            if (pointList.length === 0 || nextPoint.distance(pointList[0]) > 1) {
+            if (pointList.length === 0 || nextPoint.distance(pointList[0]) > 1.5) {
                 pointList.unshift(nextPoint);
             }
         }
