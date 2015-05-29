@@ -126,7 +126,7 @@ Pucman.Game.prototype = {
 	 */
     update: function() {
         this.collision();
-        if ( this.pucman.lives === 0 ){
+        if (this.pucman.lives <= 0 ){
             this.gameOver();
         }
     },
@@ -157,16 +157,9 @@ Pucman.Game.prototype = {
 	 * end of game (win or lose)
 	 */
     gameOver: function() {
-        
-		//TODO: show GameOverScreen with input for name.
 		
+		this.game.state.start('Highscore', true, false, this.score);
 		
-		
-        this.destroy();
-    },
-	
-	destroy: function() {
-	    window.location.reload();
     },
 	
 	getPucmanNode: function() {

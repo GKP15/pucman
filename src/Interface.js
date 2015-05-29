@@ -10,6 +10,7 @@ Pucman.Interface = (function() {
             that.load.image('plusButtonPic', 'resources/plusButton.png');
             that.load.image('minusButtonPic', 'resources/minusButton.png');
 			that.load.image('pauseButtonPic', 'resources/pauseButton.png');
+			that.load.image('textFieldPic', 'resources/textField.png')
 
             // music
             that.load.audio('music', 'resources/test.mp3');

@@ -18,6 +18,7 @@
 		<script src="src/Ghost.js"></script>
         <script src="src/Interface.js"></script>
         <script src="src/Dbquery.js"></script>
+		<script src="src/Highscore.js"></script>
         <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers,[geocoder])" type="text/javascript"></script>
     </head>
@@ -136,7 +137,9 @@ window.onload = function() {
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
         game.state.add('Load', Pucman.Load);
         game.state.add('Game', Pucman.Game);
+		game.state.add('Highscore', Pucman.Highscore);
         //game.state.start('Game', true, false, map);
+		$(document).unbind('keydown').bind('keydown', function (event) { if(event.keyCode === 8) event.preventDefault();});
         game.state.start('Load', true, false, map);
     };
     Menu.initMap();

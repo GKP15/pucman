@@ -19,12 +19,12 @@ var pressedEnter = null;
  * @param length is the length of the textfield
  * @param sprite is the sprite of the textfield
  */
-function TextField(game, x, y, length, sprite) {
+function TextField(game, x, y, length, sprite, defaultText) {
     this.length = length;
     this.bgSprite = game.add.sprite(x, y, sprite);
     this.bgSprite.inputEnabled = true;
     this.textData = "";
-    this.myText = game.add.text(x + 5, y + 5, 'Leipzig');
+    this.myText = game.add.text(x + 5, y + 5, defaultText);
     this.myText.fontSize = 32;
     this.myText.fill = '#000';
     this.selected = false;
@@ -44,6 +44,7 @@ TextField.prototype = {
                 case 8:
                     this.textData = this.textData.substring(0, this.textData.length - 1);
                     this.myText.text = this.textData;
+					return false;
                 	break;
                 case 13:
                 	this.pressedEnter = true;
