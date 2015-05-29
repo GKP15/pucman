@@ -2,15 +2,6 @@ Pucman.Load = function(game, map) {
     this.map = null;
     this.graph = null;
     this.graphReady = false;
-
-    var opposites = [
-        Phaser.NONE,
-        Phaser.RIGHT,
-        Phaser.LEFT,
-        Phaser.DOWN,
-        Phaser.UP
-    ];
-
 };
 
 Pucman.Load.prototype = {
@@ -30,6 +21,7 @@ Pucman.Load.prototype = {
 	 */
     update: function() {
         if (this.graphReady) {
+			document.getElementById("loadText").style.zIndex = "-1";
             this.game.state.start('Game', false, false, this.graph);
         }
     },

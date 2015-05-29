@@ -26,6 +26,8 @@
     <body>
         <div id="map"></div>
         <div id="gameContainer"></div>
+		<div id="loadText"><p>Preparing map...</p></div>
+		<div id="cover"><img src="http://www.whitetiger.pro/images/white.jpg"></div>
         <script type="text/javascript">
 window.onload = function() {
 	
@@ -130,11 +132,12 @@ window.onload = function() {
         map.removeAllMarkers();
         document.getElementById("gameContainer").style.zIndex = "200";
         document.getElementById("map").style.zIndex = "100";
+		document.getElementById("loadText").style.zIndex = "300";
         var game = new Phaser.Game(
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
         game.state.add('Load', Pucman.Load);
         game.state.add('Game', Pucman.Game);
-        game.state.start('Game', true, false, map);
+        //game.state.start('Game', true, false, map);
         game.state.start('Load', true, false, map);
     };
     Menu.initMap();

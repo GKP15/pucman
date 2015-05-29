@@ -7,15 +7,6 @@ Pucman.Game = function(game) {
     this.dots = null;
     this.maxScore = null;
     this.score = 0;
-
-    var opposites = [
-        Phaser.NONE,
-        Phaser.RIGHT,
-        Phaser.LEFT,
-        Phaser.DOWN,
-        Phaser.UP
-    ];
-
 };
 
 Pucman.Game.prototype = {
@@ -134,28 +125,31 @@ Pucman.Game.prototype = {
 	 * updates the state
 	 */
     update: function() {
-        this.eat();
+        this.collision();
         if ( this.pucman.lives === 0 ){
             this.gameOver();
         }
     },
 	
 	/**
-	 * eating of pucman by a ghost
+	 * checks if pucman ist hitted by a ghost
 	 */
-    eat: function() {
+    collision: function() {
         if(this.pucman.invulnerable) return;
 		for (var i = 0; i < this.ghosts.length; i++) {
-            if (this.pucman.node === this.ghosts.getChildAt(i).node) {
-                this.pucman.lives--;
-                this.livesText.setText('Lives: ' + this.pucman.lives);
-				this.pucman.animations.play('flashing');
-				this.pucman.invulnerable = true;
-				this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-				    this.pucman.invulnerable = false;
-				    this.pucman.animations.stop('flashing', true);
-				}, this)
-            }
+			var neighbors = this.ghosts.getChildAt(i).node.neighborhood('node[id]');
+            for(var j = 0; j < neighbors.length; j++) {
+				if (this.pucman.node === neighbors[j]) {
+					this.pucman.lives--;
+					this.livesText.setText('Lives: ' + this.pucman.lives);
+					this.pucman.animations.play('flashing');
+					this.pucman.invulnerable = true;
+					this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
+						this.pucman.invulnerable = false;
+						this.pucman.animations.stop('flashing', true);
+					}, this)
+				}
+			}
         }
     },
     
@@ -163,7 +157,11 @@ Pucman.Game.prototype = {
 	 * end of game (win or lose)
 	 */
     gameOver: function() {
-        Menu.initMap();
+        
+		//TODO: show GameOverScreen with input for name.
+		
+		
+		
         this.destroy();
     },
 	
