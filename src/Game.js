@@ -58,23 +58,45 @@ Pucman.Game.prototype = {
         var count = 0;
         this.dots = this.add.group();
         var dots = this.dots;
-        this.graph.nodes().forEach(function(ele) {
+        this.graph.nodes().forEach(function(node) {
             ++count;
             if (count % 10 === 0) {
                 var dot = dots.create(
-                    ele.position().x,
-                    ele.position().y,
+                    node.position().x,
+                    node.position().y,
                     'dot'
                 );
                 dot.anchor.set(0.5, 0.5);
-                ele.data('dot', dot);
+                node.data('dot', dot);
             }
-            bitmap.rect(
-                ele.position().x - 5,
-                ele.position().y - 5,
-                10, 10, 'rgba(27, 247, 181, 0.2)'
+			bitmap.rect(
+                node.position().x - 6,
+                node.position().y - 6,
+                12, 1, 'rgb(40, 15, 220)'
+            );
+			bitmap.rect(
+                node.position().x - 6,
+                node.position().y - 6,
+                1, 12, 'rgb(40, 15, 220)'
+            );
+			bitmap.rect(
+                node.position().x + 6,
+                node.position().y - 6,
+                1, 12, 'rgb(40, 15, 220)'
+            );
+			bitmap.rect(
+                node.position().x - 6,
+                node.position().y + 6,
+                12, 1, 'rgb(40, 15, 220)'
             );
         });
+		this.graph.nodes().forEach(function(node) {
+			bitmap.rect(
+                node.position().x - 5,
+                node.position().y - 5,
+                10, 10, 'rgba(0, 0, 0, 0.5)'
+            );
+		});
         this.pucman = new Pucman.Character(
             this.game, "pucman", this.graph.nodes()[110]);
         this.add.existing(this.pucman);
@@ -101,13 +123,17 @@ Pucman.Game.prototype = {
 	 * eating of pucman by a ghost
 	 */
     eat: function() {
-        for (var i = 0; i < this.ghosts.length; i++) {
+        if(this.pucman.invulnerable) return;
+		for (var i = 0; i < this.ghosts.length; i++) {
             if (this.pucman.node === this.ghosts.getChildAt(i).node) {
                 this.pucman.lives--;
                 this.livesText.setText('Lives: ' + this.pucman.lives);
-				this.pucman.animations.play('flashing');
+				//this.pucman.animations.play('flashing');
 				this.pucman.invulnerable = true;
-				this.game.time.events.add(Phaser.Timer.SECOND * 5, function() {this.pucman.invulnerable = false;}, this)
+				this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
+				    this.pucman.invulnerable = false;
+				    //this.pucman.animations.stop('flashing', true);
+				}, this)
             }
         }
     },

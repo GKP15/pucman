@@ -33,7 +33,7 @@ Pucman.Ghost.prototype.getDir = function() {
 		
 		var ghostPos = this.node.position();
 		var pucmanPos = this.stateGame.getPucmanNode().position();
-		console.log('distance squared: ' + (ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y))
+		
 		if((ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y) > 15000) {
 			return Pucman.Graph.dirAToB(ghostPos, pucmanPos);
 		}

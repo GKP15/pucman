@@ -14,7 +14,10 @@ Pucman.Character = function(game, key, node) {
 	this.invulnerable = false;
 	this.stateGame = game.state.getCurrentState();
 	
-	this.animations.add('flashing', [1,2], 30, true, true);
+	this.animations.add('moving', [0,1,2,1], 7, true, true);
+	//this.animations.add('flashing', [1,4,2,4,3,5,2,4], 7, true, true);
+	
+	this.animations.play('moving');
 	
 };
 
