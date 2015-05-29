@@ -15,7 +15,7 @@ Pucman.Character = function(game, key, node) {
 	this.stateGame = game.state.getCurrentState();
 	
 	this.animations.add('moving', [0,1,2,1], 7, true, true);
-	//this.animations.add('flashing', [1,4,2,4,3,5,2,4], 7, true, true);
+	this.animations.add('flashing', [0,3,1,3,2,3,1,3], 14, true, true);
 	
 	this.animations.play('moving');
 	

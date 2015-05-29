@@ -149,11 +149,11 @@ Pucman.Game.prototype = {
             if (this.pucman.node === this.ghosts.getChildAt(i).node) {
                 this.pucman.lives--;
                 this.livesText.setText('Lives: ' + this.pucman.lives);
-				//this.pucman.animations.play('flashing');
+				this.pucman.animations.play('flashing');
 				this.pucman.invulnerable = true;
 				this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
 				    this.pucman.invulnerable = false;
-				    //this.pucman.animations.stop('flashing', true);
+				    this.pucman.animations.stop('flashing', true);
 				}, this)
             }
         }
