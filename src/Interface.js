@@ -7,8 +7,9 @@ Pucman.Interface = (function() {
 		 */
         preloadInterface: function(that) {
             that.load.image('homePageButtonPic', 'resources/homePageButton.png');
-            that.load.image('plusButtonPic', 'resources/plus.png');
-            that.load.image('minusButtonPic', 'resources/minus.png');
+            that.load.image('plusButtonPic', 'resources/plusButton.png');
+            that.load.image('minusButtonPic', 'resources/minusButton.png');
+			that.load.image('pauseButtonPic', 'resources/pauseButton.png');
 
             // music
             that.load.audio('music', 'resources/test.mp3');
@@ -19,47 +20,63 @@ Pucman.Interface = (function() {
 		 * creates the interface
 		 * @param gane state
 		 */
-        createInterface: function(that) {
+        createInterface: function(game) {
+			var state = game.state.getCurrentState();
             //button to got to homepage
-            homepageButton = that.game.add.button(((that.game.width / 20) * 17), (that.game.height - 64), 'homePageButtonPic', function() {
+            homepageButton = game.add.button(((game.width / 20) * 17), (game.height - 64), 'homePageButtonPic', function() {
                 window.location.href = 'http://pcai042.informatik.uni-leipzig.de/~swp15-gkp/';
-            }, that);
+            }, state);
             //button to increase volume
-            plusButton = that.game.add.button(((that.game.width / 20) * 19), (homepageButton.y - ((that.game.cache.getImage('plusButtonPic').height + 32) * 2)), 'plusButtonPic', function() {
-                that.backGroundMusic.volume = Math.min(1, that.backGroundMusic.volume + 0.05);
-            }, that);
+            plusButton = game.add.button(((game.width / 20) * 18), (homepageButton.y - ((game.cache.getImage('plusButtonPic').height + 32) * 2)), 'plusButtonPic', function() {
+                state.backGroundMusic.volume = Math.min(1, state.backGroundMusic.volume + 0.05);
+            }, state);
             //button to  decrease volume
-            minusButton = that.game.add.button(((that.game.width / 20) * 19), (homepageButton.y - (that.game.cache.getImage('plusButtonPic').height + 32)), 'minusButtonPic', function() {
-                that.backGroundMusic.volume = Math.max(0, that.backGroundMusic.volume - 0.05);
-            }, that);
-			//button to start/pause the game
-			var pauseText = 'Pause';
-			pauseButton = that.game.add.button(((that.game.width / 20) * 10), (that.game.height - 64), pauseText, function() {
-                
-            }, that);
+            minusButton = game.add.button(((game.width / 20) * 18), (homepageButton.y - (game.cache.getImage('plusButtonPic').height + 32)), 'minusButtonPic', function() {
+                state.backGroundMusic.volume = Math.max(0, state.backGroundMusic.volume - 0.05);
+            }, state);
+			//button to pause the game
+			pauseButton = game.add.button(((game.width / 20) * 14), (game.height - 64), 'pauseButtonPic', function() {
+                game.paused = true;
+				pauseLabel = game.add.text(game.width/2, game.height/2, 'Click anywhere to continue', {
+					fontSize: '48px',
+					fill: '#DC0F0F'
+				});
+				pauseLabel.anchor.setTo(0.5);
+            }, state);
+			
+			game.input.onDown.add(function() {
+				if(game.paused && typeof pauseLabel != 'undefined') {
+					pauseLabel.destroy();
+					game.paused = false;
+				}
+			}, self);
 
             //  Lives
-			var text = null;
-			if(typeof that.game.pucman == 'undefined') {
-			    text = 'Lives: 3';
-			} else {
-			    text = 'Lives: ' + that.game.pucman.lives;
-			}
-            that.livesText = that.add.text((that.game.width / 20), (that.game.height - 64), text, {
+            state.livesText = state.add.text((game.width / 20), (game.height - 64), 'Lives: 3', {
                 fontSize: '32px',
-                fill: '#000'
+                fill: '#280FDC'
             });
             //  Score
-            that.scoreText = that.add.text((that.game.width / 2), (that.game.height - 64), 'Score: 0', {
+            state.scoreText = state.add.text((game.width / 2), (game.height - 64), 'Score: 0', {
                 fontSize: '32px',
-                fill: '#000'
+                fill: '#280FDC'
             });
 
 
             // music
-            that.backGroundMusic = that.game.add.audio('music', 0.2, true);
-            that.backGroundMusic.play();
+            state.backGroundMusic = game.add.audio('music', 0.2, true);
+            state.backGroundMusic.play();
         },
+		
+		showMessage: function(game, text) {
+			var state = game.state.getCurrentState();
+			
+			state.msgLabel = state.add.text(game.width/2, game.height/2, text, {
+					fontSize: '48px',
+					fill: '#DC0F0F'
+				});
+			state.msgLabel.anchor.setTo(0.5);
+		},
 		
 		/**
 		 * updates the score after eating a dot

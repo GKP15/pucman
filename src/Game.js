@@ -45,10 +45,10 @@ Pucman.Game.prototype = {
     },
 	
 	/**
-	 * caleld on creation of the state
+	 * called on creation of the state
 	 */
     create: function() {
-        Pucman.Interface.createInterface(this);
+        Pucman.Interface.createInterface(this.game);
         this.cursors = this.input.keyboard.createCursorKeys();
         this.graphBitmap = this.add.bitmapData(
             this.game.width, this.game.height);
@@ -107,6 +107,27 @@ Pucman.Game.prototype = {
         
         this.ghosts.add(ghostPinky);
 	    
+		this.game.paused = true;
+		Pucman.Interface.showMessage(this.game, 'Click anywhere to start');
+		
+		//handles unpause event
+		function messageScreenHandler(game) {
+			if(game.paused) {
+				game.state.getCurrentState().msgLabel.destroy();
+				game.paused = false;
+			}
+		};
+		
+		//help function to pass a reference of a function with parameters
+		function partial(func /*, 0..n args */) {
+			var args = Array.prototype.slice.call(arguments, 1);
+			return function() {
+				return func.apply(this, args);
+			};
+		}
+		
+		//add input handler
+		this.game.input.onDown.add(partial(messageScreenHandler, this.game), self);
     },
 	
 	/**
