@@ -1,3 +1,6 @@
+//globale PucmanVariable
+Pucman = {};
+
 Pucman.Load = function(game, map) {
     this.map = null;
     this.graph = null;
