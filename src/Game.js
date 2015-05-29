@@ -10,10 +10,10 @@ Pucman.Game = function(game) {
 };
 
 Pucman.Game.prototype = {
-	
-	/**
-	 * initialisation of the state
-	 * @param graph of the streets
+
+    /**
+     * initialisation of the state
+     * @param graph of the streets
      */
     init: function(graph) {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -23,21 +23,21 @@ Pucman.Game.prototype = {
         this.graph = graph;
 
     },
-	
-	/**
-	 * preloads data for the state
-	 */
+
+    /**
+     * preloads data for the state
+     */
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 28, 28);
-		this.load.spritesheet('ghost', 'resources/ghost.png', 27, 27);
+        this.load.spritesheet('ghost', 'resources/ghost.png', 27, 27);
         this.load.spritesheet('dot', 'resources/dot.png', 9, 9);
 
         Pucman.Interface.preloadInterface(this);
     },
-	
-	/**
-	 * called on creation of the state
-	 */
+
+    /**
+     * called on creation of the state
+     */
     create: function() {
         Pucman.Interface.createInterface(this.game);
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -60,34 +60,34 @@ Pucman.Game.prototype = {
                 dot.anchor.set(0.5, 0.5);
                 node.data('dot', dot);
             }
-			bitmap.rect(
+            bitmap.rect(
                 node.position().x - 6,
                 node.position().y - 6,
                 12, 1, 'rgb(40, 15, 220)'
             );
-			bitmap.rect(
+            bitmap.rect(
                 node.position().x - 6,
                 node.position().y - 6,
                 1, 12, 'rgb(40, 15, 220)'
             );
-			bitmap.rect(
+            bitmap.rect(
                 node.position().x + 6,
                 node.position().y - 6,
                 1, 12, 'rgb(40, 15, 220)'
             );
-			bitmap.rect(
+            bitmap.rect(
                 node.position().x - 6,
                 node.position().y + 6,
                 12, 1, 'rgb(40, 15, 220)'
             );
         });
-		this.graph.nodes().forEach(function(node) {
-			bitmap.rect(
+        this.graph.nodes().forEach(function(node) {
+            bitmap.rect(
                 node.position().x - 5,
                 node.position().y - 5,
                 10, 10, 'rgba(0, 0, 0, 0.5)'
             );
-		});
+        });
         this.pucman = new Pucman.Character(
             this.game, "pucman", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
         this.add.existing(this.pucman);
@@ -95,74 +95,74 @@ Pucman.Game.prototype = {
         this.ghosts = this.add.group();
         ghostPinky = new Pucman.Ghost(
             this.game, "ghost", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
-        
+
         this.ghosts.add(ghostPinky);
-	    
-		this.game.paused = true;
-		Pucman.Interface.showMessage(this.game, 'Click anywhere to start');
-		
-		//handles unpause event
-		function messageScreenHandler(game) {
-			if(game.paused) {
-				game.state.getCurrentState().msgLabel.destroy();
-				game.paused = false;
-			}
-		};
-		
-		//help function to pass a reference of a function with parameters
-		function partial(func /*, 0..n args */) {
-			var args = Array.prototype.slice.call(arguments, 1);
-			return function() {
-				return func.apply(this, args);
-			};
-		}
-		
-		//add input handler
-		this.game.input.onDown.add(partial(messageScreenHandler, this.game), self);
+
+        this.game.paused = true;
+        Pucman.Interface.showMessage(this.game, 'Click anywhere to start');
+
+        //handles unpause event
+        function messageScreenHandler(game) {
+            if (game.paused) {
+                game.state.getCurrentState().msgLabel.destroy();
+                game.paused = false;
+            }
+        };
+
+        //help function to pass a reference of a function with parameters
+        function partial(func /*, 0..n args */ ) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            return function() {
+                return func.apply(this, args);
+            };
+        }
+
+        //add input handler
+        this.game.input.onDown.add(partial(messageScreenHandler, this.game), self);
     },
-	
-	/**
-	 * updates the state
-	 */
+
+    /**
+     * updates the state
+     */
     update: function() {
         this.collision();
-        if (this.pucman.lives <= 0 ){
+        if (this.pucman.lives <= 0) {
             this.gameOver();
         }
     },
-	
-	/**
-	 * checks if pucman ist hitted by a ghost
-	 */
+
+    /**
+     * checks if pucman ist hitted by a ghost
+     */
     collision: function() {
-        if(this.pucman.invulnerable) return;
-		for (var i = 0; i < this.ghosts.length; i++) {
-			var neighbors = this.ghosts.getChildAt(i).node.neighborhood('node[id]');
-            for(var j = 0; j < neighbors.length; j++) {
-				if (this.pucman.node === neighbors[j]) {
-					this.pucman.lives--;
-					this.livesText.setText('Lives: ' + this.pucman.lives);
-					this.pucman.animations.play('flashing');
-					this.pucman.invulnerable = true;
-					this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-						this.pucman.invulnerable = false;
-						this.pucman.animations.stop('flashing', true);
-					}, this)
-				}
-			}
+        if (this.pucman.invulnerable) return;
+        for (var i = 0; i < this.ghosts.length; i++) {
+            var neighbors = this.ghosts.getChildAt(i).node.neighborhood('node[id]');
+            for (var j = 0; j < neighbors.length; j++) {
+                if (this.pucman.node === neighbors[j]) {
+                    this.pucman.lives--;
+                    this.livesText.setText('Lives: ' + this.pucman.lives);
+                    this.pucman.animations.play('flashing');
+                    this.pucman.invulnerable = true;
+                    this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
+                        this.pucman.invulnerable = false;
+                        this.pucman.animations.stop('flashing', true);
+                    }, this)
+                }
+            }
         }
     },
-    
-	/**
-	 * end of game (win or lose)
-	 */
+
+    /**
+     * end of game (win or lose)
+     */
     gameOver: function() {
-		
-		this.game.state.start('Highscore', true, false, this.score);
-		
+
+        this.game.state.start('Highscore', true, false, this.score);
+
     },
-	
-	getPucmanNode: function() {
+
+    getPucmanNode: function() {
         return this.pucman.node;
     }
 
