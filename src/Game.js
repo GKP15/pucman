@@ -89,12 +89,12 @@ Pucman.Game.prototype = {
             );
 		});
         this.pucman = new Pucman.Character(
-            this.game, "pucman", this.graph.nodes()[110]);
+            this.game, "pucman", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
         this.add.existing(this.pucman);
 
         this.ghosts = this.add.group();
         ghostPinky = new Pucman.Ghost(
-            this.game, "ghost", this.graph.nodes()[10]);
+            this.game, "ghost", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
         
         this.ghosts.add(ghostPinky);
 	    

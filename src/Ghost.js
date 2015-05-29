@@ -31,16 +31,22 @@ Pucman.Ghost.prototype.getDir = function() {
     
 	if(this.node.neighborhood('node[id]').length > 2) {
 		
-		var ghostPos = this.node.position();
-		var pucmanPos = this.stateGame.getPucmanNode().position();
+		function calcDir(ghostPos, pucmanPos) {
+			if((ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y) > 15000) {
+				return Pucman.Graph.dirAToB(ghostPos, pucmanPos);
+			}
 		
-		if((ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y) > 15000) {
-			return Pucman.Graph.dirAToB(ghostPos, pucmanPos);
-		}
+			return Math.floor(Math.random() * 4);
+		};
 		
-		return Math.floor(Math.random() * 4);
+		var newDir = calcDir(this.node.position(), this.stateGame.getPucmanNode().position());
+		while(typeof this.getNodeInDir(newDir) == 'undefined') {
+			newDir = Math.floor(Math.random() * 4);
+		};
+		
+		return newDir;		
+		
 	}
-	
 	
 	return this.direction;
     

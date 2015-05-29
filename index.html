@@ -49,12 +49,12 @@ window.onload = function() {
         map.changeZoom.addHandler(function(eventName, eventSource, eventArgs) {
             clearTimeout(getLocTimeOut);
             map.removeAllMarkers();
-            getLocTimeOut = setTimeout(Menu.getLocations, 2000);
+            getLocTimeOut = setTimeout(Menu.getLocations, 1);
         });
         map.endPan.addHandler(function(eventName, eventSource, eventArgs) {
             clearTimeout(getLocTimeOut);
             //map.removeAllMarkers();
-            getLocTimeOut = setTimeout(Menu.getLocations, 2000);
+            getLocTimeOut = setTimeout(Menu.getLocations, 1);
         });
     }
 
