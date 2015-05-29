@@ -30,6 +30,7 @@ Pucman.Character.constructor = Pucman.Character;
 Pucman.Character.prototype.update = function() {
 
     this.move(this.getDir());
+	this.rotate();
     this.eatDot();
 };
 
@@ -86,11 +87,14 @@ Pucman.Character.prototype.move = function(pressedKey) {
     if (nextDir !== 0) {
         this.node = this.getNodeInDir(nextDir);
         //rotate the sprite to the direction of the next node
-        this.rotation = Math.atan2(this.node.position().y - this.lastNode.position().y, this.node.position().x - this.lastNode.position().x);
         this.direction = nextDir;
         this.position = this.node.position();
     }
 };
+
+Pucman.Character.prototype.rotate = function() {
+    this.rotation = Math.atan2(this.node.position().y - this.lastNode.position().y, this.node.position().x - this.lastNode.position().x);
+}
 
 /**
  * searches for the next node at given direction
