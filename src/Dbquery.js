@@ -1,40 +1,29 @@
-function rdfmarkerget() {
+function rdfmarkerget(id) {
 
-	// create array with markers
-	var markerlist = [];
-	
-		$.getJSON( "resources/query" , function( data ) {
-			// create marker array
-			var markerelement = [];
-			var bindings = data.results.bindings;
-			for(var i in bindings) {
-				markerelement = [bindings[i].City.value, bindings[i].longi.value,bindings[i].lat.value,bindings[i].Person.value,bindings[i].Score.value];
-				markerlist.push(markerelement);
-				markerelement = null;
-			};
+		// create array with markers
+		var markerlist = [];
+		// URL Adress for RDF Database
+		apiUrlBase = null; //TODO: CHANGE TO SERVER ADRESS
+		apiUrlData = "PREFIX%20pucvoc%3A%20%3Chttp%3A%2F%2Flocalhost%2Fpm%2Fschema%2F%3E%0APREFIX%20foaf%3A%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0A%0ASELECT%20%3FCity%20%3FPerson%20%3FScore%0AWHERE%20%7B%0A%3Fainstanz%20a%20pucvoc%3AHighscore%20.%0A%3Fainstanz%20pucvoc%3Acity%20%22"
+			+ id + 
+			"%22%20.%0A%3Fainstanz%20pucvoc%3Acity%20%3FCity%20.%0A%3Fainstanz%20pucvoc%3Aplayer%20%3Faplayer%20.%0A%3Faplayer%20a%20pucvoc%3APlayer%20.%0A%3Faplayer%20foaf%3Anick%20%3FPerson%20.%0A%3Fainstanz%20pucvoc%3Avalue%20%3FScore%20.%0A%7D%0AORDER%20BY%20DESC(%3FScore)%20LIMIT%205";
+		// getting Data
+		$.ajax({
+			url: apiUrlBase + apiUrlData,
+			DataType: 'json',
+			async: false,
+			success: function(data) {
+				// create marker array
+				var markerelement = [];
+				// get all Data from json body
+				var bindings = data.results.bindings;
+				for(var i in bindings) {
+					// saves in markerelement: City, Person, Score
+					markerelement = [bindings[i].City.value, bindings[i].Person.value, bindings[i].Score.value];
+					markerlist.push(markerelement);
+					markerelement = null;
+				};
+			}		
 		});
 	return markerlist;
 };
-/*$.getJSON( "query" , function( data ) {
-             
-// get the sparql variables from the 'head' of the data.
-    var headerVars = data.head.vars; 
-// grab the actual results from the data.                                          
-    var bindings = data.results.bindings;
-
-	var i = 0;
-//	for(var i in bindings) {
-	markerelement = [bindings[i].City.value, bindings[i].long.value, bindings[i].lat.value, bindings[i].Person.value, bindings[i].Score.value];
-//	}
-console.log(markerelement);
-
-// output query objects
-for(var i in bindings) {
-console.log("City"+[i]+": " + bindings[i].City.value);
-console.log("long"+[i]+": " + bindings[i].long.value);
-console.log("lat"+[i]+" : " + bindings[i].lat.value);
-console.log("Person"+[i]+": " + bindings[i].Person.value);
-console.log("Score"+[i]+": " + bindings[i].Score.value); }
-
-});*/
-
