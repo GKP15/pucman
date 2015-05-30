@@ -1,4 +1,5 @@
 Pucman.Highscore = function(game) {
+    this.id = null;
 
 };
 
@@ -7,7 +8,8 @@ Pucman.Highscore.prototype = {
     /**
      * initialisation of the state
      */
-    init: function(score) {
+    init: function(score, id) {
+        this.id = id;
         this.score = score;
     },
 
@@ -25,7 +27,9 @@ Pucman.Highscore.prototype = {
         this.nameInput = new TextField(this, this.game.width / 2 - 200, this.game.height * 1 / 2, 20, 'textFieldPic', 'Your Name...');
         this.submitButton = this.add.button(this.game.width / 2, this.game.height * 2 / 3, 'submitButtonPic', function() {
             //Save score + name and so on
-
+        //this.id ist die id 
+        //this.score ist die score
+        //this.nameInput.textData ist der Name des Spielers
 
             window.location.reload();
         }, this).anchor.setTo(0.5, 0.5);

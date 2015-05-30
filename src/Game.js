@@ -1,4 +1,5 @@
 Pucman.Game = function(game) {
+    this.id = null;
     this.graphBitmap = null;
     this.pucman = null;
     this.ghosts = [];
@@ -15,7 +16,8 @@ Pucman.Game.prototype = {
      * initialisation of the state
      * @param graph of the streets
      */
-    init: function(graph) {
+    init: function(graph, id) {
+        this.id = id;
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
@@ -143,7 +145,7 @@ Pucman.Game.prototype = {
      */
     gameOver: function() {
 
-        this.game.state.start('Highscore', true, false, this.score);
+        this.game.state.start('Highscore', true, false, this.score, this.id);
 
     },
 
