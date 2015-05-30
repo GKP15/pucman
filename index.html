@@ -15,10 +15,10 @@
         <script src="src/Game.js"></script>
         <script src="src/Graph.js"></script>
         <script src="src/Character.js"></script>
-		<script src="src/Ghost.js"></script>
+        <script src="src/Ghost.js"></script>
         <script src="src/Interface.js"></script>
         <script src="src/Dbquery.js"></script>
-		<script src="src/Highscore.js"></script>
+        <script src="src/Highscore.js"></script>
         <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         <script src="http://mapstraction.com/mxn/build/latest/mxn.js?(openlayers,[geocoder])" type="text/javascript"></script>
     </head>
@@ -26,16 +26,14 @@
     <body>
         <div id="map"></div>
         <div id="gameContainer"></div>
-		<div id="loadText"><p>Preparing map...</p></div>
-		<div id="cover"><img src="http://www.whitetiger.pro/images/white.jpg"></div>
+        <div id="loadText"><p>Preparing map...</p></div>
+        <div id="cover"><img src="http://www.whitetiger.pro/images/white.jpg"></div>
         <script type="text/javascript">
 window.onload = function() {
-	
-	
-	
+
     Menu = {};
-		
-        map = new mxn.Mapstraction('map', 'openlayers');
+    rdfmarkerget(11111);
+    map = new mxn.Mapstraction('map', 'openlayers');
 
     Menu.initMap = function() {
         document.getElementById("gameContainer").style.zIndex = "100";
@@ -115,7 +113,7 @@ window.onload = function() {
     Menu.getHighscore = function (marker) {
         var infoBubble = marker.labelText + "\n Horst: 9000";
         marker.setInfoBubble(infoBubble);
-		marker.setHover(true);
+        marker.setHover(true);
         marker.click.addHandler(function(eventName, eventSource, eventArgs) {
             Menu.startGame(eventSource);
             marker.closeBubble();
@@ -132,14 +130,14 @@ window.onload = function() {
         map.removeAllMarkers();
         document.getElementById("gameContainer").style.zIndex = "200";
         document.getElementById("map").style.zIndex = "100";
-		document.getElementById("loadText").style.zIndex = "300";
+        document.getElementById("loadText").style.zIndex = "300";
         var game = new Phaser.Game(
                 "100", "100", Phaser.AUTO, 'gameContainer', null, true, false);
         game.state.add('Load', Pucman.Load);
         game.state.add('Game', Pucman.Game);
-		game.state.add('Highscore', Pucman.Highscore);
+        game.state.add('Highscore', Pucman.Highscore);
         //game.state.start('Game', true, false, map);
-		$(document).unbind('keydown').bind('keydown', function (event) { if(event.keyCode === 8) event.preventDefault();});
+        $(document).unbind('keydown').bind('keydown', function (event) { if(event.keyCode === 8) event.preventDefault();});
         game.state.start('Load', true, false, map);
     };
     Menu.initMap();
