@@ -123,5 +123,6 @@ Pucman.Character.prototype.eatDot = function() {
         this.node.removeData();
         this.stateGame.score++;
         Pucman.Interface.eatDot(this.stateGame);
+        if(this.stateGame.dots.length == 0) this.stateGame.gameOver(true);
     }
 };
