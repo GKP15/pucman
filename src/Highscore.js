@@ -39,6 +39,7 @@ Pucman.Highscore.prototype = {
         this.nameInput = new TextField(this, this.game.width / 2 - 200, this.game.height * 1 / 2, 20, 'textFieldPic', 'Your Name...');
         this.submitButton = this.add.button(this.game.width / 2, this.game.height * 2 / 3, 'submitButtonPic', function() {
             //Call function to save Highscore (Map_ID, Player_Name, Highscore_Value
+            //console.log('Try to save: ID: ' + this.id + ' Name: ' + this.nameInput.textData + ' Score: ' + this.score);
             savescoredata(this.id, this.nameInput.textData, this.score);
 
             window.location.reload();
