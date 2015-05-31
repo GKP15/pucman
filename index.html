@@ -130,7 +130,7 @@ window.onload = function() {
      */
     Menu.getHighscore = function (marker) {
 		//Saves String for Bubbletext
-		var bubblestring = marker.labelText + ": ";
+		var bubblestring = "<p>" + marker.labelText + ": </p>";
 		//Get Array from Database
         var markdat = rdfmarkerget(marker.id);
 		// If never played ther before
@@ -139,7 +139,7 @@ window.onload = function() {
 		}   else {
 			for(var i in markdat) {	
 			// Add string row for row
-				bubblestring += "\n" + markdat[i][1] + ": " + markdat[i][2];
+				bubblestring += "<p>" + markdat[i][1] + ": " + markdat[i][2] + "</p>";
 			}
 			var infoBubble = bubblestring;
 		}
