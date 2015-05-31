@@ -1,3 +1,6 @@
+/**
+ * saves the highscore
+ */
 function savescoredata(id, player, score) {
 
 		// count number of entries for new update

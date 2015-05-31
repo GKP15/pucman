@@ -260,7 +260,7 @@ Pucman.Graph = (function() {
     };
 
     /**
-     * der grösste teilgraph wird ermittelt. kleinere teilgraphen werden gelöscht
+     * find biggest subgraph, remove smaller subgraphs
      */
     var findBiggestConnectedPartGraph = function() {
         var found = 0;
@@ -307,7 +307,10 @@ Pucman.Graph = (function() {
             })
         }
     }
-
+    
+    /**
+     * calculate the bounds of the graph
+     */
     var calculateBounds = function(limiter) {
         if (limiter === 0) {
             limiter = 0.6;
@@ -325,7 +328,10 @@ Pucman.Graph = (function() {
         newEast = centerX + distX * 0.5;
         newWest = centerX - distX * 0.5;
     };
-
+    
+    /**
+     * initialisation of the graph
+     */
     init = function() {
         calculateBounds(0);
         apiUrlBase = "http://overpass-api.de/api/interpreter?data=[out:json];";

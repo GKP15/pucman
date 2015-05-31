@@ -29,7 +29,8 @@ Pucman.Ghost.prototype.update = function() {
 Pucman.Ghost.prototype.getDir = function() {
 
     if (this.node.neighborhood('node[id]').length > 2) {
-
+        
+        // if pucman has a distance of more than sqrt(15000) the ghost targets him
         function calcDir(ghostPos, pucmanPos) {
             if ((ghostPos.x - pucmanPos.x) * (ghostPos.x - pucmanPos.x) + (ghostPos.y - pucmanPos.y) * (ghostPos.y - pucmanPos.y) > 15000) {
                 return Pucman.Graph.dirAToB(ghostPos, pucmanPos);
@@ -39,6 +40,7 @@ Pucman.Ghost.prototype.getDir = function() {
         };
 
         var newDir = calcDir(this.node.position(), this.stateGame.getPucmanNode().position());
+        //if the ghost runs against a wall, change direction
         while (typeof this.getNodeInDir(newDir) == 'undefined') {
             newDir = Math.floor(Math.random() * 4);
         };

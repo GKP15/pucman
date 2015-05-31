@@ -1,3 +1,6 @@
+/**
+ * gets the highscoredata for the markers
+ */
 function rdfmarkerget(id) {
 
 		// create array with markers

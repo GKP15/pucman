@@ -45,6 +45,7 @@ Pucman.Interface = (function() {
 				pauseLabel.anchor.setTo(0.5);
             }, state);
 			
+            //return from pause menu
 			game.input.onDown.add(function() {
 				if(game.paused && typeof pauseLabel != 'undefined') {
 					pauseLabel.destroy();
@@ -69,6 +70,11 @@ Pucman.Interface = (function() {
             state.backGroundMusic.play();
         },
 		
+        /**
+         * shows a message on the screen
+         * @param game is the Phaser.Game object
+         * @param text is the message to display
+         */
 		showMessage: function(game, text) {
 			var state = game.state.getCurrentState();
 			
@@ -84,25 +90,9 @@ Pucman.Interface = (function() {
 		 * @param game state
 		 */
         eatDot: function(game) {
-            //  Score
+            // Score
             game.scoreText.text = 'Score: ' + game.score;
         }
 
-        /*
-        funktionInterface : function(that) {
-
-			homepageButtonClicked: function() {
-				window.location.href = 'http://pcai042.informatik.uni-leipzig.de/~swp15-gkp/';
-			},
-
-			plusButtonClicked: function() {
-				that.backGroundMusic.volume = Math.min(1, that.backGroundMusic.volume + 0.05);
-			},
-
-			minusButtonClicked: function() {
-				that.backGroundMusic.volume = Math.max(0, that.backGroundMusic.volume - 0.05);
-			}		
-		}
-		*/
     };
 })();

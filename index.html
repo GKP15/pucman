@@ -28,14 +28,17 @@
         <div id="map"></div>
         <div id="gameContainer"></div>
         <div id="loadText"><p>Preparing map...</p></div>
-        <div id="cover"><img src="http://www.whitetiger.pro/images/white.jpg"></div>
+        <div id="cover"><img src="resources/cover.png"></div>
         <script type="text/javascript">
 window.onload = function() {
 
     Menu = {};
     rdfmarkerget(11111);
     map = new mxn.Mapstraction('map', 'openlayers');
-
+	
+    /**
+     * initialisation of the map
+     */
     Menu.initMap = function() {
         document.getElementById("gameContainer").style.zIndex = "100";
         document.getElementById("map").style.zIndex = "200";
@@ -57,13 +60,20 @@ window.onload = function() {
             getLocTimeOut = setTimeout(Menu.getLocations, 1);
         });
     }
-
+    
+    /**
+     * set the highscore
+     * @param nick is the name of the player
+     * @param score is the score of the player
+     */
     Menu.Highscore = function(nick, score) {
         this.nick = nick;
         this.score = score;
     }
 
-
+    /**
+     * get the visible locations for playing
+     */
     Menu.getLocations = function() {
         var zoom = map.getZoom();
         var bbox = "(" +
@@ -97,6 +107,9 @@ window.onload = function() {
         });
     }
 
+    /**
+     * sets the markes at the locations
+     */
     Menu.buildMarkers = function (locations){
         for( var i = 0; i < locations.length; i++) {
             var loc = new mxn.LatLonPoint( 
@@ -111,11 +124,15 @@ window.onload = function() {
         }
     }
 
+    /**
+     * get the highscore for a marker
+     * @param the marker
+     */
     Menu.getHighscore = function (marker) {
-		var markdat = rdfmarkerget(marker.id);
-		if (markdat[2] == null) {
-			var infoBubble = "Never played.\n Be the first in " + marker.labelText + " !";
-		}	else {
+        var markdat = rdfmarkerget(marker.id);
+        if (markdat[2] == null) {
+            var infoBubble = "Never played.\n Be the first in " + marker.labelText + " !";
+    }    else {
         var infoBubble = marker.labelText + "\n " + markdat[1] + ": " + markdat[2];//TODO: Schleife für mehr Inhalt
 		}
         marker.setInfoBubble(infoBubble);
@@ -128,7 +145,10 @@ window.onload = function() {
         map.addMarker(marker);
     }
 
-
+    /**
+     * start the game
+     * @param the source which clicked the marker
+     */
     Menu.startGame = function(source) {
         map.changeZoom.removeAllHandlers();
         map.endPan.removeAllHandlers();
@@ -142,8 +162,11 @@ window.onload = function() {
         game.state.add('Load', Pucman.Load);
         game.state.add('Game', Pucman.Game);
         game.state.add('Highscore', Pucman.Highscore);
-        //game.state.start('Game', true, false, map);
+
+        //prevent default function of backspace
         $(document).unbind('keydown').bind('keydown', function (event) { if(event.keyCode === 8) event.preventDefault();});
+		
+		//start 'Load' state
         game.state.start('Load', true, false, map, source.id);
     };
     Menu.initMap();

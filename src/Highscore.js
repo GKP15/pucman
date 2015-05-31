@@ -13,11 +13,17 @@ Pucman.Highscore.prototype = {
         this.score = score;
     },
 
+    /**
+     * prelaods the state
+     */
     preload: function() {
         this.load.image('textFieldPic', 'resources/textField.png');
         this.load.image('submitButtonPic', 'resources/submitButton.png');
     },
-
+    
+    /**
+     * called on creation of the state
+     */
     create: function() {
 
         this.scoreText = this.add.text(this.game.width / 2, this.game.height * 1 / 3, 'Score: ' + this.score, {

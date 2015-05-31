@@ -53,6 +53,7 @@ Pucman.Game.prototype = {
         var dots = this.dots;
         this.graph.nodes().forEach(function(node) {
             ++count;
+            //draws the graph
             if (count % 10 === 0) {
                 var dot = dots.create(
                     node.position().x,
@@ -148,7 +149,11 @@ Pucman.Game.prototype = {
         this.game.state.start('Highscore', true, false, this.score, this.id);
 
     },
-
+    
+    /**
+     * get the node of pucman
+     * @return node of pucman
+     */
     getPucmanNode: function() {
         return this.pucman.node;
     }
