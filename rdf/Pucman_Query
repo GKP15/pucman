@@ -6,7 +6,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT ?City ?Person ?Score
 WHERE {
 ?ainstanz a pucvoc:Highscore .
-?ainstanz pucvoc:city ID .
+?ainstanz pucvoc:city ""ID"" .
 ?ainstanz pucvoc:city ?City .
 ?ainstanz pucvoc:player ?aplayer .
 ?aplayer a pucvoc:Player .

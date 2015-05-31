@@ -129,11 +129,19 @@ window.onload = function() {
      * @param the marker
      */
     Menu.getHighscore = function (marker) {
+		//Saves String for Bubbletext
+		var bubblestring = marker.labelText + ": ";
+		//Get Array from Database
         var markdat = rdfmarkerget(marker.id);
-        if (markdat[2] == null) {
-            var infoBubble = "Never played.\n Be the first in " + marker.labelText + " !";
-    }    else {
-        var infoBubble = marker.labelText + "\n " + markdat[1] + ": " + markdat[2];//TODO: Schleife für mehr Inhalt
+		// If never played ther before
+        if (markdat[0][2] == null) {
+            var infoBubble = "Never played!\n Be the first in " + marker.labelText + " !";
+		}   else {
+			for(var i in markdat) {	
+			// Add string row for row
+				bubblestring += "\n" + markdat[i][1] + ": " + markdat[i][2];
+			}
+			var infoBubble = bubblestring;
 		}
         marker.setInfoBubble(infoBubble);
         marker.setHover(true);

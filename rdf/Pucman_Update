@@ -40,12 +40,12 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
 INSERT {
 
-pucgm:HorstDieWurst0813 a pucvoc:Player ;
-foaf:nick "HorstDieWurst0813" .
-	
-puchs:6786875HorstDieWurst08130 a pucvoc:Highscore ;
-pucvoc:value "112" ;
-pucvoc:player pucgm:HorstDieWurst0813 ;
-pucvoc:city   "6786875" .
+pucgm:N3RD a pucvoc:Player ;
+foaf:nick "N3RD" .
+
+puchs:25956662N3RD1 a pucvoc:Highscore ;
+pucvoc:value "3" ;
+pucvoc:player pucgm:N3RD ;
+pucvoc:city   "25956662" .
 }
 WHERE {}
