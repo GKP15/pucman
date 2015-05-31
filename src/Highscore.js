@@ -30,6 +30,8 @@ Pucman.Highscore.prototype = {
         //this.id ist die id 
         //this.score ist die score
         //this.nameInput.textData ist der Name des Spielers
+		//console.log("highscore.js: " + marker.id + this.nameInput.textData + this.score);
+		//savescoredata(this.id, this.nameInput.textData, this.score);
 
             window.location.reload();
         }, this).anchor.setTo(0.5, 0.5);

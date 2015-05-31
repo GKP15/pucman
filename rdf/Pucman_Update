@@ -5,7 +5,7 @@ PREFIX pucvoc: <http://localhost/pm/schema/>
 
 ASK
 WHERE {
-puchs:"city + person + number" a pucvoc:Highscore .
+puchs:citypersonnumber a pucvoc:Highscore .
 }
 ======================================================
 Update Pattern:
