@@ -11,8 +11,11 @@ function savescoredata(id, player, score) {
 		
 		do {
 			// Query for URL
-			apiUrlData = "PREFIX%20puchs%3A%20%3Chttp%3A%2F%2Flocalhost%2Fpm%2Fhighscore%2F%3E%0APREFIX%20pucvoc%3A%20%3Chttp%3A%2F%2Flocalhost%2Fpm%2Fschema%2F%3E%0A%0AASK%0AWHERE%20%7B%0Apuchs%3A"
+			apiUrlData = "PREFIX%20puchs%3A%20%3Chttp%3A%2F%2Fpcai042.informatik.uni-leipzig.de%3A1540%2Fpm%2Fhighscore%2F%3E%0APREFIX%20pucvoc%3A%20%3Chttp%3A%2F%2Fpcai042.informatik.uni-leipzig.de%3A1540%2Fpm%2Fschema%2F%3E%0A%0AASK%0AWHERE%20%7B%0Apuchs%3A"
 			+ id + player + numb + "%20a%20pucvoc%3AHighscore%20.%0A%7D";
+			
+	//		"PREFIX%20puchs%3A%20%3Chttp%3A%2F%2Flocalhost%2Fpm%2Fhighscore%2F%3E%0APREFIX%20pucvoc%3A%20%3Chttp%3A%2F%2Flocalhost%2Fpm%2Fschema%2F%3E%0A%0AASK%0AWHERE%20%7B%0Apuchs%3A"
+	//		+ id + player + numb + "%20a%20pucvoc%3AHighscore%20.%0A%7D";
 			
 			// asking Data
 			$.ajax({

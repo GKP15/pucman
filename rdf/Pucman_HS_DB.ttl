@@ -3,9 +3,9 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix pucvoc: <http://localhost/pm/schema/> .
-@prefix pucgm: <http://localhost/pm/gamer/> .
-@prefix puchs: <http://localhost/pm/highscore/> .
+@prefix pucvoc: <http://pcai042.informatik.uni-leipzig.de:1540/pm/schema/> .
+@prefix pucgm: <http://pcai042.informatik.uni-leipzig.de:1540/pm/gamer/> .
+@prefix puchs: <http://pcai042.informatik.uni-leipzig.de:1540/pm/highscore/> .
 
 #Klassen
 
