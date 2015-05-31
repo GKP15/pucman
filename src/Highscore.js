@@ -27,7 +27,8 @@ Pucman.Highscore.prototype = {
      */
     create: function() {
         
-        this.wiinText = this.add.text(this.game.width / 2, this.game.height * 1 / 4, 'You ' + this.win ? 'win' : 'lost' + ' the game!', {
+        var text = 'You ' + (this.win ? 'win' : 'lost') + ' the game!'
+        this.winText = this.add.text(this.game.width / 2, this.game.height * 1 / 4, text, {
             fontSize: '64px',
             fill: '#000000'
         }).anchor.setTo(0.5, 0.5);
