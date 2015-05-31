@@ -22,9 +22,8 @@ function savescoredata(id, player, score) {
 				//DataType: 'json',
 				async: false,
 				success: function(data) {
-					console.log("Data: " + data); //LOG
 					// If Answer true -> Entry already exist; try next higher number
-					if (data == true) {
+					if (data == "true") {
 						numb++;
 					// Else: Exit
 					} else {
@@ -32,9 +31,10 @@ function savescoredata(id, player, score) {
 					}
 				}
 			});
-			console.log("number: " + numb + " existiert: " + exists); // LOG
 		}
 		while (exists == true);
+		
+		console.log("waiting...");
 		
 		
 		
