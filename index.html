@@ -111,7 +111,12 @@ window.onload = function() {
     }
 
     Menu.getHighscore = function (marker) {
-        var infoBubble = marker.labelText + "\n Horst: 9000";
+		var markdat = rdfmarkerget(marker.id);
+		if (markdat[2] == null) {
+			var infoBubble = "Never played.\n Be the first in " + marker.labelText + " !";
+		}	else {
+        var infoBubble = marker.labelText + "\n " + markdat[1] + ": " + markdat[2];//TODO: Schleife für mehr Inhalt
+		}
         marker.setInfoBubble(infoBubble);
         marker.setHover(true);
         marker.click.addHandler(function(eventName, eventSource, eventArgs) {
