@@ -17,6 +17,7 @@ Pucman.Load.prototype = {
 	init: function(map, id) {
         this.map = map;
         this.graph = Pucman.Graph.getGraph(this);
+		this.id = id;
 
     },
 	

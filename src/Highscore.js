@@ -26,12 +26,8 @@ Pucman.Highscore.prototype = {
         }).anchor.setTo(0.5, 0.5);
         this.nameInput = new TextField(this, this.game.width / 2 - 200, this.game.height * 1 / 2, 20, 'textFieldPic', 'Your Name...');
         this.submitButton = this.add.button(this.game.width / 2, this.game.height * 2 / 3, 'submitButtonPic', function() {
-            //Save score + name and so on
-        //this.id ist die id 
-        //this.score ist die score
-        //this.nameInput.textData ist der Name des Spielers
-		//console.log("highscore.js: " + marker.id + this.nameInput.textData + this.score);
-		//savescoredata(this.id, this.nameInput.textData, this.score);
+		//Call function to save Highscore (Map_ID, Player_Name, Highscore_Value
+		savescoredata(this.id, this.nameInput.textData, this.score);
 
             window.location.reload();
         }, this).anchor.setTo(0.5, 0.5);
