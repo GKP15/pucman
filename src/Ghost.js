@@ -17,7 +17,7 @@ Pucman.Ghost.constructor = Pucman.Ghost;
  */
 Pucman.Ghost.prototype.update = function() {
 
-    if ((new Date()).getTime() % 3 != 0) {
+    if ((new Date()).getTime() % 3 !== 0) {
         this.move(this.getDir());
     }
 };

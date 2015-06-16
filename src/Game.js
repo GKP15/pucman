@@ -6,6 +6,7 @@ Pucman.Game = function(game) {
     this.ghostPinky = null;
     this.graph = null;
     this.dots = null;
+    this.pPills = null;
     this.maxScore = null;
     this.score = 0;
 };
@@ -33,6 +34,7 @@ Pucman.Game.prototype = {
         this.load.spritesheet('pucman', 'resources/pucman.png', 28, 28);
         this.load.spritesheet('ghost', 'resources/ghost.png', 27, 27);
         this.load.spritesheet('dot', 'resources/dot.png', 9, 9);
+        //this.load.spritesheet('ppill', 'resources/dot.png', 18, 18);
 
         Pucman.Interface.preloadInterface(this);
     },
@@ -47,30 +49,32 @@ Pucman.Game.prototype = {
             this.game.width, this.game.height);
         this.graphBitmap.addToWorld();
         this.graphBitmap.clear();
-        var bitmap = this.graphBitmap;
-        var count = 0;
         this.dots = this.add.group();
-        var dots = this.dots;
-        this.graph.nodes().forEach(function(node) {
-            ++count;
-            //draws the graph
-            if (count % 10 === 0) {
-                var dot = dots.create(
-                    node.position().x,
-                    node.position().y,
-                    'dot'
+        this.pPills = this.add.group();
+        var pucGame = this;
+        this.graph.nodes().forEach(function(node, count) {
+            if (count % 300 === 0) {
+                var pPill = pucGame.pPills.create( 
+                    node.position().x, node.position().y, 'ppill'
+                );
+                pPill.anchor.set(0.5, 0.5);
+                node.data('ppill', pPill);
+            }
+            else if (count % 10 === 0) {
+                var dot = pucGame.dots.create( 
+                    node.position().x, node.position().y, 'dot'
                 );
                 dot.anchor.set(0.5, 0.5);
                 node.data('dot', dot);
             }
-            bitmap.rect(
+            pucGame.graphBitmap.rect(
                 node.position().x - 7,
                 node.position().y - 7,
                 14, 14, 'rgb(40, 15, 220)'
             );
         });
         this.graph.nodes().forEach(function(node) {
-            bitmap.rect(
+            pucGame.graphBitmap.rect(
                 node.position().x - 5,
                 node.position().y - 5,
                 10, 10, 'rgba(0, 0, 0, 1)'
@@ -95,7 +99,7 @@ Pucman.Game.prototype = {
                 game.state.getCurrentState().msgLabel.destroy();
                 game.paused = false;
             }
-        };
+        }
 
         //help function to pass a reference of a function with parameters
         function partial(func /*, 0..n args */ ) {
@@ -120,7 +124,7 @@ Pucman.Game.prototype = {
     },
 
     /**
-     * checks if pucman ist hitted by a ghost
+     * checks if pucman is hit by a ghost
      */
     collision: function() {
         if (this.pucman.invulnerable) return;
@@ -135,7 +139,7 @@ Pucman.Game.prototype = {
                     this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
                         this.pucman.invulnerable = false;
                         this.pucman.animations.stop('flashing', true);
-                    }, this)
+                    }, this);
                 }
             }
         }

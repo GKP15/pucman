@@ -1,5 +1,3 @@
-'use strict';
-
 Pucman.Character = function(game, key, node) {
 
     Phaser.Sprite.call(this, game, 100, 100, key, 0);
@@ -94,7 +92,7 @@ Pucman.Character.prototype.move = function(pressedKey) {
 
 Pucman.Character.prototype.rotate = function() {
     this.rotation = Math.atan2(this.node.position().y - this.lastNode.position().y, this.node.position().x - this.lastNode.position().x);
-}
+};
 
 /**
  * searches for the next node at given direction
@@ -123,6 +121,6 @@ Pucman.Character.prototype.eatDot = function() {
         this.node.removeData();
         this.stateGame.score++;
         Pucman.Interface.eatDot(this.stateGame);
-        if(this.stateGame.dots.length == 0) this.stateGame.gameOver(true);
+        if(this.stateGame.dots.length === 0) this.stateGame.gameOver(true);
     }
 };
