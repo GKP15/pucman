@@ -33,7 +33,7 @@ Pucman.Game.prototype = {
      */
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 28, 28);
-        this.load.spritesheet('ghost', 'resources/ghost.png', 27, 27);
+        this.load.spritesheet('pinky', 'resources/ghost.png', 27, 27);
         this.load.spritesheet('dot', 'resources/dot.png', 9, 9);
         //this.load.spritesheet('ppill', 'resources/dot.png', 18, 18);
 
@@ -86,7 +86,7 @@ Pucman.Game.prototype = {
 
         this.ghosts = this.add.group();
         ghostPinky = new Pucman.Ghost(
-            this.game, "ghost", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
 
         this.ghosts.add(ghostPinky);
 
