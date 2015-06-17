@@ -2,11 +2,15 @@ Pucman.Ghost = function(game, key, node) {
 
     Phaser.Sprite.call(this, game, 100, 100, key, 0);
     this.anchor.set(0.5);
-    this.position = node.position();
+    this.position = Phaser.Point.parse(node.position());
+    this.jail = this.position.clone();
+    this.jailNode = node;
     this.node = node;
     this.lastNode = node;
     this.direction = Phaser.LEFT;
     this.stateGame = game.state.getCurrentState();
+    this.frozen = false;
+    this.frozenTime = 5000;
 };
 
 Pucman.Ghost.prototype = Object.create(Pucman.Character.prototype);
@@ -17,7 +21,7 @@ Pucman.Ghost.constructor = Pucman.Ghost;
  */
 Pucman.Ghost.prototype.update = function() {
 
-    if ((new Date()).getTime() % 3 != 0) {
+    if ( !this.frozen && ((new Date()).getTime() % 3 !== 0)) {
         this.move(this.getDir());
     }
 };
@@ -51,4 +55,14 @@ Pucman.Ghost.prototype.getDir = function() {
 
     return this.direction;
 
+};
+
+Pucman.Ghost.prototype.die = function(stateGame) {
+    this.position = this.jail;
+    this.node = this.jailNode;
+    this.lastNode = this.jailNode;
+    this.frozen = true;
+        stateGame.game.time.events.add(this.frozenTime, function() {
+            this.frozen = false;
+        }, this);
 };

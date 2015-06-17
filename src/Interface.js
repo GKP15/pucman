@@ -89,7 +89,7 @@ Pucman.Interface = (function() {
 		 * updates the score after eating a dot
 		 * @param game state
 		 */
-        eatDot: function(game) {
+        eat: function(game) {
             // Score
             game.scoreText.text = 'Score: ' + game.score;
         }

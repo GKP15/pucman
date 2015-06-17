@@ -6,8 +6,10 @@ Pucman.Game = function(game) {
     this.ghostPinky = null;
     this.graph = null;
     this.dots = null;
+    this.pPills = null;
     this.maxScore = null;
     this.score = 0;
+    this.killDistance = 4;
 };
 
 Pucman.Game.prototype = {
@@ -33,6 +35,7 @@ Pucman.Game.prototype = {
         this.load.spritesheet('pucman', 'resources/pucman.png', 28, 28);
         this.load.spritesheet('ghost', 'resources/ghost.png', 27, 27);
         this.load.spritesheet('dot', 'resources/dot.png', 9, 9);
+        //this.load.spritesheet('ppill', 'resources/dot.png', 18, 18);
 
         Pucman.Interface.preloadInterface(this);
     },
@@ -47,30 +50,31 @@ Pucman.Game.prototype = {
             this.game.width, this.game.height);
         this.graphBitmap.addToWorld();
         this.graphBitmap.clear();
-        var bitmap = this.graphBitmap;
-        var count = 0;
         this.dots = this.add.group();
-        var dots = this.dots;
-        this.graph.nodes().forEach(function(node) {
-            ++count;
-            //draws the graph
-            if (count % 10 === 0) {
-                var dot = dots.create(
-                    node.position().x,
-                    node.position().y,
-                    'dot'
+        this.pPills = this.add.group();
+        var stateGame = this;
+        this.graph.nodes().forEach(function(node, count) {
+            if (count % 300 === 0) {
+                var pPill = stateGame.pPills.create(
+                    node.position().x, node.position().y, 'ppill'
+                );
+                pPill.anchor.set(0.5, 0.5);
+                node.data('ppill', pPill);
+            } else if (count % 10 === 0) {
+                var dot = stateGame.dots.create(
+                    node.position().x, node.position().y, 'dot'
                 );
                 dot.anchor.set(0.5, 0.5);
                 node.data('dot', dot);
             }
-            bitmap.rect(
+            stateGame.graphBitmap.rect(
                 node.position().x - 7,
                 node.position().y - 7,
                 14, 14, 'rgb(40, 15, 220)'
             );
         });
         this.graph.nodes().forEach(function(node) {
-            bitmap.rect(
+            stateGame.graphBitmap.rect(
                 node.position().x - 5,
                 node.position().y - 5,
                 10, 10, 'rgba(0, 0, 0, 1)'
@@ -95,7 +99,7 @@ Pucman.Game.prototype = {
                 game.state.getCurrentState().msgLabel.destroy();
                 game.paused = false;
             }
-        };
+        }
 
         //help function to pass a reference of a function with parameters
         function partial(func /*, 0..n args */ ) {
@@ -120,22 +124,17 @@ Pucman.Game.prototype = {
     },
 
     /**
-     * checks if pucman ist hitted by a ghost
+     * checks if pucman is hit by a ghost
      */
     collision: function() {
-        if (this.pucman.invulnerable) return;
         for (var i = 0; i < this.ghosts.length; i++) {
-            var neighbors = this.ghosts.getChildAt(i).node.neighborhood('node[id]');
-            for (var j = 0; j < neighbors.length; j++) {
-                if (this.pucman.node === neighbors[j]) {
-                    this.pucman.lives--;
-                    this.livesText.setText('Lives: ' + this.pucman.lives);
-                    this.pucman.animations.play('flashing');
-                    this.pucman.invulnerable = true;
-                    this.game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-                        this.pucman.invulnerable = false;
-                        this.pucman.animations.stop('flashing', true);
-                    }, this)
+            var ghost = this.ghosts.getChildAt(i);
+            if (this.pucman.position.distance(ghost.position) <= this.killDistance) {
+                if (this.pucman.killing){
+                    ghost.die(this); 
+                }
+                else if (!this.pucman.invulnerable) {
+                    this.pucman.die(this);
                 }
             }
         }
@@ -149,7 +148,7 @@ Pucman.Game.prototype = {
         this.game.state.start('Highscore', true, false, this.score, this.id, win);
 
     },
-    
+
     /**
      * get the node of pucman
      * @return node of pucman
