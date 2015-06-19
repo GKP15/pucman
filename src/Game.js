@@ -9,6 +9,8 @@ Pucman.Game = function(game) {
     this.pPills = null;
     this.maxScore = null;
     this.score = 0;
+    this.killGhostScore = 100;
+    this.pPillScore = 50;
     this.killDistance = 4;
 };
 

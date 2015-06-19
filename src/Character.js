@@ -126,6 +126,8 @@ Pucman.Character.prototype.eat = function(stateGame) {
     var dot = this.node.data('dot');
     var pPill = this.node.data('ppill');
     if (pPill !== undefined) {
+        stateGame.score += stateGame.pPillScore;
+        Pucman.Interface.eat(stateGame);
         stateGame.pPills.remove(pPill);
         this.node.removeData();
         this.animations.play('killing');

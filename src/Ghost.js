@@ -12,7 +12,7 @@ Pucman.Ghost = function(game, key, node) {
     this.frozen = false;
     this.frozenTime = 5000;
     this.stateGame = game.state.getCurrentState();
-    this.getDir = this.prototype[key];
+    this.getDir = this[key];
 };
 
 Pucman.Ghost.prototype = Object.create(Pucman.Character.prototype);
@@ -62,6 +62,8 @@ Pucman.Ghost.prototype.die = function(stateGame) {
     this.node = this.jailNode;
     this.lastNode = this.jailNode;
     this.frozen = true;
+    stateGame.score += stateGame.killGhostScore;
+    Pucman.Interface.eat(stateGame);
     stateGame.game.time.events.add(this.frozenTime, function() {
         this.frozen = false;
     }, this);
