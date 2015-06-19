@@ -90,7 +90,19 @@ Pucman.Game.prototype = {
         ghostPinky = new Pucman.Ghost(
             this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
 
+        ghostBlinky = new Pucman.Ghost(
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+
+        ghostPuck = new Pucman.Ghost(
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+
+        ghostKinky = new Pucman.Ghost(
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+
         this.ghosts.add(ghostPinky);
+        this.ghosts.add(ghostBlinky);
+        this.ghosts.add(ghostPuck);
+        this.ghosts.add(ghostKinky);
 
         this.game.paused = true;
         Pucman.Interface.showMessage(this.game, 'Click anywhere to start');
