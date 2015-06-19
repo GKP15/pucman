@@ -9,6 +9,8 @@ Pucman.Game = function(game) {
     this.pPills = null;
     this.maxScore = null;
     this.score = 0;
+    this.killGhostScore = 100;
+    this.pPillScore = 50;
     this.killDistance = 4;
 };
 
@@ -33,7 +35,7 @@ Pucman.Game.prototype = {
      */
     preload: function() {
         this.load.spritesheet('pucman', 'resources/pucman.png', 28, 28);
-        this.load.spritesheet('ghost', 'resources/ghost.png', 27, 27);
+        this.load.spritesheet('pinky', 'resources/ghost.png', 27, 27);
         this.load.spritesheet('dot', 'resources/dot.png', 9, 9);
         //this.load.spritesheet('ppill', 'resources/dot.png', 18, 18);
 
@@ -86,9 +88,21 @@ Pucman.Game.prototype = {
 
         this.ghosts = this.add.group();
         ghostPinky = new Pucman.Ghost(
-            this.game, "ghost", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+
+        ghostBlinky = new Pucman.Ghost(
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+
+        ghostPuck = new Pucman.Ghost(
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
+
+        ghostKinky = new Pucman.Ghost(
+            this.game, "pinky", this.graph.nodes()[Math.floor(Math.random() * this.graph.nodes().length)]);
 
         this.ghosts.add(ghostPinky);
+        this.ghosts.add(ghostBlinky);
+        this.ghosts.add(ghostPuck);
+        this.ghosts.add(ghostKinky);
 
         this.game.paused = true;
         Pucman.Interface.showMessage(this.game, 'Click anywhere to start');
